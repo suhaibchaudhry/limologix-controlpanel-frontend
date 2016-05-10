@@ -202,6 +202,15 @@
     <!-- build:js({.tmp,app}) scripts/app.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
+
+
+    <script src="scripts/controllers/login/login.js"></script>
+    <script src="scripts/controllers/signup/signup.js"></script>
+    <script src="scripts/controllers/dispatch/dispatch_ride_request.js"></script>
+    <script src="scripts/controllers/dispatch/pending_dispatches.js"></script>
+
+     <script src="scripts/directives/angular-media-preview.module.js"></script>
+
     <script src="scripts/directives/navcollapse.js"></script>
     <script src="scripts/directives/slimscroll.js"></script>
     <script src="scripts/controllers/navbar-chart.js"></script>
@@ -269,8 +278,7 @@
     <script src="scripts/controllers/mail-compose.js"></script>
     <script src="scripts/controllers/mail-single.js"></script>
     <script src="scripts/controllers/mail.js"></script>
-    <script src="scripts/controllers/login/login.js"></script>
-    <script src="scripts/controllers/signup/signup.js"></script>
+    
     <script src="scripts/controllers/pages-forgot-password.js"></script>
     <script src="scripts/controllers/pages-gallery.js"></script>
     <script src="scripts/controllers/pages-timeline.js"></script>
@@ -326,4 +334,21 @@
     <script src="scripts/controllers/material/whiteframe.js"></script>
     <!-- endbuild -->
 </body>
+<style>
+    .media-preview {
+      width: 100%;
+      height: auto;
+    }
+
+    .media-container {
+      margin-bottom: 20px;
+    }
+
+    .custom-preview {
+      width: 100%;
+      border: 2px solid #eee;
+      background-color: #F5F5F5;
+      min-height: 50px;
+    }
+</style>
 </html>

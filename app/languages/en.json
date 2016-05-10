@@ -1,11 +1,14 @@
 {
   "Menu": {
     "DASHBOARD": "Dashboard",
+    "COMPANY_SETTINGS": "Company Settings",
+    "DISPATCHES": "Dispatches",
+    "DISPATCH_RIDE_REQUEST": "Dispatch Ride Request",
+    "PENDING_DISPATCHES": "Pending Dispatches",
     "MAIL": "Mail",
     "INBOX": "Inbox",
     "COMPOSE_MAIL": "Compose Mail",
     "SINGLE_MAIL": "Single Mail",
-    "COMPANY_SETTINGS": "Company Settings",
     "COMMON_ELEMENTS": "Common Elements",
     "VALIDATION_ELEMENTS": "Validation Elements",
     "COMPANY_INFORMATION": "Company Information",

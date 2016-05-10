@@ -64,6 +64,7 @@ var app = angular
     'angular-intro',
     'dragularModule',
     'cgNotify'
+    //'angular-media-preview'
   ])
   .constant('appSettings', { 
     serverPath: "http://172.16.90.106:9000/api/v1/",
@@ -538,6 +539,11 @@ var app = angular
       url: '/company',
       template: '<div ui-view></div>'
     })
+
+    .state('app.dispatch', {
+      url: '/dispatch',
+      template: '<div ui-view></div>'
+    })
     //forms/common
     // .state('app.forms.common', {
     //   url: '/common',
@@ -565,6 +571,16 @@ var app = angular
       url: '/details',
       controller: 'FormsValidateCtrl',
       templateUrl: 'views/tmpl/forms/wizard.html'
+    })
+    .state('app.dispatch.dispatch_ride_request', {
+      url: '/dispatch_ride_request',
+      controller: 'DispatchRideRequestCtrl',
+      templateUrl: 'views/tmpl/forms/dispatch_ride_request.html'
+    })
+    .state('app.dispatch.pendingdispatches', {
+      url: '/pendingdispatches',
+      controller: 'PendingDispatchesCtrl',
+      templateUrl: 'views/tmpl/forms/pending_dispatches.html'
     })
    // forms/upload
     .state('app.forms.upload', {
