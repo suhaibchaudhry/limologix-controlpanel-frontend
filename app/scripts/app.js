@@ -569,18 +569,18 @@ var app = angular
     //forms/wizard
     .state('app.company.details', {
       url: '/details',
-      controller: 'FormsValidateCtrl',
-      templateUrl: 'views/tmpl/forms/wizard.html'
+      controller: 'UpdateInfoCtrl',
+      templateUrl: 'views/tmpl/company/update_company_info.html'
     })
     .state('app.dispatch.dispatch_ride_request', {
       url: '/dispatch_ride_request',
       controller: 'DispatchRideRequestCtrl',
-      templateUrl: 'views/tmpl/forms/dispatch_ride_request.html'
+      templateUrl: 'views/tmpl/dispatch/dispatch_ride_request.html'
     })
     .state('app.dispatch.pendingdispatches', {
       url: '/pendingdispatches',
       controller: 'PendingDispatchesCtrl',
-      templateUrl: 'views/tmpl/forms/pending_dispatches.html'
+      templateUrl: 'views/tmpl/dispatch/pending_dispatches.html'
     })
    // forms/upload
     .state('app.forms.upload', {
@@ -792,13 +792,13 @@ var app = angular
     .state('core.login', {
       url: '/login',
       controller: 'LoginCtrl',
-      templateUrl: 'views/tmpl/pages/login.html'
+      templateUrl: 'views/tmpl/login/login.html'
     })
     //signup
     .state('core.signup', {
       url: '/signup',
       controller: 'SignupCtrl',
-      templateUrl: 'views/tmpl/pages/signup.html'
+      templateUrl: 'views/tmpl/signup/signup.html'
     })
     //forgot password
     .state('core.forgotpass', {
