@@ -279,8 +279,10 @@
         <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid)">
 
           <div class="row">
+            <div class="media-container">
+              <img class="media-preview" ng-model="userInfo.logoUrl" ng-src="{{logoUrl}}"></img>
+            </div>
             <div class="form-group col-md-4 mb-0">
-            <span>{{userInfo.logo.src}}</span>
               <label for="logo">Logo upload: </label>
                <input type="file" media-preview name="logo" id="logo" class="form-control" ng-model="userInfo.logo">
                 <img ng-show="logo.src" ng-src="{{logo.src}}"/>
@@ -293,7 +295,7 @@
         
 
           <button type="submit" class="btn btn-default" ng-click="steps.step2=true">Previous</button>
-          <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">upload
+          <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">Update My Company Information
           <!-- <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default pull-right" ng-click="steps.step4=true">Next</button> -->
 
         </form>

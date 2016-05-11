@@ -2,9 +2,9 @@
 app
 .directive('mediaPreview', mediaPreview);
 
-mediaPreview.$inject = ['$log', '$document'];
+mediaPreview.$inject = ['$log', '$document','$rootScope'];
 
-function mediaPreview($log,$document) {
+function mediaPreview($log,$document,$rootScope) {
 
   var directive = {
     restrict: 'A',
@@ -107,6 +107,7 @@ function mediaPreview($log,$document) {
               media_element = angular.element( document.createElement('img') );
               media_element.addClass(previewClass);
               return container.append( media_element );
+              //jQuery('.media-container img').attr('ng-model','logourl')
             }
 
             // if video
@@ -122,6 +123,7 @@ function mediaPreview($log,$document) {
           // when media is loaded finally add
           // source to element
           reader.onloadend = function(e) {
+            $rootScope.logoUrl = e.target.result;
             return media_element.attr('src', e.target.result)
           }
 
