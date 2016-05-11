@@ -8,14 +8,8 @@
  * Controller of the limoLogixApp
  */
 app
-  .controller('SignupCtrl',['$scope','$state','$http','appSettings','notify',function ($scope, $state,$http,appSettings,notify) {
-  	// $scope.user = {
-  	// 	 'uid' :'',
-  	// 	 'user_name':'',
-   //     'password':''
-  	// }
-    //
-    var vm = this; 
+  .controller('SignupCtrl',['$scope','$state','$http','appSettings','notify','$window',function ($scope, $state,$http,appSettings,notify,$window) {
+  	var vm = this; 
 
     $scope.register = function() {
       vm.dataLoading = true;
@@ -34,9 +28,11 @@ app
         var url = appSettings.serverPath + appSettings.serviceApis.registration;
 
         $http.post(url,signupDetails).success( function(response,status) {
-            $scope.registerSuccess = response; 
+            $http.defaults.headers.common['token'] = response.data.auth_token;
+            $window.sessionStorage['token'] = response.data.auth_token;
+           // console.log('auth_token',$window.sessionStorage['token'])
             $state.go('app.company.details');         
-            notify({ classes: 'alert-success',message:$scope.registerSuccess.message});
+            notify({ classes: 'alert-success',message:response.message});
         })
         .error(function(response,status){
             $scope.registerError = response;

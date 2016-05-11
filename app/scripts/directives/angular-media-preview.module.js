@@ -106,8 +106,10 @@ function mediaPreview($log,$document,$rootScope) {
             if( result.indexOf('data:image') > -1 ) {
               media_element = angular.element( document.createElement('img') );
               media_element.addClass(previewClass);
-              return container.append( media_element );
-              //jQuery('.media-container img').attr('ng-model','logourl')
+              var ele = container.append( media_element );
+              jQuery('.media-container img').attr('ng-model','logourl')
+              return ele;
+              
             }
 
             // if video

@@ -70,11 +70,18 @@ var app = angular
     serverPath: "http://172.16.90.106:9000/api/v1/",
     serviceApis : {
         signin : 'users/sign_in',
-        signup : 'users/sign_up',
-        registration:'users/registration'
+        //signup : 'users/sign_up',
+        registration:'users/registration',
+        company_update: 'users/companies/update',
+        logout:'users/logout'
     }
   })
-  .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
+  .run(['$rootScope', '$state','$http','$stateParams','$window', function($rootScope, $state,$http,$stateParams,$window) {
+    if($window.sessionStorage['token']){
+       $http.defaults.headers.common['token'] = $window.sessionStorage['token'];
+    }else{
+      $state.go('core.login')
+    }
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.$on('$stateChangeSuccess', function(event, toState) {
@@ -793,6 +800,13 @@ var app = angular
       url: '/login',
       controller: 'LoginCtrl',
       templateUrl: 'views/tmpl/login/login.html'
+    })
+    //logout
+    .state('core.logout', {
+      url: '/login',
+      controller: 'LogoutCtrl',
+      templateUrl: 'views/tmpl/login/login.html'
+     
     })
     //signup
     .state('core.signup', {

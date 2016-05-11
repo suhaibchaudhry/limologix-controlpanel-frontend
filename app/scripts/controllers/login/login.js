@@ -15,21 +15,22 @@ app
     };
     $scope.login = function() {
       $scope.user = {
-        user_name:'',
-      	uid : $scope.user.uid,
+       //  user_name:'',
+      	// uid : $scope.user.uid,
       	user_name:$scope.user.user_name,
       	password:$scope.user.password
       }
       var url = appSettings.serverPath + appSettings.serviceApis.signin;
 
       $http.post(url,$scope.user).success( function(response,status) {
-          $scope.loginSuccess = response; 
+          $http.defaults.headers.common['token'] = response.data.auth_token;
+          $window.sessionStorage['token'] = response.data.auth_token;
+          //console.log('auth_token',$window.sessionStorage['token'])
           $state.go('app.company.details');         
-          notify({ classes: 'alert-success',message:$scope.loginSuccess.message});
+          notify({ classes: 'alert-success',message:response.message});
       })
       .error(function(response,status){
-          $scope.loginSuccess = response; 
-          notify({ classes: 'alert-danger', message: $scope.loginSuccess.message });
+          notify({ classes: 'alert-danger', message: response.message });
           $state.go('core.login');
       });
       

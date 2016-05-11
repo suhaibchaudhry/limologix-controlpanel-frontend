@@ -14,7 +14,7 @@ app
       subtitle: 'Place subtitle here...'
     };
 
-     console.log('hiiii',$rootScope.logoUrl);
+     //console.log('hiiii',$rootScope.logoUrl);
 
     $scope.getUsers = function(){
       $scope.data=[];

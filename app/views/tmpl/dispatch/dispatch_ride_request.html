@@ -110,7 +110,7 @@
             <textarea class="form-control" rows="5" name="message" id="message" placeholder="Write something about you..." ng-model="userInfo.message"></textarea>
           </div> -->
 
-          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Next</button>
+          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
 
         </form>
 
@@ -119,11 +119,11 @@
       <uib-tab active="steps.step2" disable="step1.$invalid">
 
         <uib-tab-heading>
-          Address
+          Dispatch
           <span class="badge badge-default pull-right wizard-step">2</span>
         </uib-tab-heading>
 
-        <form name="step2" role="form" novalidate>
+       <!--  <form name="step2" role="form" novalidate>
 
           <div class="row">
             <div class="form-group col-md-4 mb-0">
@@ -185,9 +185,7 @@
             <div class="form-group col-md-6 mb-0">
               <label for="secondary_phone_number">Secondary Phone Number: </label>
               <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="userInfo.secondary_phone_number" placeholder="Enter alternative phone number">
-              <!-- <p class="help-block">
-                <span ng-show="step2.secondary_phone_number.$invalid && !step2.secondary_phone_number.$pristine">Street is required.</span>
-              </p> -->
+             
             </div>
             
           </div>
@@ -214,18 +212,18 @@
           <button type="submit" class="btn btn-default" ng-click="steps.step1=true">Previous</button>
           <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default pull-right" ng-click="steps.step3=true">Next</button>
 
-        </form>
+        </form> -->
 
       </uib-tab> 
 
       <uib-tab active="steps.step3" disable="step2.$invalid">
 
         <uib-tab-heading>
-          Logo Upload
+         Review
           <span class="badge badge-default pull-right wizard-step">3</span>
         </uib-tab-heading>
 
-        <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid)">
+       <!--  <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid)">
 
           <div class="row">
             <div class="form-group col-md-4 mb-0">
@@ -239,9 +237,9 @@
 
           <button type="submit" class="btn btn-default" ng-click="steps.step2=true">Previous</button>
           <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">Finish
-          <!-- <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default pull-right" ng-click="steps.step4=true">Next</button> -->
+           <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default pull-right" ng-click="steps.step4=true">Next</button>
 
-        </form>
+        </form> -->
       </uib-tab>
 
       <!-- <uib-tab active="steps.step4" disable="step3.$invalid">
