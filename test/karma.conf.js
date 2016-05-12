@@ -132,6 +132,8 @@ module.exports = function(config) {
       'bower_components/dragular/dist/dragular.min.js',
       'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
       'bower_components/angular-notify/dist/angular-notify.js',
+      'bower_components/ng-file-upload/ng-file-upload.js',
+      'bower_components/ng-file-upload-shim/ng-file-upload-shim.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-scenario/angular-scenario.js',
       // endbower

@@ -46,25 +46,25 @@
           <span class="badge badge-default pull-right wizard-step">1</span>
         </uib-tab-heading>
 
-        <form name="step1" role="form" novalidate class="form-validation">
+        <form name="step1" role="form" novalidate class="form-validation" ng-submit="submitForm(step1.$valid);">
 
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="f_name">First Name: </label>
-              <input type="text" name="f_name" id="f_name" class="form-control" ng-model="userInfo.f_name" required>
+              <label for="first_name">First Name: </label>
+              <input type="text" name="first_name" id="first_name" class="form-control" ng-model="customerInfo.first_name" required>
               <p class="help-block">
-                <span ng-show="step1.f_name.$invalid && !step1.f_name.$pristine">First Name is required.</span>
+                <span ng-show="step1.first_name.$invalid && !step1.first_name.$pristine">First Name is required.</span>
               </p>
             </div>
 
             <div class="form-group col-md-6">
               <label for="last_name">Last Name: </label>
-              <input type="text" name="last_name" id="last_name" class="form-control" ng-model="userInfo.last_name" ng-minlength="3" ng-maxlength="10">
-              <!-- <p class="help-block">
-                <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Username is required.</span>
-                <span ng-show="step1.last_name.$error.minlength">Username is too short.</span>
-                <span ng-show="step1.last_name.$error.maxlength">Username is too long.</span>
-              </p> -->
+              <input type="text" name="last_name" id="last_name" class="form-control" ng-model="customerInfo.last_name" ng-minlength="3" ng-maxlength="10" required>
+              <p class="help-block">
+                <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Last name is required.</span>
+             <!--    <span ng-show="step1.last_name.$error.minlength">Username is too short.</span>
+                <span ng-show="step1.last_name.$error.maxlength">Username is too long.</span> -->
+              </p>
 
               
             </div>
@@ -73,10 +73,10 @@
           <div class="row">
 
             <div class="form-group col-md-12">
-              <label for="company_name">Company Name: </label>
-              <input type="company_name" name="company_name" id="company_name" class="form-control" ng-model="userInfo.company_name" ng-minlength="6" required>
+              <label for="email">Email: </label>
+              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" ng-minlength="6" required>
               <p class="help-block">
-                <span ng-show="step1.company_name.$invalid && !step1.company_name.$pristine">Company Name is required.</span>
+                <span ng-show="step1.email.$invalid && !step1.email.$pristine">Email is required.</span>
                 <!-- <span ng-show="step1.company_name.$error.minlength">Password is too short.</span> -->
               </p>
             </div>
@@ -85,29 +85,23 @@
           
 
           <div class="row">
-            <div class="form-group col-md-6">
-              <label for="department">Department: </label>
-              <input type="text" name="department" id="department" class="form-control" ng-model="userInfo.department" required>
-              <p class="help-block">
-                <span ng-show="step1.department.$invalid && !step1.department.$pristine">Department is required.</span>
-              </p>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="last_name">Job Title: </label>
-              <input type="text" name="last_name" id="last_name" class="form-control" ng-model="userInfo.last_name" ng-minlength="3" ng-maxlength="10">
-              <!-- <p class="help-block">
-                <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Username is required.</span>
-                <span ng-show="step1.last_name.$error.minlength">Username is too short.</span>
-                <span ng-show="step1.last_name.$error.maxlength">Username is too long.</span>
-              </p> -->
-            </div>
+            <div class="form-group col-md-6 mb-0">
+                  <label for="mobile_number">Primary Phone Number: </label>
+                  <input type="text"  placeholder="+91-636-78658"  name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="customerInfo.mobile_number" numbers-only required>
+                  <p class="help-block">
+                    
+                    <span style="color:red;" ng-show="step1.mobile_number.$error.minlength">Phone no not less that 10 char.</span>
+                    <span style="color:red;" ng-show="step1.mobile_number.$error.maxlength">Phone no not more than 11 char.</span>
+                    <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+91-036-78658 || 91-036-78658]</span>
+                  </p>
+                </div>
+            
           </div>
 
 
           <!-- <div class="form-group">
             <label for="message">About you: </label>
-            <textarea class="form-control" rows="5" name="message" id="message" placeholder="Write something about you..." ng-model="userInfo.message"></textarea>
+            <textarea class="form-control" rows="5" name="message" id="message" placeholder="Write something about you..." ng-model="customerInfo.message"></textarea>
           </div> -->
 
           <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
@@ -128,7 +122,7 @@
           <div class="row">
             <div class="form-group col-md-4 mb-0">
               <label for="name">Company Name: </label>
-              <input type="text" name="name" id="name" class="form-control" ng-model="userInfo.name" placeholder="Enter company name" required>
+              <input type="text" name="name" id="name" class="form-control" ng-model="customerInfo.name" placeholder="Enter company name" required>
               <p class="help-block">
                 <span ng-show="step2.name.$invalid && !step2.name.$pristine">Company Name is required.</span>
               </p>
@@ -136,14 +130,14 @@
 
             <div class="form-group col-md-8 mb-0">
               <p cl<label for="email">General Email Address </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="userInfo.email" placeholder="Enter Email address">
+              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" placeholder="Enter Email address">
             </div>
             
           </div>
 
           <div class="form-group">
             <label for="street">Street: </label>
-            <input type="text" name="street" id="street" class="form-control" ng-model="userInfo.street" placeholder="Enter street address" required>
+            <input type="text" name="street" id="street" class="form-control" ng-model="customerInfo.street" placeholder="Enter street address" required>
             <p class="help-block">
               <span ng-show="step2.street.$invalid && !step2.street.$pristine">Street is required.</span>
             </p>            
@@ -152,21 +146,21 @@
           <div class="row">
             <div class="form-group col-md-4">
               <label for="city">City: </label>
-              <input type="text" name="city" id="city" class="form-control" ng-model="userInfo.city" placeholder="Enter city" required>
+              <input type="text" name="city" id="city" class="form-control" ng-model="customerInfo.city" placeholder="Enter city" required>
               <p class="help-block">
                 <span ng-show="step2.city.$invalid && !step2.city.$pristine">City is required.</span>
               </p>
             </div>
             <div class="form-group col-md-4">
               <label for="state_code">State: </label>
-              <input type="text" name="state_code" id="state_code" class="form-control" ng-model="userInfo.state_code" placeholder="Enter state" required>
+              <input type="text" name="state_code" id="state_code" class="form-control" ng-model="customerInfo.state_code" placeholder="Enter state" required>
               <p class="help-block">
                 <span ng-show="step2.state_code.$invalid && !step2.state_code.$pristine">State is required.</span>
               </p>
             </div>
             <div class="form-group col-md-4">
               <label for="country_code">Country: </label>
-              <input type="text" name="country_code" id="country_code" class="form-control" ng-model="userInfo.country_code" placeholder="Enter country" required>
+              <input type="text" name="country_code" id="country_code" class="form-control" ng-model="customerInfo.country_code" placeholder="Enter country" required>
               <p class="help-block">
                 <span ng-show="step2.country_code.$invalid && !step2.country_code.$pristine">Country is required.</span>
               </p>
@@ -176,7 +170,7 @@
            <div class="row">
             <div class="form-group col-md-6 mb-0">
               <label for="primary_phone_number">Primary Phone Number: </label>
-              <input type="text" name="primary_phone_number" id="primary_phone_number" class="form-control" ng-model="userInfo.primary_phone_number" placeholder="Enter phone number" required>
+              <input type="text" name="primary_phone_number" id="primary_phone_number" class="form-control" ng-model="customerInfo.primary_phone_number" placeholder="Enter phone number" required>
               <p class="help-block">
                 <span ng-show="step2.primary_phone_number.$invalid && !step2.primary_phone_number.$pristine">Phone Number is required.</span>
               </p>
@@ -184,7 +178,7 @@
 
             <div class="form-group col-md-6 mb-0">
               <label for="secondary_phone_number">Secondary Phone Number: </label>
-              <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="userInfo.secondary_phone_number" placeholder="Enter alternative phone number">
+              <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="customerInfo.secondary_phone_number" placeholder="Enter alternative phone number">
              
             </div>
             
@@ -193,7 +187,7 @@
            <div class="row">
             <div class="form-group col-md-6 mb-0">
               <label for="bussiness_no">Business Number: </label>
-              <input type="text" name="bussiness_no" id="bussiness_no" class="form-control" ng-model="userInfo.bussiness_no" placeholder="Enter business number" required>
+              <input type="text" name="bussiness_no" id="bussiness_no" class="form-control" ng-model="customerInfo.bussiness_no" placeholder="Enter business number" required>
               <p class="help-block">
                 <span ng-show="step2.bussiness_no.$invalid && !step2.bussiness_no.$pristine">Business Number is required.</span>
               </p>
@@ -201,7 +195,7 @@
 
             <div class="form-group col-md-6 mb-0">
               <label for="fax">Fax Number: </label>
-              <input type="text" name="fax" id="fax" class="form-control" ng-model="userInfo.fax" placeholder="Enter fax number">
+              <input type="text" name="fax" id="fax" class="form-control" ng-model="customerInfo.fax" placeholder="Enter fax number">
               <p class="help-block">
                 <span ng-show="step2.fax.$invalid && !step2.fax.$pristine">Fax number is required.</span>
               </p>
@@ -228,7 +222,7 @@
           <div class="row">
             <div class="form-group col-md-4 mb-0">
               <label for="logo">Logo upload: </label>
-              <input type="file" name="logo" id="logo" class="form-control" ng-model="userInfo.logo">
+              <input type="file" name="logo" id="logo" class="form-control" ng-model="customerInfo.logo">
               <p class="help-block">
                 <span ng-show="step3.logo.$invalid && !step3.logo.$pristine">Company Logo is required.</span>
               </p>
@@ -254,14 +248,14 @@
           <div class="row">
             <div class="form-group col-md-6 mb-0">
               <label for="email">Email: </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="userInfo.email" required>
+              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" required>
                <p class="help-block">
                 <span ng-show="step4.email.$invalid && !step4.email.$pristine">Email is required.</span>
                </p>
             </div>
             <div class="form-group col-md-6 mb-0">
               <label for="phone">Phone: </label>
-              <input type="text" name="phone" id="phone" class="form-control" ng-model="userInfo.phone" placeholder="(XXX) XXXX XXX"  ng-pattern="/\([0-9]{3}\) ([0-9]{3}) ([0-9]{3})$/">
+              <input type="text" name="phone" id="phone" class="form-control" ng-model="customerInfo.phone" placeholder="(XXX) XXXX XXX"  ng-pattern="/\([0-9]{3}\) ([0-9]{3}) ([0-9]{3})$/">
                <p class="help-block">
                 <span ng-show="step4.phone.$invalid && !step4.phone.$pristine">Bad format.</span>
                </p>
@@ -270,7 +264,7 @@
 
           <div class="form-group">
             <label for="web">Website: </label>
-            <input type="url" name="web" id="web" class="form-control" ng-model="userInfo.web" placeholder="http://">
+            <input type="url" name="web" id="web" class="form-control" ng-model="customerInfo.web" placeholder="http://">
              <p class="help-block">
               <span ng-show="step4.web.$invalid && !step4.web.$pristine">Bad format.</span>
              </p>
@@ -295,7 +289,7 @@
 
           <div class="checkbox">
             <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="agree" id="agree" ng-model="userInfo.agree" required><i></i> I agree to the <a href class="text-info">Terms of Service</a>
+              <input type="checkbox" name="agree" id="agree" ng-model="customerInfo.agree" required><i></i> I agree to the <a href class="text-info">Terms of Service</a>
             </label>
             <p class="help-block">
               <span ng-show="step5.agree.$invalid && !step5.agree.$pristine" class="text-red">You must accept Terms of Service.</span>
@@ -304,7 +298,7 @@
 
           <div class="checkbox">
             <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="newsletter" id="newsletter" ng-model="userInfo.newsletter"><i></i> Receive newsletter</a>
+              <input type="checkbox" name="newsletter" id="newsletter" ng-model="customerInfo.newsletter"><i></i> Receive newsletter</a>
             </label>
           </div>
 

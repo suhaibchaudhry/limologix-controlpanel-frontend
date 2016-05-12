@@ -14,7 +14,7 @@ app
     $scope.register = function() {
       vm.dataLoading = true;
       var user = {};
-          user.user_name  = $scope.user.user_name;
+          user.username  = $scope.user.username;
           user.password =$scope.user.password;
           user.email =$scope.user.email;
       var company = {};

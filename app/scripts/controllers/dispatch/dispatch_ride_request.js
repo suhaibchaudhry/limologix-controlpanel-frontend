@@ -8,32 +8,18 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DispatchRideRequestCtrl', function ($scope,$http,appSettings) {
+  .controller('DispatchRideRequestCtrl', ['$scope','$http','appSettings','$window','notify',function ($scope,$http,appSettings,$window,notify) {
     $scope.page = {
       title: 'Dispatch Ride Request',
       subtitle: ''//'Place subtitle here...'
     };
+     $scope.mobile_number = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
 
-    $scope.userInfo = {
-        first_name:'demo',
-        last_name:'xyz',
-        user_name:'',
-        password:'',
-        mobile_number:'',
+    $scope.customerInfo = {
+        first_name:'',
+        last_name:'',
         email:'',
-        uid :'',
-        name:'',
-        email:'',
-        primary_phone_number:'',
-        logo:'',
-        secondary_phone_number:'',
-        fax:'',
-        street:'',
-        city:'',
-        //zipcode:'',
-        state_code:'',
-        country_code:''
-
+        mobile_number:''
     }
 
     // function to submit the form after all validation has occurred
@@ -42,38 +28,25 @@ app
 
 			// check to make sure the form is completely valid
 			if (isValid) {
-        var user = new Object();
-          user.first_name = $scope.userInfo.first_name;
-          user.last_name = $scope.userInfo.last_name;
-          user.user_name = $scope.userInfo.user_name;
-          user.password = $scope.userInfo.password;
-          user.mobile_number = '123456789';
-          user.email = $scope.userInfo.email;
-        var company = new Object();
-          company.uid = $scope.userInfo.uid;
-          company.name = $scope.userInfo.name;
-          company.email = $scope.userInfo.email;
-          company.primary_phone_number = $scope.userInfo.primary_phone_number;
-          //company.logo = $scope.userInfo.logo;
-          company.secondary_phone_number = $scope.userInfo.secondary_phone_number;
-          company.fax = $scope.userInfo.fax;
-          company.address_attributes = {
-            street:$scope.userInfo.street,
-            city:$scope.userInfo.city,
-            zipcode:0,
-            state_code:$scope.userInfo.state_code,
-            country_code:$scope.userInfo.country_code
-          }
-        var userDetails = {
-           "user" : user,
-           "company": company
+        var customer = new Object();
+          customer.first_name = $scope.customerInfo.first_name;
+          customer.last_name = $scope.customerInfo.last_name;
+          customer.email = $scope.customerInfo.email;
+          customer.mobile_number = $scope.customerInfo.mobile_number;
+          
+        var customerDetails = {
+           "auth_token" : $window.sessionStorage['token'],
+           "customer" : customer
         }
       //  console.log('JSOn',userDetails)
-       var url = appSettings.serverPath + appSettings.serviceApis.signup;
-       $http.post(url,userDetails).success( function(response) {
-          $scope.userResponse = response; 
-          console.log("response", $scope.userResponse);
-       });
+       var url = appSettings.serverPath + appSettings.serviceApis.addcustomer;
+       $http.post(url,customerDetails).success( function(response) {
+         notify({ classes: 'alert-success',message:response.message});
+          console.log("response", response);
+       })
+        .error(function(response,status){
+            notify({ classes: 'alert-danger', message: response.message });
+        });
 
 			} else {
         console.log('form is invalid');
@@ -85,4 +58,4 @@ app
       var blacklist = ['bad@domain.com','verybad@domain.com'];
       return blacklist.indexOf(value) === -1;
     };
-  });
+  }]);

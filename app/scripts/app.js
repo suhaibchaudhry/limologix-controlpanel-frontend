@@ -63,7 +63,8 @@ var app = angular
     'ipsum',
     'angular-intro',
     'dragularModule',
-    'cgNotify'
+    'cgNotify',
+    'ngFileUpload'
     //'angular-media-preview'
   ])
   .constant('appSettings', { 
@@ -73,6 +74,8 @@ var app = angular
         //signup : 'users/sign_up',
         registration:'users/registration',
         company_update: 'users/companies/update',
+        company_info :'users/companies/show',
+        addcustomer :'users/customers/create',
         logout:'users/logout'
     }
   })
