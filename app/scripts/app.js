@@ -71,10 +71,13 @@ var app = angular
     serverPath: "http://172.16.90.106:9000/api/v1/",
     serviceApis : {
         signin : 'users/sign_in',
-        //signup : 'users/sign_up',
         registration:'users/registration',
+        //Company settings
         company_update: 'users/companies/update',
         company_info :'users/companies/show',
+        company_getCountries:'master_data/countries',
+        company_getStates:'master_data/states',
+        //Dispatch
         addcustomer :'users/customers/create',
         logout:'users/logout'
     }

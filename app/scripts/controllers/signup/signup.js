@@ -35,19 +35,7 @@ app
             notify({ classes: 'alert-success',message:response.message});
         })
         .error(function(response,status){
-            $scope.registerError = response;
-            if($scope.registerError.data.user.email){
-              $scope.emailError = $scope.registerError.data.user.email[0];
-            }
-             if($scope.registerError.data.company.email){
-              $scope.company_emailError = $scope.registerError.data.company.email[0];
-            }
-            vm.dataLoading = false;
-            if($scope.emailError != "")
-              jQuery('.email_error').text('User Email' +' '+$scope.emailError);
-            if($scope.company_emailError != "")
-              jQuery('.company_email_error').text('Company Email' +' '+$scope.company_emailError); 
-            notify({ classes: 'alert-danger', message: $scope.registerError.message });
+            notify({ classes: 'alert-danger', message: response.message });
             $state.go('core.signup');
         });
     }

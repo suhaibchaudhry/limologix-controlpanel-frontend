@@ -28,23 +28,64 @@ app
         zipcode:'',
         state_code:'',
         country_code:'',
-        picFile:'',
-        picFilePreview:''
-
+        picFile:''
     }
-    // getCompanyInfo();
-    // function getCompanyInfo(){
-    //    var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-    //    $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
-    //       //$state.go('app.company.details');         
-    //       notify({ classes: 'alert-success',message:response.message});
-    //    })
-    //    .error(function(response,status){
-    //         notify({ classes: 'alert-danger', message: response.message });
-    //     });
-    // }
+
+    getCountries();
+    function getCountries(){
+       var url = appSettings.serverPath + appSettings.serviceApis.company_getCountries;
+        $http.post(url).success( function(response) {
+            $scope.countries = response.data;
+        });
+    }
+
+    $scope.GetSelectedCountry = function (country_code) {
+        var url = appSettings.serverPath + appSettings.serviceApis.company_getStates;
+        $http.post(url,{'country_code':country_code }).success( function(response) {
+            $scope.states = response.data;
+         });  
+        $
+    };
+
+    $scope.GetSelectedState = function () {
+        $scope.strState = document.getElementById("state_code").value;
+    };
+
+   // getCompanyInfo();
+    function getCompanyInfo(){
+       if($window.sessionStorage['token']){
+         var url = appSettings.serverPath + appSettings.serviceApis.company_info;
+         var response1 = {"status":"success","message":"Company details updated successfully.",
+         "data":{"company":{"id":2,"name":"dsad","logo":"/uploads/company/logo/2/certficate3.jpg",
+         "email":"sadsad@vvc","primary_phone_number":"1231231234","secondary_phone_number":"1231231234","fax":"1231231234","address":{"street":"LNP","city":"Guntur","zipcode":522004,"state":"Alaska","country":"United States"}}}};
+         var response = response1.data.company;
+        // $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
+            //var response = response.data;
+            $scope.companyInfo = {
+              name: response.name,
+              email:response.email,
+              primary_phone_number:response.primary_phone_number,
+              logoUrl:response.logo,
+              secondary_phone_number:response.secondary_phone_number,
+              fax:response.fax,
+              street:response.address.street,
+              city:response.address.city,
+              zipcode:response.address.zipcode,
+              state_code: response.address.state,
+              country_code:response.address.country,
+              picFile:''
+            }
+  //           //$state.go('app.company.details');         
+  //          // notify({ classes: 'alert-success',message:response.message});
+  //        // })
+  //        // .error(function(response,status){
+  //        //      //notify({ classes: 'alert-danger', message: response.message });
+  //        //  });
+        
+        }
+       }
    
-    // function to submit the form after all validation has occurred
+  //   // function to submit the form after all validation has occurred
 		$scope.submitForm = function(isValid,file) {
       // check to make sure the form is completely valid
       if (isValid) {
@@ -57,7 +98,7 @@ app
           company.logo = file ? file :'';//$rootScope.uploadedLogo;
           company.secondary_phone_number = $scope.companyInfo.secondary_phone_number;
           company.fax = $scope.companyInfo.fax;
-          company.address_attributes = {
+          company.address = {
             street:$scope.companyInfo.street,
             city:$scope.companyInfo.city,
             zipcode:$scope.companyInfo.zipcode,

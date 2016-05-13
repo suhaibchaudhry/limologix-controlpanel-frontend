@@ -1,8 +1,5 @@
 <div class="page page-form-wizard">
 
-
-
-
   <!-- page header -->
   <div class="pageheader">
 
@@ -27,15 +24,8 @@
   </div>
   <!-- /page header -->
 
-
-
-
-
-
   <!-- page content -->
   <div class="pagecontent">
-
-
 
     <uib-tabset class="tab-animation tab-container tab-wizard" justified="true" set-ng-animate="true" ng-init="steps={step1:true, step2:false, step3:false, step4:false, step5: false}">
 
@@ -47,7 +37,6 @@
         </uib-tab-heading>
 
         <form name="step1" role="form" novalidate class="form-validation">
-           
             <div class="row">
               <div class="form-group col-md-6 mb-0">
                 <label for="name">Company Name: </label>
@@ -65,42 +54,38 @@
 
             </div>  
 
+            <div class="row">
+              <div class="form-group col-md-6 mb-0">
+                <label for="primary_phone_number">Primary Phone Number: </label>
+                <input type="text"  placeholder="+91-636-78658"  name="primary_phone_number" id="primary_phone_number" class="form-control" ng-pattern="phoneNumbr" ng-model="companyInfo.phone" numbers-only>
+                <p class="help-block">
+                  <span style="color:red;" ng-show="step1.primary_phone_number.$error.minlength">Phone no not less that 10 char.</span>
+                  <span style="color:red;" ng-show="step1.primary_phone_number.$error.maxlength">Phone no not more than 11 char.</span>
+                  <br><span style="color:red;" ng-show="step1.primary_phone_number.$error.pattern">Please match pattern [+91-036-78658 || 91-036-78658]</span>
+                </p>
+              </div>
 
-              <div class="row">
-                <div class="form-group col-md-6 mb-0">
-                  <label for="primary_phone_number">Primary Phone Number: </label>
-                  <input type="text"  placeholder="+91-636-78658"  name="primary_phone_number" id="primary_phone_number" class="form-control" ng-pattern="phoneNumbr" ng-model="companyInfo.phone" numbers-only>
-                  <p class="help-block">
-                    
-                    <span style="color:red;" ng-show="step1.primary_phone_number.$error.minlength">Phone no not less that 10 char.</span>
-                    <span style="color:red;" ng-show="step1.primary_phone_number.$error.maxlength">Phone no not more than 11 char.</span>
-                    <br><span style="color:red;" ng-show="step1.primary_phone_number.$error.pattern">Please match pattern [+91-036-78658 || 91-036-78658]</span>
-                  </p>
-                </div>
-
-            <div class="form-group col-md-6 mb-0">
-              <label for="secondary_phone_number">Secondary Phone Number: </label>
-              <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="companyInfo.secondary_phone_number" ng-pattern="phoneNumbr" placeholder="Enter alternative phone number" numbers-only>
-              
+              <div class="form-group col-md-6 mb-0">
+                <label for="secondary_phone_number">Secondary Phone Number: </label>
+                <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="companyInfo.secondary_phone_number" ng-pattern="phoneNumbr" placeholder="Enter alternative phone number" numbers-only>
+              </div>
+            </div>  
+            <div class="row">
+               <div class="form-group col-md-6 mb-0">
+                <label for="fax">Fax Number: </label>
+                <input type="text" name="fax" id="fax" class="form-control" ng-model="companyInfo.fax" placeholder="Enter fax number">
+                <p class="help-block">
+                  <span ng-show="step2.fax.$invalid && !step2.fax.$pristine">Fax number is required.</span>
+                </p>
+              </div>
             </div>
-          </div>  
-          <div class="row">
-             <div class="form-group col-md-6 mb-0">
-              <label for="fax">Fax Number: </label>
-              <input type="text" name="fax" id="fax" class="form-control" ng-model="companyInfo.fax" placeholder="Enter fax number">
-              <p class="help-block">
-                <span ng-show="step2.fax.$invalid && !step2.fax.$pristine">Fax number is required.</span>
-              </p>
-            </div>
-          </div>
            
-          <button type="submit"  class="btn btn-default" ng-click="steps.step2=true">Next</button>
-
+            <button type="submit"  class="btn btn-default" ng-click="steps.step2=true">Next</button>
         </form>
 
       </uib-tab>
 
-      <uib-tab active="steps.step2"><!-- disable="step1.$invalid">-->
+      <uib-tab active="steps.step2">
 
         <uib-tab-heading>
           Address
@@ -110,53 +95,51 @@
         <form name="step2" role="form" novalidate>
           <div class="row">
             <div class="form-group col-md-4">
+              <label for="country_code">Country: </label>
+              <select id="country_code" name = "country_code" class="form-control" ng-model="userInfo.country_code" 
+                placeholder="Enter country" ng-options="country_code as v for (country_code, v) in countries"
+                  ng-change="GetSelectedCountry(userInfo.country_code)" required>
+                  <option value=''>Select</option>
+              </select>
+              <p class="help-block">
+                <span ng-show="step2.country_code.$invalid && !step2.country_code.$pristine">Country is required.</span>
+              </p>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="state_code">State: </label>
+                <select id="state_code" name="state_code" class="form-control" ng-disabled="!userInfo.country_code"  placeholder="Enter state"  ng-model="userInfo.state_code" ng-options="state_code as v for (state_code,v) in states" ng-change="GetSelectedState()" required>
+                <option value=''>Select</option>
+              </select>
+                <p class="help-block">
+                  <span ng-show="step2.state_code.$invalid && !step2.state_code.$pristine">State is required.</span>
+                </p>
+            </div>
+            <div class="form-group col-md-4">
               <label for="city">City: </label>
               <input type="text" name="city" id="city" class="form-control" ng-model="companyInfo.city" placeholder="Enter city" required>
               <p class="help-block">
                 <span ng-show="step2.city.$invalid && !step2.city.$pristine">City is required.</span>
               </p>
             </div>
-            <div class="form-group col-md-4">
-              <label for="state_code">State: </label>
-              <input type="text" name="state_code" id="state_code" class="form-control" ng-model="companyInfo.state_code" placeholder="Enter state" required>
-              <p class="help-block">
-                <span ng-show="step2.state_code.$invalid && !step2.state_code.$pristine">State is required.</span>
-              </p>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="country_code">Country: </label>
-              <input type="text" name="country_code" id="country_code" class="form-control" ng-model="companyInfo.country_code" placeholder="Enter country" required>
-              <p class="help-block">
-                <span ng-show="step2.country_code.$invalid && !step2.country_code.$pristine">Country is required.</span>
-              </p>
-            </div>
           </div>
-        
-
-           <div class="row">
-
-           <div class="form-group col-md-6 mb-0">
-            <label for="street">Street: </label>
-            <input type="text" name="street" id="street" class="form-control" ng-model="companyInfo.street" placeholder="Enter street address" required>
-            <p class="help-block">
-              <span ng-show="step2.street.$invalid && !step2.street.$pristine">Street is required.</span>
-            </p>            
+          <div class="row">
+             <div class="form-group col-md-6 mb-0">
+                <label for="street">Street: </label>
+                <input type="text" name="street" id="street" class="form-control" ng-model="companyInfo.street" placeholder="Enter street address" required>
+                <p class="help-block">
+                  <span ng-show="step2.street.$invalid && !step2.street.$pristine">Street is required.</span>
+                </p>            
+             </div>
+             <div class="form-group col-md-6 mb-0">
+                <label for="zipcode">Zip Code: </label>
+                <input type="text" name="zipcode" id="zipcode" class="form-control" ng-model="companyInfo.zipcode" placeholder="Enter zip code" required>
+                <p class="help-block">
+                  <span ng-show="step2.zipcode.$invalid && !step2.zipcode.$pristine">Zip Code is required.</span>
+                </p>
+             </div>
           </div>
-
-
-            <div class="form-group col-md-6 mb-0">
-              <label for="zipcode">Zip Code: </label>
-              <input type="text" name="zipcode" id="zipcode" class="form-control" ng-model="companyInfo.zipcode" placeholder="Enter zip code" required>
-              <p class="help-block">
-                <span ng-show="step2.zipcode.$invalid && !step2.zipcode.$pristine">Zip Code is required.</span>
-              </p>
-            </div>
-           
-          </div>
-
           <button type="submit" class="btn btn-default" ng-click="steps.step1=true">Previous</button>
           <button type="submit"  class="btn btn-default pull-right" ng-click="steps.step3=true">Next</button>
-
         </form>
 
       </uib-tab> 
@@ -178,7 +161,7 @@
               <label for="logo">Logo upload: </label>
                  <input type="file" ngf-select ng-model="companyinfo.picFile" name="file"    
                        accept="image/*" ngf-max-size="2MB" required
-                       ngf-model-invalid="errorFile">
+                       ngf-model-invalid="errorFile" id="logoupload">
                <!--  <i ng-show="step3.file.$error.required">*required</i><br> -->
                 <i ng-show="step3.file.$error.maxSize">File too large 
                     {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
@@ -198,9 +181,7 @@
                   <span ng-show="step3.logo.$invalid && !step3.logo.$pristine">Company Logo is required.</span>
                 </p> -->
             </div>  
-          </div>
-          
-        
+          </div>       
 
           <button type="submit" class="btn btn-default" ng-click="steps.step2=true">Previous</button>
           <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">Update My Company Information
@@ -208,89 +189,6 @@
 
         </form>
       </uib-tab>
-
-      <!-- <uib-tab active="steps.step4" disable="step3.$invalid">
-
-        <uib-tab-heading>
-          Contact
-          <span class="badge badge-default pull-right wizard-step">4</span>
-        </uib-tab-heading>
-
-        <form name="step4" role="form" novalidate>
-
-          <div class="row">
-            <div class="form-group col-md-6 mb-0">
-              <label for="email">Email: </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="companyInfo.email" required>
-               <p class="help-block">
-                <span ng-show="step4.email.$invalid && !step4.email.$pristine">Email is required.</span>
-               </p>
-            </div>
-            <div class="form-group col-md-6 mb-0">
-              <label for="phone">Phone: </label>
-              <input type="text" name="phone" id="phone" class="form-control" ng-model="companyInfo.phone" placeholder="(XXX) XXXX XXX"  ng-pattern="/\([0-9]{3}\) ([0-9]{3}) ([0-9]{3})$/">
-               <p class="help-block">
-                <span ng-show="step4.phone.$invalid && !step4.phone.$pristine">Bad format.</span>
-               </p>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="web">Website: </label>
-            <input type="url" name="web" id="web" class="form-control" ng-model="companyInfo.web" placeholder="http://">
-             <p class="help-block">
-              <span ng-show="step4.web.$invalid && !step4.web.$pristine">Bad format.</span>
-             </p>
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step3=true">Previous</button>
-          <button type="submit" ng-disabled="step4.$invalid" class="btn btn-default pull-right" ng-click="steps.step5=true">Next</button>
-
-        </form>
-      </uib-tab> -->
-
-      <!-- <uib-tab active="steps.step5" disable="step4.$invalid">
-
-        <uib-tab-heading>
-          EULA
-          <span class="pull-right wizard-step">5</span>
-        </uib-tab-heading>
-
-        <p class="well">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</p>
-
-        <form name="step5" role="form" novalidate>
-
-          <div class="checkbox">
-            <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="agree" id="agree" ng-model="companyInfo.agree" required><i></i> I agree to the <a href class="text-info">Terms of Service</a>
-            </label>
-            <p class="help-block">
-              <span ng-show="step5.agree.$invalid && !step5.agree.$pristine" class="text-red">You must accept Terms of Service.</span>
-            </p>
-          </div>
-
-          <div class="checkbox">
-            <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="newsletter" id="newsletter" ng-model="companyInfo.newsletter"><i></i> Receive newsletter</a>
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step4=true">Previous</button>
-          <button type="submit" ng-disabled="step5.$invalid" class="btn btn-success pull-right">Finish</button>
-
-        </form>
-
-      </uib-tab> -->
-
     </uib-tabset>
-
-
-
-
   </div>
-  <!-- /page content -->
-
-
-
-
 </div>
