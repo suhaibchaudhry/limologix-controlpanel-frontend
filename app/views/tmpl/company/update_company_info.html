@@ -48,8 +48,8 @@
 
               <div class="form-group col-md-6 mb-0">
                 <label>General Email Address:</label>
-                <input type="email" name="email" id="email" class="form-control" ng-model="companyInfo.email" placeholder="Enter Email address" required>
-                <span style="color:red;" ng-show="step1.email.$error.email">Not valid email!</span>
+                <input type="email" name="email" id="email" class="form-control" ng-model="companyInfo.email" placeholder="Enter Email address" required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+                <span style="color:red;" ng-show="step1.email.$invalid.email">Not valid email!</span>
               </div>
 
             </div>  
@@ -80,12 +80,12 @@
               </div>
             </div>
            
-            <button type="submit"  class="btn btn-default" ng-click="steps.step2=true">Next</button>
+            <button type="submit"  class="btn btn-default" ng-click="steps.step2=true" ng-disabled="step1.$invalid">Next</button>
         </form>
 
       </uib-tab>
 
-      <uib-tab active="steps.step2">
+      <uib-tab active="steps.step2" disabled="step1.$invalid">
 
         <uib-tab-heading>
           Address
@@ -96,9 +96,9 @@
           <div class="row">
             <div class="form-group col-md-4">
               <label for="country_code">Country: </label>
-              <select id="country_code" name = "country_code" class="form-control" ng-model="userInfo.country_code" 
+              <select id="country_code" name = "country_code" class="form-control" ng-model="companyInfo.country_code" 
                 placeholder="Enter country" ng-options="country_code as v for (country_code, v) in countries"
-                  ng-change="GetSelectedCountry(userInfo.country_code)" required>
+                  ng-change="GetSelectedCountry(companyInfo.country_code)" required>
                   <option value=''>Select</option>
               </select>
               <p class="help-block">
@@ -107,7 +107,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="state_code">State: </label>
-                <select id="state_code" name="state_code" class="form-control" ng-disabled="!userInfo.country_code"  placeholder="Enter state"  ng-model="userInfo.state_code" ng-options="state_code as v for (state_code,v) in states" ng-change="GetSelectedState()" required>
+                <select id="state_code" name="state_code" class="form-control" ng-disabled="!companyInfo.country_code"  placeholder="Enter state"  ng-model="companyInfo.state_code" ng-options="state_code as v for (state_code,v) in states" ng-change="GetSelectedState()" required>
                 <option value=''>Select</option>
               </select>
                 <p class="help-block">
@@ -139,19 +139,19 @@
              </div>
           </div>
           <button type="submit" class="btn btn-default" ng-click="steps.step1=true">Previous</button>
-          <button type="submit"  class="btn btn-default pull-right" ng-click="steps.step3=true">Next</button>
+          <button type="submit"  class="btn btn-default pull-right" ng-click="steps.step3=true" ng-disabled="step2.$invalid">Next</button>
         </form>
 
       </uib-tab> 
 
-      <uib-tab active="steps.step3" >
+      <uib-tab active="steps.step3" disabled="step2.$invalid">
 
         <uib-tab-heading>
           Logo Upload
           <span class="badge badge-default pull-right wizard-step">3</span>
         </uib-tab-heading>
 
-        <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid,companyinfo.picFile)">
+        <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid)">
 
           <div class="row">
             <div class="media-container">
@@ -161,7 +161,7 @@
               <label for="logo">Logo upload: </label>
                  <input type="file" ngf-select ng-model="companyinfo.picFile" name="file"    
                        accept="image/*" ngf-max-size="2MB" required
-                       ngf-model-invalid="errorFile" id="logoupload">
+                       ngf-model-invalid="errorFile" id="logoupload" onchange="angular.element(this).scope().uploadFile(this.files)">
                <!--  <i ng-show="step3.file.$error.required">*required</i><br> -->
                 <i ng-show="step3.file.$error.maxSize">File too large 
                     {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
@@ -185,7 +185,6 @@
 
           <button type="submit" class="btn btn-default" ng-click="steps.step2=true">Previous</button>
           <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">Update My Company Information
-          <!-- <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default pull-right" ng-click="steps.step4=true">Next</button> -->
 
         </form>
       </uib-tab>

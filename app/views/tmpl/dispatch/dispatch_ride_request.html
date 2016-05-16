@@ -45,6 +45,23 @@
           Add a new customer
           <span class="badge badge-default pull-right wizard-step">1</span>
         </uib-tab-heading>
+        
+        <form name="step1" role="form" novalidate class="form-validation" ng-submit="submitForm(step1.$valid);">
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="customer_search">Serach Existing Customers: </label>
+              <input type="search" name="customer_search" id="customer_search" class="form-control" ng-model="customerInfo.customer_search">
+              <!-- <p class="help-block">
+                <span ng-show="step1.customer_search.$invalid && !step1.customer_search.$pristine">First Name is required.</span>
+              </p> -->
+            </div>
+          </div>
+                 
+
+          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customerdsfsdf</button>
+
+        </form>
 
         <form name="step1" role="form" novalidate class="form-validation" ng-submit="submitForm(step1.$valid);">
 

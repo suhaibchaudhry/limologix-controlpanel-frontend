@@ -84,18 +84,30 @@ app
         
         }
        }
+    
+      $scope.uploadFile = function(files) {
+      //Take the first selected file
+      $scope.logoImage = files;
+     
+     
+
+  };
+
    
   //   // function to submit the form after all validation has occurred
-		$scope.submitForm = function(isValid,file) {
-      // check to make sure the form is completely valid
+		$scope.submitForm = function(isValid) {
       if (isValid) {
-        // $rootScope.uploadedLogo =  $scope.companyInfo.picFilePreview;//$rootScope.logoUrl;
-        // console.log('logooo', $scope.companyInfo.picFilePreview);
         var company = {};
           company.name = $scope.companyInfo.name;
           company.email = $scope.companyInfo.email;
           company.primary_phone_number = $scope.companyInfo.primary_phone_number;
-          company.logo = file ? file :'';//$rootScope.uploadedLogo;
+
+           var fd = new FormData();
+          console.log('file upload',fd);
+          fd.append("file",$scope.logoImage );
+
+
+          company.logo = fd;//$rootScope.uploadedLogo;
           company.secondary_phone_number = $scope.companyInfo.secondary_phone_number;
           company.fax = $scope.companyInfo.fax;
           company.address = {
@@ -106,12 +118,16 @@ app
             country_code:$scope.companyInfo.country_code
           }
         var userDetails = {
-           "auth_token" : $window.sessionStorage['token'],
+           //"auth_token" : $window.sessionStorage['token'],
            "company": company
         }
       
        var url = appSettings.serverPath + appSettings.serviceApis.company_update;
-       $http.post(url,userDetails).success( function(response) {
+       $http.post(url,{"auth_token" : $window.sessionStorage['token'],"company": company}
+       //{
+          //headers: {'Content-Type': 'multipart/form-data' }
+       // }
+        ).success( function(response) {
           //$state.go('app.company.details');         
           notify({ classes: 'alert-success',message:response.message});
        })
