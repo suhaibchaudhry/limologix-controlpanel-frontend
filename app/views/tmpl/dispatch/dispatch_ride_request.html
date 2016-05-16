@@ -52,6 +52,10 @@
             <div class="form-group col-md-6">
               <label for="customer_search">Serach Existing Customers: </label>
               <input type="search" name="customer_search" id="customer_search" class="form-control" ng-model="customerInfo.customer_search">
+                <input class="form-control" type="text" autocomplete="false" ng-model="input" placeholder="Start typing a country" typeahead="countries" typeahead-callback="callback" />
+                <br /><p>You selected: {{country.name}}</p>
+  
+                <input type="text" class="form-control" placeholder="Search for an airplane" ng-model="selectedAirplane" typeahead="airplane as airplane.registration for airplane in airplanes | filter:$viewValue | limitTo:3">
               <!-- <p class="help-block">
                 <span ng-show="step1.customer_search.$invalid && !step1.customer_search.$pristine">First Name is required.</span>
               </p> -->

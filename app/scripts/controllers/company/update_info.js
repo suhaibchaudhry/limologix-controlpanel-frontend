@@ -51,16 +51,12 @@ app
         $scope.strState = document.getElementById("state_code").value;
     };
 
-   // getCompanyInfo();
+    getCompanyInfo();
     function getCompanyInfo(){
        if($window.sessionStorage['token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-         var response1 = {"status":"success","message":"Company details updated successfully.",
-         "data":{"company":{"id":2,"name":"dsad","logo":"/uploads/company/logo/2/certficate3.jpg",
-         "email":"sadsad@vvc","primary_phone_number":"1231231234","secondary_phone_number":"1231231234","fax":"1231231234","address":{"street":"LNP","city":"Guntur","zipcode":522004,"state":"Alaska","country":"United States"}}}};
-         var response = response1.data.company;
-        // $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
-            //var response = response.data;
+         $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
+            var response = response.data.company;
             $scope.companyInfo = {
               name: response.name,
               email:response.email,
@@ -75,15 +71,9 @@ app
               country_code:response.address.country,
               picFile:''
             }
-  //           //$state.go('app.company.details');         
-  //          // notify({ classes: 'alert-success',message:response.message});
-  //        // })
-  //        // .error(function(response,status){
-  //        //      //notify({ classes: 'alert-danger', message: response.message });
-  //        //  });
-        
-        }
+          });
        }
+     }
     
       $scope.uploadFile = function(files) {
       //Take the first selected file
@@ -102,12 +92,12 @@ app
           company.email = $scope.companyInfo.email;
           company.primary_phone_number = $scope.companyInfo.primary_phone_number;
 
-           var fd = new FormData();
-          console.log('file upload',fd);
-          fd.append("file",$scope.logoImage );
+          //  var fd = new FormData();
+          // console.log('file upload',fd);
+          // fd.append("file",$scope.logoImage );
 
 
-          company.logo = fd;//$rootScope.uploadedLogo;
+          company.logo = $rootScope.logoUrl;//fd
           company.secondary_phone_number = $scope.companyInfo.secondary_phone_number;
           company.fax = $scope.companyInfo.fax;
           company.address = {
@@ -124,8 +114,8 @@ app
       
        var url = appSettings.serverPath + appSettings.serviceApis.company_update;
        $http.post(url,{"auth_token" : $window.sessionStorage['token'],"company": company}
-       //{
-          //headers: {'Content-Type': 'multipart/form-data' }
+       // {
+       //    headers: {'Content-Type': 'multipart/form-data' }
        // }
         ).success( function(response) {
           //$state.go('app.company.details');         

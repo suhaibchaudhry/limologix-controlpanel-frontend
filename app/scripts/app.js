@@ -79,9 +79,28 @@ var app = angular
         company_getStates:'master_data/states',
         //Dispatch
         addcustomer :'users/customers/create',
+        getExistingCustomers : '/users/customers/index',
         logout:'users/logout'
     }
   })
+  //session expired
+  .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
+      return {
+          response: function(response){
+              if (response.status === 401 || response.status === -1) {
+                  //notify({ classes: 'alert-success', message: "Session expired" });
+                  $location.url('/login');
+              }
+              return response || $q.when(response);
+          },
+          responseError: function(rejection) {
+              if (rejection.status === 401 || rejection.status === -1) {
+                  $location.url('/login');
+              }
+              return $q.reject(rejection);
+          }
+      }
+  }])
   .run(['$rootScope', '$state','$http','$stateParams','$window', function($rootScope, $state,$http,$stateParams,$window) {
     if($window.sessionStorage['token']){
        $http.defaults.headers.common['token'] = $window.sessionStorage['token'];

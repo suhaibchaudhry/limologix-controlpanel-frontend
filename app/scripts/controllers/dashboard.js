@@ -8,14 +8,29 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl', function($scope,$http,$rootScope){
+  .controller('DashboardCtrl', function($scope,$http,$rootScope,$window,appSettings){
     $scope.page = {
       title: 'Dashboard',
       subtitle: 'Place subtitle here...'
     };
-    displayLogo();
+
+    getCompanyInfo();
+    function getCompanyInfo(){
+       if($window.sessionStorage['token']){
+         var url = appSettings.serverPath + appSettings.serviceApis.company_info;
+         $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
+            var response = response.data.company;
+            $scope.companyInfo = {
+              logoUrl:response.logo
+            }
+             displayLogo();
+          });
+       }
+     }
+
+   
     function displayLogo(){
-      $scope.picFilePreview = '../images/flags/Vatican-City.png';
+      $scope.picFilePreview = 'http://172.16.90.106:9000/'+ $scope.companyInfo.logoUrl;
     }
      //console.log('hiiii',$rootScope.logoUrl);
 
