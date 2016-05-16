@@ -59,7 +59,7 @@
           </div>
                  
 
-          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customerdsfsdf</button>
+          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Continue w/o new customer</button>
 
         </form>
 
@@ -91,10 +91,9 @@
 
             <div class="form-group col-md-12">
               <label for="email">Email: </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" ng-minlength="6" required>
+              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
               <p class="help-block">
-                <span ng-show="step1.email.$invalid && !step1.email.$pristine">Email is required.</span>
-                <!-- <span ng-show="step1.company_name.$error.minlength">Password is too short.</span> -->
+                <span style="color:red" ng-show="step1.email.$error.pattern">Not valid Email.</span>
               </p>
             </div>
 
@@ -104,12 +103,12 @@
           <div class="row">
             <div class="form-group col-md-6 mb-0">
                   <label for="mobile_number">Primary Phone Number: </label>
-                  <input type="text"  placeholder="+91-636-78658"  name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="customerInfo.mobile_number" numbers-only required>
+                  <input type="text"  placeholder="+1-541-754-3010"  name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="customerInfo.mobile_number" numbers-only required>
                   <p class="help-block">
                     
                     <span style="color:red;" ng-show="step1.mobile_number.$error.minlength">Phone no not less that 10 char.</span>
                     <span style="color:red;" ng-show="step1.mobile_number.$error.maxlength">Phone no not more than 11 char.</span>
-                    <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+91-036-78658 || 91-036-78658]</span>
+                    <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+1-541-754-3010 || 1-541-754-3010]</span>
                   </p>
                 </div>
             

@@ -13,7 +13,7 @@ app
       title: 'Dispatch Ride Request',
       subtitle: ''//'Place subtitle here...'
     };
-     $scope.mobile_number = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
+    $scope.mobile_number = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
 
     $scope.customerInfo = {
         first_name:'',

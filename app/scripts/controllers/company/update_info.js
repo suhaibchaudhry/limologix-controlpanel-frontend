@@ -14,7 +14,7 @@ app
       subtitle: ''//'Place subtitle here...'
     };
 
-    $scope.phoneNumbr = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
+    $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
 
     $scope.companyInfo = {
         name: '',
