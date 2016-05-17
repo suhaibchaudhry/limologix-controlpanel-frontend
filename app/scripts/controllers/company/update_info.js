@@ -82,25 +82,7 @@ app
           });
        }
      }
-
-     
-
-
-      function convertFileToDataURLviaFileReader(url, callback){
-          var xhr = new XMLHttpRequest();
-          xhr.responseType = 'blob';
-          xhr.onload = function() {
-              var reader  = new FileReader();
-              reader.onloadend = function () {
-                  callback(reader.result);
-              }
-              reader.readAsDataURL(xhr.response);
-          };
-          xhr.open('GET', url);
-          xhr.send();
-      }
-
-      function toDataUrl(url, callback){
+    function toDataUrl(url, callback){
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         xhr.onload = function() {
@@ -113,9 +95,7 @@ app
         xhr.open('GET', url);
         xhr.send();
     }
-    
-
-    
+       
       $scope.uploadFile = function(files) {
       //Take the first selected file
       $scope.logoImage = files;
@@ -167,13 +147,7 @@ app
              .error(function(response,status){
                   notify({ classes: 'alert-danger', message: response.message });
               });
-
-
-        });
-
-        
-       
-      
+        });  
        
 
 			} else {
