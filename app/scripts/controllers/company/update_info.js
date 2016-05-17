@@ -13,7 +13,7 @@ app
       title: 'Company Information',
       subtitle: ''//'Place subtitle here...'
     };
-
+    $scope.base64Img = '';
     $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
 
     $scope.companyInfo = {
@@ -56,17 +56,20 @@ app
 
     getCompanyInfo();
     function getCompanyInfo(){
+
        if($window.sessionStorage['token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
          $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
-            var response = response.data.company;
+          var response = response.data.company;
+
+
             $scope.companyInfo = {
               name: response.name,
               email:response.email,
               primary_phone_number:response.primary_phone_number,
               logo:{
                 name: response.logo.name,
-                image:appSettings.server_address+response.logo.image,
+                image: appSettings.server_address+response.logo.image
               },
               secondary_phone_number:response.secondary_phone_number,
               fax:response.fax,
@@ -79,6 +82,39 @@ app
           });
        }
      }
+
+     
+
+
+      function convertFileToDataURLviaFileReader(url, callback){
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          xhr.onload = function() {
+              var reader  = new FileReader();
+              reader.onloadend = function () {
+                  callback(reader.result);
+              }
+              reader.readAsDataURL(xhr.response);
+          };
+          xhr.open('GET', url);
+          xhr.send();
+      }
+
+      function toDataUrl(url, callback){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+          var reader  = new FileReader();
+          reader.onloadend = function () {
+              callback(reader.result);
+          }
+          reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.send();
+    }
+    
+
     
       $scope.uploadFile = function(files) {
       //Take the first selected file
@@ -92,13 +128,21 @@ app
   //   // function to submit the form after all validation has occurred
 		$scope.submitForm = function(isValid) {
       if (isValid) {
-        var company = {};
+        
+        var imageUrl =  $scope.companyInfo.logo.image;
+        toDataUrl(imageUrl, function(base64Img){
+        // Base64DataURL
+           $scope.base64Img = base64Img;
+
+            var company = {};
           company.name = $scope.companyInfo.name;
           company.email = $scope.companyInfo.email;
           company.primary_phone_number = $scope.companyInfo.primary_phone_number;
           company.logo = {};
           company.logo.name = $rootScope.logoName ? $rootScope.logoName : $scope.companyInfo.logo.name ;
-          company.logo.image = $rootScope.logoUrl ? $rootScope.logoUrl: $scope.companyInfo.logo.image;
+
+          company.logo.image = $rootScope.logoUrl ? $rootScope.logoUrl: $scope.base64Img;
+          
           company.secondary_phone_number = $scope.companyInfo.secondary_phone_number;
           company.fax = $scope.companyInfo.fax;
           company.address = {
@@ -108,22 +152,29 @@ app
             state_code:$scope.companyInfo.state_code,
             country_code:$scope.companyInfo.country_code
           }
-        var userDetails = {
+           var userDetails = {
            "company": company
-        }
-      
-       var url = appSettings.serverPath + appSettings.serviceApis.company_update;
-       $http.post(url,{"auth_token" : $window.sessionStorage['token'],"company": company}
-       // {
-       //    headers: {'Content-Type': 'multipart/form-data' }
-       // }
-        ).success( function(response) {
-          //$state.go('app.company.details');         
-          notify({ classes: 'alert-success',message:response.message});
-       })
-       .error(function(response,status){
-            notify({ classes: 'alert-danger', message: response.message });
+          }
+              var url = appSettings.serverPath + appSettings.serviceApis.company_update;
+             $http.post(url,{"auth_token" : $window.sessionStorage['token'],"company": company}
+             // {
+             //    headers: {'Content-Type': 'multipart/form-data' }
+             // }
+              ).success( function(response) {
+                //$state.go('app.company.details');         
+                notify({ classes: 'alert-success',message:response.message});
+             })
+             .error(function(response,status){
+                  notify({ classes: 'alert-danger', message: response.message });
+              });
+
+
         });
+
+        
+       
+      
+       
 
 			} else {
         console.log('form is invalid');
