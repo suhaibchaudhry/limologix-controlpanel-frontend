@@ -68,6 +68,7 @@ function mediaPreview($log,$document,$rootScope) {
 
       // get files
       var files = elem[0].files;
+      $rootScope.logoName = files[0].name;
 
       // update model value
       attrs.multiple ? ngModel.$setViewValue(files) : ngModel.$setViewValue(files[0]);

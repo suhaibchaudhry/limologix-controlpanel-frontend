@@ -68,6 +68,7 @@ var app = angular
     //'angular-media-preview'
   ])
   .constant('appSettings', { 
+    server_address:'http://172.16.90.106:9000',
     serverPath: "http://172.16.90.106:9000/api/v1/",
     serviceApis : {
         signin : 'users/sign_in',

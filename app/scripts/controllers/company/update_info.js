@@ -20,7 +20,10 @@ app
         name: '',
         email:'',
         primary_phone_number:'',
-        logoUrl:'',
+        logo:{
+          name:'',
+          image:''
+        },
         secondary_phone_number:'',
         fax:'',
         street:'',
@@ -61,15 +64,17 @@ app
               name: response.name,
               email:response.email,
               primary_phone_number:response.primary_phone_number,
-              logoUrl:response.logo,
+              logo:{
+                name: response.logo.name,
+                image:appSettings.server_address+response.logo.image,
+              },
               secondary_phone_number:response.secondary_phone_number,
               fax:response.fax,
-              street:response.address.street,
-              city:response.address.city,
-              zipcode:response.address.zipcode,
-              state_code: response.address.state,
-              country_code:response.address.country,
-              picFile:''
+              street:response.address? response.address.street :'',
+              city:response.address ? response.address.city : '',
+              zipcode:response.address ? response.address.zipcode : '',
+              state_code: response.address ? response.address.state :'',
+              country_code:response.address ? response.address.country :''
             }
           });
        }
@@ -91,13 +96,9 @@ app
           company.name = $scope.companyInfo.name;
           company.email = $scope.companyInfo.email;
           company.primary_phone_number = $scope.companyInfo.primary_phone_number;
-
-          //  var fd = new FormData();
-          // console.log('file upload',fd);
-          // fd.append("file",$scope.logoImage );
-
-
-          company.logo = $rootScope.logoUrl;//fd
+          company.logo = {};
+          company.logo.name = $rootScope.logoName ? $rootScope.logoName : $scope.companyInfo.logo.name ;
+          company.logo.image = $rootScope.logoUrl ? $rootScope.logoUrl: $scope.companyInfo.logo.image;
           company.secondary_phone_number = $scope.companyInfo.secondary_phone_number;
           company.fax = $scope.companyInfo.fax;
           company.address = {
@@ -108,7 +109,6 @@ app
             country_code:$scope.companyInfo.country_code
           }
         var userDetails = {
-           //"auth_token" : $window.sessionStorage['token'],
            "company": company
         }
       
