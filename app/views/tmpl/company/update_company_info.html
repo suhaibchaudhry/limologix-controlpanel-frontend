@@ -162,15 +162,6 @@
             <div class="form-group col-md-4 mb-0" id="logo-preview">
               <label for="logo">Logo upload: </label>
                <input type="file" media-preview name="logo" id="logo" class="form-control" ng-model="companyinfo.logo">
-
-                 <!--  <button ng-disabled="!step3.$valid" 
-                        ng-click="uploadPic(companyinfo.picFile)">Upload</button> -->
-                <span class="progress" ng-show="companyinfo.picFile.progress >= 0">
-                  <div style="width:{{picFile.progress}}%" 
-                      ng-bind="companyinfo.picFile.progress + '%'"></div>
-                </span>
-                <span ng-show="companyinfo.picFile.result">Upload Successful</span>
-                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
                <!-- <input type="file" media-preview name="logo" id="logo" class="form-control" ng-model="companyInfo.logo"> -->
                 <!-- <img ng-show="logo.src" ng-src="{{logo.src}}"/> -->
                 <!-- <p class="help-block">

@@ -107,7 +107,7 @@ function mediaPreview($log,$document,$rootScope) {
               media_element = angular.element( document.createElement('img') );
               media_element.addClass(previewClass);
               var ele = container.append( media_element );
-              jQuery('.media-container img').attr('ng-model','logourl')
+              //jQuery('.media-container img').attr('ng-model','logourl')
               return ele;
               
             }
@@ -126,6 +126,7 @@ function mediaPreview($log,$document,$rootScope) {
           // source to element
           reader.onloadend = function(e) {
             $rootScope.logoUrl = e.target.result;
+            console.log('sdd',e);
             return media_element.attr('src', e.target.result)
           }
 
