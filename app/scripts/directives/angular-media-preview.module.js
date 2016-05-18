@@ -68,8 +68,9 @@ function mediaPreview($log,$document,$rootScope) {
 
       // get files
       var files = elem[0].files;
-      $rootScope.logoName = files[0].name;
-
+      
+     
+      $rootScope.logo_name = files[0].name;
       // update model value
       attrs.multiple ? ngModel.$setViewValue(files) : ngModel.$setViewValue(files[0]);
 
@@ -108,7 +109,7 @@ function mediaPreview($log,$document,$rootScope) {
               media_element = angular.element( document.createElement('img') );
               media_element.addClass(previewClass);
               var ele = container.append( media_element );
-              //jQuery('.media-container img').attr('ng-model','logourl')
+              jQuery('#logo-preview').css({'display':'none'});
               return ele;
               
             }
@@ -126,7 +127,10 @@ function mediaPreview($log,$document,$rootScope) {
           // when media is loaded finally add
           // source to element
           reader.onloadend = function(e) {
-            $rootScope.logoUrl = e.target.result;
+            //get uploded image preview path in base64.
+            $rootScope.logo_image = e.target.result;
+            
+            console.log(scope.logo_image);
             return media_element.attr('src', e.target.result)
           }
 

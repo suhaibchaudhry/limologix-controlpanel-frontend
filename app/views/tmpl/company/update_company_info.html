@@ -59,7 +59,7 @@
             <div class="row">
               <div class="form-group col-md-6 mb-0">
                 <label for="primary_phone_number">Primary Phone Number: </label>
-                <input type="text" placeholder="+1-541-754-3010"  name="primary_phone_number" id="primary_phone_number" class="form-control" ng-pattern="phoneNumbr" ng-model="companyInfo.phone" numbers-only>
+                <input type="text" placeholder="+1-541-754-3010"  name="primary_phone_number" id="primary_phone_number" class="form-control" ng-pattern="phoneNumbr" ng-model="companyInfo.primary_phone_number" numbers-only>
                 <p class="help-block">
                   <span style="color:red;" ng-show="step1.primary_phone_number.$error.minlength">Phone no not less that 10 char.</span>
                   <span style="color:red;" ng-show="step1.primary_phone_number.$error.maxlength">Phone no not more than 11 char.</span>
@@ -98,23 +98,13 @@
           <div class="row">
             <div class="form-group col-md-4">
               <label for="country_code">Country: </label>
-              <select id="country_code" name = "country_code" class="form-control" ng-model="companyInfo.country_code" 
-                placeholder="Enter country" ng-options="country_code as v for (country_code, v) in countries"
-                  ng-change="GetSelectedCountry(companyInfo.country_code)">
-                  <option value=''>Select</option>
-              </select>
-              <p class="help-block">
-                <span ng-show="step2.country_code.$invalid && !step2.country_code.$pristine">Country is required.</span>
-              </p>
+              <select id="country_code" class="form-control" ng-model="selected.selectedCountry" placeholder="Enter country" ng-options="country as country.name for country in countries" ng-change="GetSelectedCountry()">                  
+              </select>  
             </div>
             <div class="form-group col-md-4">
               <label for="state_code">State: </label>
-                <select id="state_code" name="state_code" class="form-control" ng-disabled="!companyInfo.country_code"  placeholder="Enter state"  ng-model="companyInfo.state_code" ng-options="state_code as v for (state_code,v) in states" ng-change="GetSelectedState()">
-                <option value=''>Select</option>
+                <select id="state_code" class="form-control" placeholder="Enter state"  ng-model="selected.selectedState" ng-options="state as state.name for state in states">
               </select>
-                <p class="help-block">
-                  <span ng-show="step2.state_code.$invalid && !step2.state_code.$pristine">State is required.</span>
-                </p>
             </div>
             <div class="form-group col-md-4">
               <label for="city">City: </label>

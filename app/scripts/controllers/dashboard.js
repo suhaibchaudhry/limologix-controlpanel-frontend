@@ -8,7 +8,14 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl',['$scope','$http','$rootScope','$window','appSettings',function($scope,$http,$rootScope,$window,appSettings){
+  .controller('DashboardCtrl',[
+      '$scope',
+      '$http',
+      '$rootScope',
+      '$window',
+      'appSettings',
+      'services',
+  function($scope,$http,$rootScope,$window,appSettings,services){
     $scope.page = {
       title: 'Dashboard',
       subtitle: 'Place subtitle here...'
@@ -18,13 +25,16 @@ app
     function getCompanyInfo(){
        if($window.sessionStorage['token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-         $http.post(url,{"auth_token" : $window.sessionStorage['token']}).success( function(response) {
+         services.funcPostRequest(url,{"auth_token" : $window.sessionStorage['token']}).then(function(response){
             var response = response.data.company;
             $scope.companyInfo = {
               logoUrl:response.logo.image
             }
              displayLogo();
-          });
+         }, function(error){
+             
+         })
+       
        }
      }
     function displayLogo(){
