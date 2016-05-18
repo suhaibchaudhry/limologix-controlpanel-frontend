@@ -127,7 +127,6 @@ function mediaPreview($log,$document,$rootScope) {
           // source to element
           reader.onloadend = function(e) {
             $rootScope.logoUrl = e.target.result;
-            console.log('sdd',e);
             return media_element.attr('src', e.target.result)
           }
 

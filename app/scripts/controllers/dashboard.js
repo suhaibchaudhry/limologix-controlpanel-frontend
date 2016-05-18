@@ -27,8 +27,6 @@ app
           });
        }
      }
-
-   
     function displayLogo(){
       $scope.picFilePreview = appSettings.server_address + $scope.companyInfo.logoUrl;
     }
