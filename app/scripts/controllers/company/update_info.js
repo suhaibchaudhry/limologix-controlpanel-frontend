@@ -79,6 +79,7 @@ app
                 });
             };
 
+
             //Get company details from the service.
             function getCompanyInfo() {
                 var responseToken = $q.defer();

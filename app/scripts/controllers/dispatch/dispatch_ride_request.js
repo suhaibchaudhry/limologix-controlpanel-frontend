@@ -26,6 +26,7 @@ app
                 email: '',
                 mobile_number: ''
             }
+            
             $scope.airplanes = [{
                 "registration": "C-FNND",
                 "operator": "Air Canada",
