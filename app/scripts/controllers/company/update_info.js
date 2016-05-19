@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:UpdateInfoCtrl
+ * @name limoLogixApp.controller:UpdateInfoCtrl
  * @description
  * # UpdateInfoCtrl
- * Controller of the minovateApp
+ * Controller of the limoLogixApp
  */
 app
     .controller('UpdateInfoCtrl', [
@@ -35,11 +35,13 @@ app
                 zipcode: '',
                 picFile: ''
             }
+            //Model which handles selected country and state update
             $scope.selected = {}
 
             getCountries();
             //Get countries from API
             function getCountries() {
+                //Load countries and kepep them in constants on app load and get countries from constants
                 if (countriesConstant.countries.length) {
                     $scope.countries = countriesConstant.countries;
                     $scope.selected.selectedCountry = $scope.countries[0];
@@ -62,7 +64,6 @@ app
             }
             //Get selected state from the view
             $scope.GetSelectedCountry = function(address) {
-                console.log($scope.selected.selectedCountry)
                 var url = appSettings.serverPath + appSettings.serviceApis.company_getStates;
                 services.funcPostRequest(url, { 'country_code': $scope.selected.selectedCountry.code }).then(function(response) {
                     $scope.states = response.data;
@@ -77,8 +78,6 @@ app
                     notify({ classes: 'alert-danger', message: error });
                 });
             };
-
-            // getCompanyInfo();
 
             //Get company details from the service.
             function getCompanyInfo() {
