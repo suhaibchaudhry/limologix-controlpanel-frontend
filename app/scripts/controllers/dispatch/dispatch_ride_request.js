@@ -14,53 +14,30 @@ app
         'appSettings', 
         '$window',
         'notify',
-        function($scope, $http, appSettings, $window, notify) {
+        'services',
+        function($scope, $http, appSettings, $window, notify,services) {
             $scope.page = {
                 title: 'Dispatch Ride Request',
                 subtitle: '' //'Place subtitle here...'
             };
-            $scope.mobile_number = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
+            $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
             $scope.customerInfo = {
                 first_name: '',
                 last_name: '',
                 email: '',
-                mobile_number: ''
+                mobile_number: '',
+                organisation:''
             }
-            
-            $scope.airplanes = [{
-                "registration": "C-FNND",
-                "operator": "Air Canada",
-                "manufacturer": "Boeing",
-                "type": "777-200"
-            }, {
-                "registration": "PH-BFW",
-                "operator": "KLM Royal Dutch Airlines",
-                "manufacturer": "Boeing",
-                "type": "747-400"
-            }, {
-                "registration": "N124US",
-                "operator": "US Airways",
-                "manufacturer": "Airbus",
-                "type": "A320-200"
-            }, {
-                "registration": "A6-EEU",
-                "operator": "Emirates",
-                "manufacturer": "Airbus",
-                "type": "A380-800"
-            }, {
-                "registration": "VH-LQL",
-                "operator": "Qantas",
-                "manufacturer": "Bombardier",
-                "type": "DHC-8-400"
-            }]
-            console.log('sdf', $scope.airplanes);
-            $scope.getExistingCustomers = function() {
+            $scope.selected = '';
+            $scope.states = [{postcode:'B1',address:'Bull ring'},{postcode:'B1',address:'Bull ring'},{postcode:'B1',address:'Bull ring'},{postcode:'B13',address:'shyam'},{postcode:'B1',address:'Bull ring'},{postcode:'M1',address:'Manchester'}];
+
+            $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
-                $http.post(url, { 'auth_token': $window.sessionStorage['token'] }).success(function(response) {
+                services.funcPostRequest(url,{'search_string':search_string}).then(function(response) {
+                        console.log('searched customer',response);
                         notify({ classes: 'alert-success', message: response.message });
-                    })
-                    .error(function(response, status) {
-                        notify({ classes: 'alert-danger', message: response.message });
+                    },function(error){
+                        notify({ classes: 'alert-danger', message: response.message });  
                     });
             }
 
@@ -71,22 +48,23 @@ app
                         first_name: $scope.customerInfo.first_name,
                         last_name: $scope.customerInfo.last_name,
                         email: $scope.customerInfo.email,
-                        mobile_number: $scope.customerInfo.mobile_number
+                        mobile_number: $scope.customerInfo.mobile_number,
+                        organisation:$scope.customerInfo.organisation
                     };
                     var customerDetails = {
                         "auth_token": $window.sessionStorage['token'],
                         "customer": customer
                     }
                     var url = appSettings.serverPath + appSettings.serviceApis.addcustomer;
-                    $http.post(url, customerDetails).success(function(response) {
-                            notify({ classes: 'alert-success', message: response.message });
-                        })
-                        .error(function(response, status) {
-                            notify({ classes: 'alert-danger', message: response.message });
-                        });
+                    services.funcPostRequest(url, customerDetails).then(function(response){
+                      notify({ classes: 'alert-success', message: response.message });
+                    },function(error,status){
+                      notify({ classes: 'alert-danger', message: response.message });
+                    })
                 } else {
 
                 }
             };
         }
-    ]);
+    ])
+

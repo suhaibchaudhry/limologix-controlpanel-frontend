@@ -79,7 +79,7 @@ var app = angular
             company_getStates: 'master_data/states',
             //Dispatch
             addcustomer: 'users/customers/create',
-            getExistingCustomers: '/users/customers/index',
+            getExistingCustomers: '/users/customers/search',
             logout: 'users/logout'
         }
     })
@@ -102,8 +102,8 @@ var app = angular
         }
     }])
     .run(['$rootScope', '$state', '$http', '$stateParams', '$window', function($rootScope, $state, $http, $stateParams, $window) {
-        if ($window.sessionStorage['token']) {
-            $http.defaults.headers.common['token'] = $window.sessionStorage['token'];
+        if ($window.sessionStorage['Auth-Token']) {
+            $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
         } else {
             $state.go('core.login')
         }
@@ -132,7 +132,7 @@ var app = angular
 }])
 
 //angular-language
-.config(['$translateProvider', function($translateProvider) {
+.config(['$translateProvider','$httpProvider', function($translateProvider,$httpProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languages/',
         suffix: '.json'
@@ -140,6 +140,7 @@ var app = angular
     $translateProvider.useLocalStorage();
     $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy(null);
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
 }])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {

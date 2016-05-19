@@ -50,7 +50,7 @@ app
                     });
                 } else {
                     var url = appSettings.serverPath + appSettings.serviceApis.company_getCountries;
-                    services.funcPostRequest(url).then(function(response) {
+                    services.funcGetRequest(url).then(function(response) {
                         $scope.countries = response.data;
                         countriesConstant.countries = $scope.countries;
                         $scope.selected.selectedCountry = $scope.countries[0];
@@ -84,7 +84,7 @@ app
             function getCompanyInfo() {
                 var responseToken = $q.defer();
                 var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-                services.funcPostRequest(url, { "auth_token": $window.sessionStorage['token'] }).then(function(response) {
+                services.funcGetRequest(url).then(function(response,status) {
                     var response = response.data.company;
                     $scope.companyInfo = {
                         name: response.name,

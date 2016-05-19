@@ -22,8 +22,8 @@ app
       }
       var url = appSettings.serverPath + appSettings.serviceApis.signin;
       services.funcPostRequest(url,$scope.user).then(function(response){
-            $http.defaults.headers.common['token'] = response.data.auth_token;
-            $window.sessionStorage['token'] = response.data.auth_token;
+            $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
+            $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
             $state.go('app.company.details');         
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){

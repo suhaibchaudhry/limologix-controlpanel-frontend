@@ -7,9 +7,9 @@ function funcservices() {
 	return {
 		$get: function ($http, $q) {
 			return {
-				funcGetRequest: function (path) {
+				funcGetRequest: function (path,data) {
 					var responseToken = $q.defer();
-					$http.get(path).success(function (data, status) {
+					$http.get(path,data).success(function (data, status) {
 						responseToken.resolve(data);
 					}).error(function (error) {
 						responseToken.reject(error);
