@@ -29,11 +29,13 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="customer_search">Search Existing Customers: </label>
-                            <input type="text" name="customer_search" id="customer_search" class="form-control" ng-model="selected" uib-typeahead="state.address for state in getExistingCustomers($viewValue) | filter:$viewValue | limitTo:8" >
+                            <input class="form-control" typeahead-editable="true" uib-typeahead="item.full_name for item in getExistingCustomers($viewValue)| limitTo:10" type="text" class="searchInput" ng-model="search.full_name">
+                            <span ng-show="noresults" id="nocustomer"></span>
                         </div>
                     </div>
                     <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Continue w/o new customer</button>
                 </form>
+                </br>
                 <form name="step1" role="form" novalidate class="form-validation" ng-submit="submitForm(step1.$valid);">
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -83,196 +85,66 @@
                     <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
                 </form>
             </uib-tab>
-            <uib-tab active="steps.step2" disable="step1.$invalid">
+            <uib-tab active="steps.step2">
                 <uib-tab-heading>
                     Dispatch
                     <span class="badge badge-default pull-right wizard-step">2</span>
                 </uib-tab-heading>
-                <!--  <form name="step2" role="form" novalidate>
-
-          <div class="row">
-            <div class="form-group col-md-4 mb-0">
-              <label for="name">Company Name: </label>
-              <input type="text" name="name" id="name" class="form-control" ng-model="customerInfo.name" placeholder="Enter company name" required>
-              <p class="help-block">
-                <span ng-show="step2.name.$invalid && !step2.name.$pristine">Company Name is required.</span>
-              </p>
-            </div>
-
-            <div class="form-group col-md-8 mb-0">
-              <p cl<label for="email">General Email Address </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" placeholder="Enter Email address">
-            </div>
-            
-          </div>
-
-          <div class="form-group">
-            <label for="street">Street: </label>
-            <input type="text" name="street" id="street" class="form-control" ng-model="customerInfo.street" placeholder="Enter street address" required>
-            <p class="help-block">
-              <span ng-show="step2.street.$invalid && !step2.street.$pristine">Street is required.</span>
-            </p>            
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-4">
-              <label for="city">City: </label>
-              <input type="text" name="city" id="city" class="form-control" ng-model="customerInfo.city" placeholder="Enter city" required>
-              <p class="help-block">
-                <span ng-show="step2.city.$invalid && !step2.city.$pristine">City is required.</span>
-              </p>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="state_code">State: </label>
-              <input type="text" name="state_code" id="state_code" class="form-control" ng-model="customerInfo.state_code" placeholder="Enter state" required>
-              <p class="help-block">
-                <span ng-show="step2.state_code.$invalid && !step2.state_code.$pristine">State is required.</span>
-              </p>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="country_code">Country: </label>
-              <input type="text" name="country_code" id="country_code" class="form-control" ng-model="customerInfo.country_code" placeholder="Enter country" required>
-              <p class="help-block">
-                <span ng-show="step2.country_code.$invalid && !step2.country_code.$pristine">Country is required.</span>
-              </p>
-            </div>
-          </div>
-
-           <div class="row">
-            <div class="form-group col-md-6 mb-0">
-              <label for="primary_phone_number">Primary Phone Number: </label>
-              <input type="text" name="primary_phone_number" id="primary_phone_number" class="form-control" ng-model="customerInfo.primary_phone_number" placeholder="Enter phone number" required>
-              <p class="help-block">
-                <span ng-show="step2.primary_phone_number.$invalid && !step2.primary_phone_number.$pristine">Phone Number is required.</span>
-              </p>
-            </div>
-
-            <div class="form-group col-md-6 mb-0">
-              <label for="secondary_phone_number">Secondary Phone Number: </label>
-              <input type="text" name="secondary_phone_number" id="secondary_phone_number" class="form-control" ng-model="customerInfo.secondary_phone_number" placeholder="Enter alternative phone number">
-             
-            </div>
-            
-          </div>
-
-           <div class="row">
-            <div class="form-group col-md-6 mb-0">
-              <label for="bussiness_no">Business Number: </label>
-              <input type="text" name="bussiness_no" id="bussiness_no" class="form-control" ng-model="customerInfo.bussiness_no" placeholder="Enter business number" required>
-              <p class="help-block">
-                <span ng-show="step2.bussiness_no.$invalid && !step2.bussiness_no.$pristine">Business Number is required.</span>
-              </p>
-            </div>
-
-            <div class="form-group col-md-6 mb-0">
-              <label for="fax">Fax Number: </label>
-              <input type="text" name="fax" id="fax" class="form-control" ng-model="customerInfo.fax" placeholder="Enter fax number">
-              <p class="help-block">
-                <span ng-show="step2.fax.$invalid && !step2.fax.$pristine">Fax number is required.</span>
-              </p>
-            </div>
-            
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step1=true">Previous</button>
-          <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default pull-right" ng-click="steps.step3=true">Next</button>
-
-        </form> -->
+                <form name="step2" role="form" novalidate>
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="name">Count:<sup>*</sup> </label>
+                            <input type="text" name="pCount" id="pCount" class="form-control" ng-model="customerInfo.pCount">
+                            <p class="help-block">
+                                <span ng-show="step2.pCount.$invalid && !step2.pCount.$pristine">Count is required.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            <label>pick-up Date</label>
+                            <div ng-controller="DatepickerDemoCtrl">
+                                <div class="input-group w-md">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-0">
+                            <strong>Pick-up Time</strong>
+                            <div class="tile-body" ng-controller="TimepickerDemoCtrl">
+                                <uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="1" minute-step="1" show-meridian="ismeridian"></uib-timepicker>
+                                <button class="btn btn-sm btn-default" ng-click="clear()">Clear</button>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label><strong>Pick up point</strong></label>
+                            <br/>
+                            <label for="date">Airport <sup>*</sup></label>
+                            <div>
+                                <input type="text" name="date" id="date" class="form-control" ng-model="customerInfo.date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label><strong>Drop of point</strong></label>
+                            <br/>
+                            <label for="date">Adress or Point of Intrest <sup>*</sup></label>
+                            <input type="text" name="date" id="date" class="form-control" ng-model="customerInfo.date">
+                        </div>
+                    </div>
+                </form>
             </uib-tab>
-            <uib-tab active="steps.step3" disable="step2.$invalid">
-                <uib-tab-heading>
-                    Review
-                    <span class="badge badge-default pull-right wizard-step">3</span>
-                </uib-tab-heading>
-                <!--  <form name="step3" role="form" novalidate ng-submit="submitForm(step3.$valid)">
-
-          <div class="row">
-            <div class="form-group col-md-4 mb-0">
-              <label for="logo">Logo upload: </label>
-              <input type="file" name="logo" id="logo" class="form-control" ng-model="customerInfo.logo">
-              <p class="help-block">
-                <span ng-show="step3.logo.$invalid && !step3.logo.$pristine">Company Logo is required.</span>
-              </p>
-            </div>  
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step2=true">Previous</button>
-          <button type="submit" ng-disabled="step3.$invalid" class="btn btn-success pull-right">Finish
-           <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default pull-right" ng-click="steps.step4=true">Next</button>
-
-        </form> -->
-            </uib-tab>
-            <!-- <uib-tab active="steps.step4" disable="step3.$invalid">
-
-        <uib-tab-heading>
-          Contact
-          <span class="badge badge-default pull-right wizard-step">4</span>
-        </uib-tab-heading>
-
-        <form name="step4" role="form" novalidate>
-
-          <div class="row">
-            <div class="form-group col-md-6 mb-0">
-              <label for="email">Email: </label>
-              <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" required>
-               <p class="help-block">
-                <span ng-show="step4.email.$invalid && !step4.email.$pristine">Email is required.</span>
-               </p>
-            </div>
-            <div class="form-group col-md-6 mb-0">
-              <label for="phone">Phone: </label>
-              <input type="text" name="phone" id="phone" class="form-control" ng-model="customerInfo.phone" placeholder="(XXX) XXXX XXX"  ng-pattern="/\([0-9]{3}\) ([0-9]{3}) ([0-9]{3})$/">
-               <p class="help-block">
-                <span ng-show="step4.phone.$invalid && !step4.phone.$pristine">Bad format.</span>
-               </p>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="web">Website: </label>
-            <input type="url" name="web" id="web" class="form-control" ng-model="customerInfo.web" placeholder="http://">
-             <p class="help-block">
-              <span ng-show="step4.web.$invalid && !step4.web.$pristine">Bad format.</span>
-             </p>
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step3=true">Previous</button>
-          <button type="submit" ng-disabled="step4.$invalid" class="btn btn-default pull-right" ng-click="steps.step5=true">Next</button>
-
-        </form>
-      </uib-tab> -->
-            <!-- <uib-tab active="steps.step5" disable="step4.$invalid">
-
-        <uib-tab-heading>
-          EULA
-          <span class="pull-right wizard-step">5</span>
-        </uib-tab-heading>
-
-        <p class="well">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</p>
-
-        <form name="step5" role="form" novalidate>
-
-          <div class="checkbox">
-            <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="agree" id="agree" ng-model="customerInfo.agree" required><i></i> I agree to the <a href class="text-info">Terms of Service</a>
-            </label>
-            <p class="help-block">
-              <span ng-show="step5.agree.$invalid && !step5.agree.$pristine" class="text-red">You must accept Terms of Service.</span>
-            </p>
-          </div>
-
-          <div class="checkbox">
-            <label class="checkbox checkbox-custom">
-              <input type="checkbox" name="newsletter" id="newsletter" ng-model="customerInfo.newsletter"><i></i> Receive newsletter</a>
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn-default" ng-click="steps.step4=true">Previous</button>
-          <button type="submit" ng-disabled="step5.$invalid" class="btn btn-success pull-right">Finish</button>
-
-        </form>
-
-      </uib-tab> -->
         </uib-tabset>
     </div>
     <!-- /page content -->
