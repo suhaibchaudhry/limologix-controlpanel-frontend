@@ -64,7 +64,8 @@ var app = angular
         'angular-intro',
         'dragularModule',
         'cgNotify',
-        'ngFileUpload'
+        'ngFileUpload',
+        'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
         server_address: 'http://172.16.90.106:9000',

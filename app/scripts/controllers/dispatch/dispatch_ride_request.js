@@ -31,6 +31,35 @@ app
             $scope.selected = '';
             $scope.noresults = false;
             $scope.loadingcustomers = false;
+             $scope.lat = undefined;
+             $scope.lng = undefined;
+
+              $scope.options = {
+    types: ['(cities)'],
+    componentRestrictions: { country: 'FR' }
+  };
+  
+  $scope.address = {
+    name: '',
+    place: '',
+    components: {
+      placeId: '',
+      streetNumber: '', 
+      street: '',
+      city: '',
+      state: '',
+      countryCode: '',
+      country: '',
+      postCode: '',
+      district: '',
+      location: {
+        lat: '',
+        long: ''
+      }
+    }
+  };
+
+  
 
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
@@ -59,6 +88,14 @@ app
                 });
             }
 
+            $scope.$on('gmPlacesAutocomplete::placeChanged', function(){
+              var location = $scope.autocomplete.getPlace().geometry.location;
+              $scope.lat = location.lat();
+              $scope.lng = location.lng();
+              $scope.$apply();
+            });
+
+
             // function to submit the form after all validation has occurred
             $scope.submitForm = function(isValid) {
                 if (isValid) {
@@ -77,7 +114,8 @@ app
                     services.funcPostRequest(url, customerDetails).then(function(response) {
                         notify({ classes: 'alert-success', message: response.message });
                     }, function(error, status) {
-                        notify({ classes: 'alert-danger', message: response.message });
+                        if(response)
+                            notify({ classes: 'alert-danger', message: response.message });
                     })
                 } else {
 
