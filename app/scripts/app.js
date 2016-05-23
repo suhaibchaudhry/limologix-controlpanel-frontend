@@ -81,6 +81,7 @@ var app = angular
             //Dispatch
             addcustomer: 'users/customers/create',
             getExistingCustomers: '/users/customers/search',
+            createTrip: 'users/trips/create',
             logout: 'users/logout'
         }
     })
@@ -269,11 +270,11 @@ var app = angular
             templateUrl: 'views/tmpl/ui/alerts.html'
         })
         //ui/general
-        .state('app.ui.general', {
-            url: '/general',
-            controller: 'GeneralCtrl',
-            templateUrl: 'views/tmpl/ui/general.html'
-        })
+//         .state('app.ui.general', {
+//             url: '/general',
+//             controller: 'GeneralCtrl',
+//             templateUrl: 'views/tmpl/ui/general.html'
+//         })
         //ui/tree
         .state('app.ui.tree', {
             url: '/tree',
