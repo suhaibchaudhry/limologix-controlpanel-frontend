@@ -23,9 +23,9 @@ app
 
     getCompanyInfo();
     function getCompanyInfo(){
-       if($window.sessionStorage['token']){
+       if($window.sessionStorage['Auth-Token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-         services.funcPostRequest(url,{"auth_token" : $window.sessionStorage['token']}).then(function(response){
+         services.funcGetRequest(url).then(function(response){
             var response = response.data.company;
             $scope.companyInfo = {
               logoUrl:response.logo.image
