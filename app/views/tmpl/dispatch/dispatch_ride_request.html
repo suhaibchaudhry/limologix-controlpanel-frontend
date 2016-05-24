@@ -25,72 +25,97 @@
                     Add a new customer
                     <span class="badge badge-default pull-right wizard-step">1</span>
                 </uib-tab-heading>
-                <form name="step0" role="form" novalidate class="form-validation" ng-submit="submitForm(step0.$valid);">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="customer_search">Search Existing Customers: </label>
-                            <input class="form-control" typeahead-editable="true" uib-typeahead="item.full_name for item in getExistingCustomers($viewValue)| limitTo:10"  typeahead-on-select="onSelect($item, $model, $label)" type="text" class="searchInput" ng-model="search.full_name">
-                            <span ng-show="noresults" id="nocustomer"></span>
-                        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <section class="tile" fullscreen="isFullscreen01">
+                            <div class="tile-header dvd dvd-btm">
+                                <h3 class="custom-font"><strong>Choose customers from existing list</strong></h3>
+                            </div>
+                            <div class="tile-body">
+                                <form name="step0" class="form-horizontal" role="form" novalidate class="form-validation" ng-submit="submitForm(step0.$valid);">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="customer_search">Search Existing Customers: </label>
+                                            <input class="form-control" typeahead-editable="true" uib-typeahead="item.full_name for item in getExistingCustomers($viewValue)| limitTo:10" typeahead-on-select="onSelect($item, $model, $label)" type="text" class="searchInput" ng-model="search.full_name" required>
+                                            <span ng-show="noresults" id="nocustomer" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                    <button type="submit" ng-disabled=" !isChoosed || step0.$invalid" class="btn btn-default" ng-click="steps.step2=true">Continue w/o new customer</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" ng-click='search.full_name = null' ng-disabled='search.full_name.length == 0 || step0.$invalid'>Clear</button>
+                                </form>
+                            </div>
+                        </section>
                     </div>
-                    <button type="submit" ng-disabled="step0.$invalid" class="btn btn-default" ng-click="steps.step2=true">Continue w/o new customer</button>
-                </form>
-                </br>
-                <form name="step1" role="form" novalidate class="form-validation" ng-submit="funcAddCustomer(step1.$valid);">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="first_name">First Name: </label>
-                            <input type="text" name="first_name" id="first_name" class="form-control" ng-model="customerInfo.first_name" required>
-                            <p class="help-block">
-                                <span ng-show="step1.first_name.$invalid && !step1.first_name.$pristine">First Name is required.</span>
-                            </p>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="last_name">Last Name: </label>
-                            <input type="text" name="last_name" id="last_name" class="form-control" ng-model="customerInfo.last_name" ng-minlength="3" ng-maxlength="10" required>
-                            <p class="help-block">
-                                <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Last name is required.</span>
-                            </p>
-                        </div>
+                    <div class="col-md-8">
+                        <section class="tile" fullscreen="isFullscreen02">
+                            <div class="tile-header dvd dvd-btm">
+                                <h3 class="custom-font"><strong>Add New Customer</strong></h3>
+                            </div>
+                            <div class="tile-body">
+                                <form name="step1" role="form" novalidate class="form-validation" ng-submit="funcAddCustomer(step1.$valid);">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="first_name">First Name: </label>
+                                            <input type="text" name="first_name" id="first_name" class="form-control" ng-model="customerInfo.first_name" required>
+                                            <p class="help-block">
+                                                <span ng-show="step1.first_name.$invalid && !step1.first_name.$pristine">First Name is required.</span>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="last_name">Last Name: </label>
+                                            <input type="text" name="last_name" id="last_name" class="form-control" ng-model="customerInfo.last_name" ng-minlength="3" ng-maxlength="10" required>
+                                            <p class="help-block">
+                                                <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Last name is required.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="email">Email: </label>
+                                            <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" ng-pattern="/^[^\s@]+@[^\s@]+\. [^\s@] {2,}$/" required>
+                                            <p class="help-block">
+                                                <span style="color:red" ng-show="step1.email.$error.pattern">Not valid Email.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            <label for="mobile_number">Primary Phone Number: </label>
+                                            <input type="text" placeholder="+1-541-754-3010" name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="customerInfo.mobile_number" numbers-only required>
+                                            <p class="help-block">
+                                                <span style="color:red;" ng-show="step1.mobile_number.$error.minlength">Phone no not less that 10 char.</span>
+                                                <span style="color:red;" ng-show="step1.mobile_number.$error.maxlength">Phone no not more than 11 char.</span>
+                                                <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+1-541-754-3010 || 1-541-754-3010]</span>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <label for="organisation">Organisation: </label>
+                                            <input type="text" placeholder="Organisation" name="organisation" id="organisation" class="form-control" ng-model="customerInfo.organisation" required>
+                                            <p class="help-block">
+                                                <span ng-show="step1.organisation.$invalid && !step1.organisation.$pristine">Organization is required.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
+                                </form>
+                            </div>
+                        </section>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="email">Email: </label>
-                            <input type="email" name="email" id="email" class="form-control" ng-model="customerInfo.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
-                            <p class="help-block">
-                                <span style="color:red" ng-show="step1.email.$error.pattern">Not valid Email.</span>
-                            </p>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>Note<sup>*</sup>: You can choose a customer from the existing list OR you can create a new customer to make a trip.</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            <label for="mobile_number">Primary Phone Number: </label>
-                            <input type="text" placeholder="+1-541-754-3010" name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="customerInfo.mobile_number" numbers-only required>
-                            <p class="help-block">
-                                <span style="color:red;" ng-show="step1.mobile_number.$error.minlength">Phone no not less that 10 char.</span>
-                                <span style="color:red;" ng-show="step1.mobile_number.$error.maxlength">Phone no not more than 11 char.</span>
-                                <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+1-541-754-3010 || 1-541-754-3010]</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            <label for="organisation">Organisation: </label>
-                            <input type="text" placeholder="Organisation" name="organisation" id="organisation" class="form-control" ng-model="customerInfo.organisation" required>
-                            <p class="help-block">
-                                <span ng-show="step1.organisation.$invalid && !step1.organisation.$pristine">Organization is required.</span>
-                            </p>
-                        </div>
-                    </div>
-                    <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
-                </form>
+                </div>
             </uib-tab>
             <uib-tab active="steps.step2">
+                <!-- disable="step0.$invalid || step1.$invalid"-->
                 <uib-tab-heading>
                     Make a trip
                     <span class="badge badge-default pull-right wizard-step">2</span>
                 </uib-tab-heading>
                 <form name="step2" role="form" novalidate ng-submit="funcMakeTrip(step2.$valid);">
+                    {{customerId}}
                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             <label for="name">Passenger Count:<sup>*</sup> </label>
@@ -105,14 +130,13 @@
                         <div class="form-group col-md-4 mb-0">
                             <strong>Pick-up Date</strong>
                             <div class="tile-body" ng-controller="DatepickerCtrl">
-                                <!-- <pre class="alert alert-info mt-20">Selected date is: <em>{{trip.pickupdate | date:'dd-MM-yyyy' }}</em></pre> -->
+                                <!--                                 <pre class="alert alert-info mt-20">Selected date is: <em>{{trip.pickupdate | date:'dd-MM-yyyy' }}</em></pre> -->
                                 <p class="input-group">
                                     <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="trip.pickupdate" is-open="opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
                                       </span>
                                 </p>
-                                <button type="button" class="btn btn-sm btn-default" ng-click="clear()">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -151,24 +175,77 @@
                         </div>
                     </div>
                     <hr>
-                    <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default" ng-click="steps.step2=true">Make a Trip</button>
+                    <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default" ng-click="steps.step3=true">Make a Trip</button>
                 </form>
             </uib-tab>
             <uib-tab active="steps.step3">
                 <uib-tab-heading>
-                   Select Vehicle
+                    Select Vehicle
                     <span class="badge badge-default pull-right wizard-step">3</span>
                 </uib-tab-heading>
-                <form name="step3" role="form" novalidate class="form-validation" ng-submit="funcSelectVehicle(step3.$valid);">
+                <form name="step3" role="form" novalidate  ng-submit="hello();">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="customer_search">Trip Summary: </label>
-                            
+                            <label for="trip_summary">
+                                <h3><strong>Trip Summary:</strong></h3> </label>
+                            <br>
+                            <span>{{tripsummary.pickupdatetime| date:"dd/MM/yyyy"}}{{", "}}{{tripsummary.pickupdatetime| date:"hh:mm a"}}</span>
+                            <br>
+                            <span>{{tripsummary.pickupAt}}</span>
+                            <br>
+                            <span>{{tripsummary.dropoffAt}}</span>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label><strong>sdjsds</strong></label>
+                            <br/>
+                            <div ng-controller="tripMapCtrl">
+                                <input type="text" id="txtSource" value="Bandra, Mumbai, India" style="width: 200px" /> &nbsp; Destination:
+                                <input type="text" id="txtDestination" value="Andheri, Mumbai, India" style="width: 200px" />
+                                <div id="dvMap" style="width: 500px; height: 500px"></div>
+                                <div id="dvPanel" style="width: 500px; height: 500px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" ng-disabled="step3.$invalid"  class="btn btn-default">get route</button>
+                    <!--                     <div class="row"ng-controller="tripMapCtrl">
+                                    <input type="text" id="txtSource" value="Bandra, Mumbai, India" style="width: 200px" /> &nbsp; Destination:
+                                    <input type="text" id="txtDestination" value="Andheri, Mumbai, India" style="width: 200px" />
+                                     <div id="dvMap" style="width: 500px; height: 500px"></div>
+                                     <div id="dvPanel" style="width: 500px; height: 500px"></div>
+                     <button type="submit" class="btn btn-default">Make a Trip</button> -->
+                    <!--                         <table border="0" cellpadding="0" cellspacing="3">
+                            <tr>
+                                <td colspan="2">
+                                    Source:
+                                    
+                                    <br />
+                                    <input type="button" value="Get Route" onclick="GetRoute()" />
+                                   
+                                    <hr />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div id="dvDistance">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div id="dvMap" style="width: 500px; height: 500px">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="dvPanel" style="width: 500px; height: 500px">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table> -->
+                    <!--                     </div> -->
                 </form>
                 </br>
-                
             </uib-tab>
         </uib-tabset>
     </div>

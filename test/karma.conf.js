@@ -134,6 +134,8 @@ module.exports = function(config) {
       'bower_components/angular-notify/dist/angular-notify.js',
       'bower_components/ng-file-upload/ng-file-upload.js',
       'bower_components/ng-file-upload-shim/ng-file-upload-shim.js',
+      'bower_components/vs-google-autocomplete/dist/vs-google-autocomplete.js',
+      'bower_components/vs-google-autocomplete/dist/vs-autocomplete-validator.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-scenario/angular-scenario.js',
       // endbower
