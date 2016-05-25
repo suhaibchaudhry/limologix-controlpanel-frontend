@@ -182,6 +182,7 @@ app
                             pickupAt: response.data.trip.start_destination.place,
                             dropoffAt: response.data.trip.end_destination.place
                         }
+                     $scope.funcGetRoute();
                         // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
@@ -189,6 +190,94 @@ app
                 })
 
             };
+
+            $scope.funcGetRoute= function() {
+
+                var source, destination;
+                var directionsDisplay;
+                var directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
+                var icons = {
+                  start: new google.maps.MarkerImage(
+                   // URL
+                   'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
+                   // (width,height)
+                   new google.maps.Size( 44, 32 ),
+                   // The origin point (x,y)
+                   new google.maps.Point( 0, 0 ),
+                   // The anchor point (x,y)
+                   new google.maps.Point( 22, 32 )
+                  ),
+                  end: new google.maps.MarkerImage(
+                   // URL
+                   'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
+                   // (width,height)
+                   new google.maps.Size( 44, 32 ),
+                   // The origin point (x,y)
+                   new google.maps.Point( 0, 0 ),
+                   // The anchor point (x,y)
+                   new google.maps.Point( 22, 32 )
+                  )
+                 };
+                    //var mumbai = new google.maps.LatLng(18.9750, 72.8258);
+                   // var mapOptions = {
+//                         zoom: 7,
+//                         center: mumbai
+//                     };
+                    var map = new google.maps.Map(document.getElementById('dvMap'));
+                    directionsDisplay.setMap(map);
+                    //directionsDisplay.setPanel(document.getElementById('dvPanel'));
+
+                    //*********DIRECTIONS AND ROUTE**********************//
+                    source =  'Marathahalli, Bengaluru, Karnataka 560037, India' ;//$scope.tripsummary.pickupAt;
+                    destination = 'Hebbal, Bengaluru, Karnataka 560024, India';//$scope.tripsummary.dropoffAt;
+
+                    var request = {
+                        origin: source,
+                        destination: destination,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    directionsService.route(request, function(response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                            var leg = response.routes[ 0 ].legs[ 0 ];
+                                  makeMarker( leg.start_location, icons.start, "title" );
+                                  makeMarker( leg.end_location, icons.end, 'title' );
+                        }
+                    });
+
+                    function makeMarker( position, icon, title ) {
+                         new google.maps.Marker({
+                          position: position,
+                          map: map,
+                          icon: icon,
+                          title: title
+                         });
+}
+
+                    //*********DISTANCE AND DURATION**********************//
+//                     var service = new google.maps.DistanceMatrixService();
+//                     service.getDistanceMatrix({
+//                         origins: [source],
+//                         destinations: [destination],
+//                         travelMode: google.maps.TravelMode.DRIVING,
+//                         unitSystem: google.maps.UnitSystem.METRIC,
+//                         avoidHighways: false,
+//                         avoidTolls: false
+//                     }, function(response, status) {
+//                         if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+//                             var distance = response.rows[0].elements[0].distance.text;
+//                             var duration = response.rows[0].elements[0].duration.text;
+//                             var dvDistance = document.getElementById("dvDistance");
+//                             dvDistance.innerHTML = "";
+//                             dvDistance.innerHTML += "Distance: " + distance + "<br />";
+//                             dvDistance.innerHTML += "Duration:" + duration;
+
+//                         } else {
+//                             alert("Unable to find the distance via road.");
+//                         }
+//                     });
+                 }
         }
     ])
     .controller('DatepickerCtrl', function ($scope) {

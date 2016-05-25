@@ -111,11 +111,6 @@ var app = angular
             $state.go('core.login')
         }
 
-        $rootScope.directions = [
-          {origin:"Palo Alto", destination:"Gilroy", panelName:"p1"},
-          {origin:"San Jose", destination:"Mountain View", panelName:"p2"}
-        ];
-
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         $rootScope.$on('$stateChangeSuccess', function(event, toState) {

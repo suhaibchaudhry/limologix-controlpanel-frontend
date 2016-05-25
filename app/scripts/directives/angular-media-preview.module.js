@@ -1,4 +1,5 @@
-//angular.module('angular-media-preview', [])
+'use strict';
+
 app
 .directive('mediaPreview', mediaPreview);
 

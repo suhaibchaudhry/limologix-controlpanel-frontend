@@ -166,7 +166,7 @@
                     <hr>
                     <div class="row">
                         <div class="form-group col-md-6 mb-0">
-                            <label><strong>Drop of point</strong></label>
+                            <label><strong>Drop off point</strong></label>
                             <br/>
                             <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" vs-google-autocomplete vs-latitude="dropoff.components.location.lat" vs-longitude="dropoff.components.location.long" required>
                             <!--                             <span class="help-block"><b>place: </b>{{dropoff.name}}</span>
@@ -183,7 +183,7 @@
                     Select Vehicle
                     <span class="badge badge-default pull-right wizard-step">3</span>
                 </uib-tab-heading>
-                <form name="step3" role="form" novalidate  ng-submit="hello();">
+                <form name="step3" role="form" novalidate  ng-submit="funcGetRoute();">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="trip_summary">
@@ -197,24 +197,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6 mb-0">
-                            <label><strong>sdjsds</strong></label>
+                        <div class="form-group col-md-12">
                             <br/>
-                            <div ng-controller="tripMapCtrl">
-                                <input type="text" id="txtSource" value="Bandra, Mumbai, India" style="width: 200px" /> &nbsp; Destination:
-                                <input type="text" id="txtDestination" value="Andheri, Mumbai, India" style="width: 200px" />
-                                <div id="dvMap" style="width: 500px; height: 500px"></div>
-                                <div id="dvPanel" style="width: 500px; height: 500px"></div>
+                            <div>
+                                <div id="dvMap" style="width: 100%; height: 400px"></div>
+<!--                                 <div id="dvPanel" style="width: 500px; height: 500px"></div> -->
                             </div>
                         </div>
                     </div>
                     <button type="submit" ng-disabled="step3.$invalid"  class="btn btn-default">get route</button>
-                    <!--                     <div class="row"ng-controller="tripMapCtrl">
-                                    <input type="text" id="txtSource" value="Bandra, Mumbai, India" style="width: 200px" /> &nbsp; Destination:
-                                    <input type="text" id="txtDestination" value="Andheri, Mumbai, India" style="width: 200px" />
-                                     <div id="dvMap" style="width: 500px; height: 500px"></div>
-                                     <div id="dvPanel" style="width: 500px; height: 500px"></div>
-                     <button type="submit" class="btn btn-default">Make a Trip</button> -->
+
                     <!--                         <table border="0" cellpadding="0" cellspacing="3">
                             <tr>
                                 <td colspan="2">
