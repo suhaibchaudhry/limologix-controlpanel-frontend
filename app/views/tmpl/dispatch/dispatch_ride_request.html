@@ -183,7 +183,7 @@
                     Select Vehicle
                     <span class="badge badge-default pull-right wizard-step">3</span>
                 </uib-tab-heading>
-                <form name="step3" role="form" novalidate  ng-submit="funcGetRoute();">
+                <form name="step3" role="form" novalidate ng-submit="funcGetRoute();">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="trip_summary">
@@ -195,47 +195,36 @@
                             <br>
                             <span>{{tripsummary.dropoffAt}}</span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <br/>
+                        <div class="form-group col-md-6">
                             <div>
                                 <div id="dvMap" style="width: 100%; height: 400px"></div>
-<!--                                 <div id="dvPanel" style="width: 500px; height: 500px"></div> -->
+                                <!--<div id="dvPanel" style="width: 500px; height: 500px"></div> -->
                             </div>
                         </div>
                     </div>
-                    <button type="submit" ng-disabled="step3.$invalid"  class="btn btn-default">get route</button>
-
-                    <!--                         <table border="0" cellpadding="0" cellspacing="3">
-                            <tr>
-                                <td colspan="2">
-                                    Source:
-                                    
-                                    <br />
-                                    <input type="button" value="Get Route" onclick="GetRoute()" />
-                                   
-                                    <hr />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div id="dvDistance">
+                    <div>
+                        <ul style="list-style:none;">
+                            <li ng-repeat="vehicle in vehicleType">
+                                <div class="row" ng-style="{ 'border':'solid 1px #DCDCDC','padding':'12px'}">
+                                    <div class="form-group col-md-2">
+                                        <img src='images/random-avatar7.jpg' style="width:100px;height:100px">
+                                        <br/>
+                                        <i class="fa fa-male fa-1g">&nbsp;&nbsp;&nbsp; {{vehicle.capacity}}</i>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div id="dvMap" style="width: 500px; height: 500px">
+                                    <div class="form-group col-md-6">
+                                        <h2> {{vehicle.name}}</h2>
+                                        <p>{{vehicle.description}}</p>
                                     </div>
-                                </td>
-                                <td>
-                                    <div id="dvPanel" style="width: 500px; height: 500px">
+                                    <div class="form-group col-md-4">
+                                        <h2><strong>$57.25</strong></h2>
+                                        <p>rate details</p>
+                                        <button>Book now</button>
                                     </div>
-                                </td>
-                            </tr>
-                        </table> -->
-                    <!--                     </div> -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="submit" ng-disabled="step3.$invalid" class="btn btn-default">get route</button>
                 </form>
                 </br>
             </uib-tab>

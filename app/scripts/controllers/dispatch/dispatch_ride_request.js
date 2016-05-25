@@ -68,7 +68,7 @@ app
                 }
             };
             $scope.isChoosed = false;
-
+            $scope.vehicleType = [{ "id": 1, "name": "suv", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "van", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
 
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
@@ -178,12 +178,12 @@ app
                 var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
                 services.funcPostRequest(url, { "trip_id": tripId }).then(function(response) {
                     $scope.tripsummary = {
-                            pickupdatetime: response.data.trip.pick_up_at,
-                            pickupAt: response.data.trip.start_destination.place,
-                            dropoffAt: response.data.trip.end_destination.place
-                        }
-                     $scope.funcGetRoute();
-                        // notify({ classes: 'alert-success', message: response.message });
+                        pickupdatetime: response.data.trip.pick_up_at,
+                        pickupAt: response.data.trip.start_destination.place,
+                        dropoffAt: response.data.trip.end_destination.place
+                    }
+                    $scope.funcGetRoute();
+                    // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
                         notify({ classes: 'alert-danger', message: response.message });
@@ -191,96 +191,69 @@ app
 
             };
 
-            $scope.funcGetRoute= function() {
-
+            $scope.funcGetRoute = function() {
                 var source, destination;
                 var directionsDisplay;
                 var directionsService = new google.maps.DirectionsService();
-            directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
+                directionsDisplay = new google.maps.DirectionsRenderer({
+                    suppressMarkers: true,
+                    polylineOptions: {
+                        strokeColor: "#9ACD32",
+                        strokeWeight: 5
+                    }
+                });
                 var icons = {
-                  start: new google.maps.MarkerImage(
-                   // URL
-                   'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
-                   // (width,height)
-                   new google.maps.Size( 44, 32 ),
-                   // The origin point (x,y)
-                   new google.maps.Point( 0, 0 ),
-                   // The anchor point (x,y)
-                   new google.maps.Point( 22, 32 )
-                  ),
-                  end: new google.maps.MarkerImage(
-                   // URL
-                   'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
-                   // (width,height)
-                   new google.maps.Size( 44, 32 ),
-                   // The origin point (x,y)
-                   new google.maps.Point( 0, 0 ),
-                   // The anchor point (x,y)
-                   new google.maps.Point( 22, 32 )
-                  )
-                 };
-                    //var mumbai = new google.maps.LatLng(18.9750, 72.8258);
-                   // var mapOptions = {
-//                         zoom: 7,
-//                         center: mumbai
-//                     };
-                    var map = new google.maps.Map(document.getElementById('dvMap'));
-                    directionsDisplay.setMap(map);
-                    //directionsDisplay.setPanel(document.getElementById('dvPanel'));
+                    start: new google.maps.MarkerImage(
+                        'images/source_marker.png',
+                        new google.maps.Size(44, 32), //width,height
+                        new google.maps.Point(0, 0), // The origin point (x,y)
+                        new google.maps.Point(22, 32)),
+                    end: new google.maps.MarkerImage(
+                        'images/destination_marker.png',
+                        new google.maps.Size(44, 32),
+                        new google.maps.Point(0, 0),
+                        new google.maps.Point(22, 32))
+                };
+                // var mapOptions = {
+                //                         zoom: 7,
+                //                         center: mumbai
+                //                     };
+                var map = new google.maps.Map(document.getElementById('dvMap'));
+                directionsDisplay.setMap(map);
+                //directionsDisplay.setPanel(document.getElementById('dvPanel'));
 
-                    //*********DIRECTIONS AND ROUTE**********************//
-                    source =  'Marathahalli, Bengaluru, Karnataka 560037, India' ;//$scope.tripsummary.pickupAt;
-                    destination = 'Hebbal, Bengaluru, Karnataka 560024, India';//$scope.tripsummary.dropoffAt;
+                //*********DIRECTIONS AND ROUTE**********************//
+                source = 'Marathahalli, Bengaluru, Karnataka 560037, India'; //$scope.tripsummary.pickupAt;
+                destination = 'Hebbal, Bengaluru, Karnataka 560024, India'; //$scope.tripsummary.dropoffAt;
 
-                    var request = {
-                        origin: source,
-                        destination: destination,
-                        travelMode: google.maps.TravelMode.DRIVING
-                    };
-                    directionsService.route(request, function(response, status) {
-                        if (status == google.maps.DirectionsStatus.OK) {
-                            directionsDisplay.setDirections(response);
-                            var leg = response.routes[ 0 ].legs[ 0 ];
-                                  makeMarker( leg.start_location, icons.start, "title" );
-                                  makeMarker( leg.end_location, icons.end, 'title' );
-                        }
+                var request = {
+                    origin: source,
+                    destination: destination,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+                directionsService.route(request, function(response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                        var leg = response.routes[0].legs[0];
+                        makeMarker(leg.start_location, icons.start, source, map);
+                        makeMarker(leg.end_location, icons.end, destination, map);
+                    } else {
+                        notify({ classes: 'alert-error', message: 'unable to retrive route' });
+                    }
+                });
+
+                function makeMarker(position, icon, title, map) {
+                    new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        icon: icon,
+                        title: title
                     });
-
-                    function makeMarker( position, icon, title ) {
-                         new google.maps.Marker({
-                          position: position,
-                          map: map,
-                          icon: icon,
-                          title: title
-                         });
-}
-
-                    //*********DISTANCE AND DURATION**********************//
-//                     var service = new google.maps.DistanceMatrixService();
-//                     service.getDistanceMatrix({
-//                         origins: [source],
-//                         destinations: [destination],
-//                         travelMode: google.maps.TravelMode.DRIVING,
-//                         unitSystem: google.maps.UnitSystem.METRIC,
-//                         avoidHighways: false,
-//                         avoidTolls: false
-//                     }, function(response, status) {
-//                         if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
-//                             var distance = response.rows[0].elements[0].distance.text;
-//                             var duration = response.rows[0].elements[0].duration.text;
-//                             var dvDistance = document.getElementById("dvDistance");
-//                             dvDistance.innerHTML = "";
-//                             dvDistance.innerHTML += "Distance: " + distance + "<br />";
-//                             dvDistance.innerHTML += "Duration:" + duration;
-
-//                         } else {
-//                             alert("Unable to find the distance via road.");
-//                         }
-//                     });
-                 }
+                }
+            }
         }
     ])
-    .controller('DatepickerCtrl', function ($scope) {
+    .controller('DatepickerCtrl', function($scope) {
 
         $scope.today = function() {
             $scope.trip.pickupdate = new Date();
@@ -318,7 +291,7 @@ app
         $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         $scope.format = $scope.formats[0];
     })
-    .controller('TimepickerCtrl', function ($scope) {
+    .controller('TimepickerCtrl', function($scope) {
         $scope.trip.pickuptime = new Date();
 
         $scope.hstep = 1;
@@ -349,68 +322,3 @@ app
             $scope.trip.pickuptime = null;
         };
     })
-    .controller('tripMapCtrl',function ($scope) {
-        var source, destination;
-        var directionsDisplay;
-        var directionsService = new google.maps.DirectionsService();
-        //google.maps.event.addDomListener(window, 'load', function() {
-            new google.maps.places.SearchBox(document.getElementById('txtSource'));
-            new google.maps.places.SearchBox(document.getElementById('txtDestination'));
-            directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
-       //});
-       // GetRoute();
-
-
-         $scope.hello = function(){
-                 var str = "ffdf";
-                 console.log(str);
-         };
-         $scope.GetRoute= function() {
-            var mumbai = new google.maps.LatLng(18.9750, 72.8258);
-            var mapOptions = {
-                zoom: 7,
-                center: mumbai
-            };
-            var map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
-            directionsDisplay.setMap(map);
-            directionsDisplay.setPanel(document.getElementById('dvPanel'));
-
-            //*********DIRECTIONS AND ROUTE**********************//
-            source = document.getElementById("txtSource").value;
-            destination = document.getElementById("txtDestination").value;
-
-            var request = {
-                origin: source,
-                destination: destination,
-                travelMode: google.maps.TravelMode.DRIVING
-            };
-            directionsService.route(request, function(response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
-                }
-            });
-
-            //*********DISTANCE AND DURATION**********************//
-            var service = new google.maps.DistanceMatrixService();
-            service.getDistanceMatrix({
-                origins: [source],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC,
-                avoidHighways: false,
-                avoidTolls: false
-            }, function(response, status) {
-                if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
-                    var distance = response.rows[0].elements[0].distance.text;
-                    var duration = response.rows[0].elements[0].duration.text;
-                    var dvDistance = document.getElementById("dvDistance");
-                    dvDistance.innerHTML = "";
-                    dvDistance.innerHTML += "Distance: " + distance + "<br />";
-                    dvDistance.innerHTML += "Duration:" + duration;
-
-                } else {
-                    alert("Unable to find the distance via road.");
-                }
-            });
-        }
-    });
