@@ -68,7 +68,7 @@ app
                 }
             };
             $scope.isChoosed = false;
-            $scope.vehicleType = [{ "id": 1, "name": "suv", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "van", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
+            //$scope.vehicleType = [{ "id": 1, "name": "Luxury Sedan", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "Economy Sedan", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
 
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
@@ -89,6 +89,7 @@ app
                     } else {
                         $scope.noresults = true;
                         $scope.loadingcustomers = false;
+                        $scope.isChoosed = false;
                         jQuery('#nocustomer').text(response.message);
                     }
                     //notify({ classes: 'alert-success', message: response.message });
@@ -154,7 +155,7 @@ app
                         },
                         pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickuptime,
                         passengers_count: $scope.trip.passenger_count,
-                        customer_id: $scope.customerId ? $scope.customerId : 8
+                        customer_id: $scope.customerId
                     };
                     var customerDetails = {
                         "trip": trip
@@ -183,6 +184,7 @@ app
                         dropoffAt: response.data.trip.end_destination.place
                     }
                     $scope.funcGetRoute();
+                    $scope.funcSelectVehicleType();
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
@@ -190,7 +192,17 @@ app
                 })
 
             };
-
+            $scope.funcSelectVehicleType = function(){
+                    var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
+                        services.funcGetRequest(url).then(function(response) {
+                        $scope.vehicleType = response.data.vehicle_types;
+                   
+                    // notify({ classes: 'alert-success', message: response.message });
+                }, function(error, status) {
+                    if (response)
+                        notify({ classes: 'alert-danger', message: response.message });
+                })
+            };
             $scope.funcGetRoute = function() {
                 var source, destination;
                 var directionsDisplay;
@@ -223,8 +235,8 @@ app
                 //directionsDisplay.setPanel(document.getElementById('dvPanel'));
 
                 //*********DIRECTIONS AND ROUTE**********************//
-                source = 'Marathahalli, Bengaluru, Karnataka 560037, India'; //$scope.tripsummary.pickupAt;
-                destination = 'Hebbal, Bengaluru, Karnataka 560024, India'; //$scope.tripsummary.dropoffAt;
+                source = $scope.tripsummary.pickupAt; //'Marathahalli, Bengaluru, Karnataka 560037, India'; 
+                destination = $scope.tripsummary.dropoffAt;//'Hebbal, Bengaluru, Karnataka 560024, India';
 
                 var request = {
                     origin: source,

@@ -83,6 +83,7 @@ var app = angular
             getExistingCustomers: '/users/customers/search',
             createTrip: 'users/trips/create',
             tripSummary: 'users/trips/show',
+            selectVehicleType: 'users/vehicles/types',
             logout: 'users/logout'
         }
     })
