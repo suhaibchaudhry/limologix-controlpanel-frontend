@@ -316,18 +316,18 @@
       <a href class="dropdown-toggle" uib-dropdown-toggle>
         <img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">
         <span>
-<!--           John Douey{{username}} -->
+        {{main.user.name}}
           <fa name="angle-down"></fa></span>
       </a>
-
+  
       <ul class="dropdown-menu animated littleFadeInRight" role="menu">
 
-        <!-- <li>
-          <a href="#">
+        <li>
+          <a href="#profile" ui-sref="app.profile.my_account">
             <span class="badge bg-greensea pull-right">86%</span>
             <fa name="user"></fa>Profile
           </a>
-        </li> -->
+        </li>
         <!-- <li>
           <a href="#">
             <span class="label bg-lightred pull-right">new</span>

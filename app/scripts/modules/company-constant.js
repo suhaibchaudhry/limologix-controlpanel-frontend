@@ -1,5 +1,6 @@
   'use strict';
   app
   .constant('countriesConstant', { 
-      countries : []
+      countries : [],
+      user : {}
   })

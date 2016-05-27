@@ -41,7 +41,7 @@ app
             getCountries();
             //Get countries from API
             function getCountries() {
-                //Load countries and kepep them in constants on app load and get countries from constants
+                //Load countries and keep them in constants on app load and get countries from constants
                 if (countriesConstant.countries.length) {
                     $scope.countries = countriesConstant.countries;
                     $scope.selected.selectedCountry = $scope.countries[0];

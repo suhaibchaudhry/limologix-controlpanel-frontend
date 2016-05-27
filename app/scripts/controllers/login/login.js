@@ -9,8 +9,8 @@
  */
 app
   .controller('LoginCtrl',
-    ['$scope','$state','$http','appSettings','notify','$window','services',
-    function ($scope, $state,$http,appSettings,notify, $window,services) {
+    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant',
+    function ($scope, $state,$http,appSettings,notify, $window,services, constants) {
   	$scope.user = {
       	username :'',
       	password:''
@@ -23,9 +23,9 @@ app
       var url = appSettings.serverPath + appSettings.serviceApis.signin;
       services.funcPostRequest(url,$scope.user).then(function(response){
             $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
-            $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
-            $window.sessionStorage['username'] = $scope.user.username;
-            $rootScope.username = $window.sessionStorage['username'];
+            constants.user = response.data;
+            constants.user.name = 'shyamily';
+            $window.sessionStorage['user'] = JSON.stringify(constants.user);
             $state.go('app.company.details');         
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){

@@ -8,11 +8,14 @@
  * Controller of the limoLogixApp
  */
 app
-  .controller('LogoutCtrl',['$scope','$state','$http','appSettings','notify','$rootScope','$window','services',function ($scope, $state,$http,appSettings,notify,$rootScope,$window,services) {
+  .controller('LogoutCtrl',
+    ['$scope','$state','$http','appSettings','notify','$rootScope','$window','services','countriesConstant',
+    function ($scope, $state,$http,appSettings,notify,$rootScope,$window,services, constants) {
   	  var url = appSettings.serverPath + appSettings.serviceApis.logout;
       var token = $window.sessionStorage['Auth-Token'];
       services.funcGetRequest(url).then(function(response,status) {
-          $state.go('core.login');         
+          $state.go('core.login');   
+          constants.user = {};      
           notify({ classes: 'alert-success',message:response.message});
           delete $window.sessionStorage['Auth-Token'];
       },function(error){

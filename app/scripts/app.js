@@ -105,8 +105,15 @@ var app = angular
             }
         }
     }])
-    .run(['$rootScope', '$state', '$http', '$stateParams', '$window', function($rootScope, $state, $http, $stateParams, $window) {
-        if ($window.sessionStorage['Auth-Token']) {
+    .run(['$rootScope', '$state', '$http', '$stateParams', '$window','countriesConstant', function($rootScope, $state, $http, $stateParams, $window,constant) {
+        //If user logged in and 
+        var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
+        if(user['Auth-Token']){
+            constant.user = user;
+        }else{
+            constant.user = {};
+        }
+        if ( constant.user['Auth-Token']) {
             $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
         } else {
             $state.go('core.login')
@@ -578,7 +585,7 @@ var app = angular
             template: '<div ui-view></div>'
         })
 
-    .state('app.dispatch', {
+        .state('app.dispatch', {
             url: '/dispatch',
             template: '<div ui-view></div>'
         })
@@ -597,6 +604,20 @@ var app = angular
             url: '/pendingdispatches',
             controller: 'PendingDispatchesCtrl',
             templateUrl: 'views/tmpl/dispatch/pending_dispatches.html'
+        })
+        .state('app.profile', {
+            url: '/profile',
+            template: '<div ui-view></div>'
+        })
+         .state('app.profile.my_account', {
+            url: '/my_account',
+            controller: 'MyAccountCtrl',
+            templateUrl: 'views/tmpl/profile/my_account.html'
+        })
+        .state('app.profile.reset_password', {
+            url: '/reset_password',
+            controller: 'ResetPasswordCtrl',
+            templateUrl: 'views/tmpl/profile/reset_password.html'
         })
         // forms/upload
         .state('app.forms.upload', {

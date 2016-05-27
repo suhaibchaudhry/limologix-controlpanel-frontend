@@ -19,6 +19,8 @@ app
        function ($scope, $state,$http,appSettings,notify,$window,services) {
         $scope.register = function() {
           var user = {
+            first_name:$scope.user.first_name,
+            last_name:$scope.user.last_name,
             username : $scope.user.username,
             password : $scope.user.password,
             email : $scope.user.email

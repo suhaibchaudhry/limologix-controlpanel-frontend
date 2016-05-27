@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-  .controller('MainCtrl', function ($scope, $http, $translate) {
+  .controller('MainCtrl', ['countriesConstant','$scope', '$http', '$translate',function (constants,$scope, $http, $translate) {
 
     $scope.main = {
       title: 'Limo Logix',
@@ -20,7 +20,8 @@ app
         headerFixed: true,
         asideFixed: true,
         rightbarShow: false
-      }
+      },
+      user: constants.user
     };
 
     $scope.ajaxFaker = function(){
@@ -38,4 +39,4 @@ app
       $scope.currentLanguage = langKey;
     };
     $scope.currentLanguage = $translate.proposedLanguage() || $translate.use();
-  });
+  }]);
