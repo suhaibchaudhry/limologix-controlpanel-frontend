@@ -15,7 +15,8 @@ app
       '$window',
       'appSettings',
       'services',
-  function($scope,$http,$rootScope,$window,appSettings,services){
+      'countriesConstant',
+  function($scope,$http,$rootScope,$window,appSettings,services,constant){
     $scope.page = {
       title: 'Dashboard',
       subtitle: 'Place subtitle here...'
@@ -23,7 +24,7 @@ app
 
     getCompanyInfo();
     function getCompanyInfo(){
-       if($window.sessionStorage['Auth-Token']){
+       if(constant.user['Auth-Token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
          services.funcGetRequest(url).then(function(response){
             var response = response.data.company;

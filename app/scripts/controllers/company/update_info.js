@@ -54,9 +54,12 @@ app
                         $scope.countries = response.data;
                         countriesConstant.countries = $scope.countries;
                         $scope.selected.selectedCountry = $scope.countries[0];
-                        getCompanyInfo().then(function(address) {
+                        if(countriesConstant.user['Auth-Token']){
+                           getCompanyInfo().then(function(address) {
                             $scope.GetSelectedCountry(address);
-                        });
+                            });         
+                        }
+                        
                     }, function(error) {
                         notify({ classes: 'alert-danger', message: error.message });
                     });

@@ -17,10 +17,10 @@ app
           $state.go('core.login');   
           constants.user = {};      
           notify({ classes: 'alert-success',message:response.message});
-          delete $window.sessionStorage['Auth-Token'];
+         // delete $window.sessionStorage['Auth-Token'];
       },function(error){
           notify({ classes: 'alert-danger', message: response.message });
           $state.go('core.login');
-          delete $window.sessionStorage['Auth-Token'];
+          //delete $window.sessionStorage['Auth-Token'];
       });
 }]);

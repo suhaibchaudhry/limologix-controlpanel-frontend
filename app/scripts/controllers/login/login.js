@@ -24,7 +24,7 @@ app
       services.funcPostRequest(url,$scope.user).then(function(response){
             $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
             constants.user = response.data;
-            constants.user.name = 'shyamily';
+            constants.user.name = response.data.username;
             $window.sessionStorage['user'] = JSON.stringify(constants.user);
             $state.go('app.company.details');         
             notify({ classes: 'alert-success',message:response.message});
