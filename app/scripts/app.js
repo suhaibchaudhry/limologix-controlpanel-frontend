@@ -84,6 +84,8 @@ var app = angular
             createTrip: 'users/trips/create',
             tripSummary: 'users/trips/show',
             selectVehicleType: 'users/vehicles/types',
+            my_profile: 'users/profile/show',
+            profileupdate:'users/profile/update',
             logout: 'users/logout'
         }
     })

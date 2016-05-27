@@ -22,114 +22,42 @@ app
                 subtitle: '' //'Place subtitle here...'
             };
             $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
-            $scope.customerInfo = {
+            $scope.adminInfo = {
                 first_name: '',
                 last_name: '',
                 email: '',
-                mobile_number: '',
-                organisation: ''
+                mobile_number: ''
             }
-            $scope.selected = '';
-            $scope.noresults = false;
-            $scope.loadingcustomers = false;
-            $scope.lat = undefined;
-            $scope.lng = undefined;
-            $scope.trip = {
-                passenger_count: '',
-                pickupdate: '',
-                pickuptime: ''
-            };
 
-            $scope.options = {
-                types: ['(cities)'],
-                componentRestrictions: { country: 'FR' }
-            };
+            getProfileInfo();
 
-            $scope.customerId = "";
-
-            $scope.pickup = {
-                name: '',
-                place: '',
-                components: {
-                    location: {
-                        lat: '',
-                        long: ''
-                    }
-                }
-            };
-            $scope.dropoff = {
-                name: '',
-                place: '',
-                components: {
-                    location: {
-                        lat: '',
-                        long: ''
-                    }
-                }
-            };
-            $scope.isChoosed = false;
-            //$scope.vehicleType = [{ "id": 1, "name": "Luxury Sedan", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "Economy Sedan", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
-
-            $scope.getExistingCustomers = function(search_string) {
-                var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
-                $scope.loadingcustomers = true;
-                return services.funcPostRequest(url, { 'search_string': search_string }).then(function(response) {
-                    if (response.data) {
-                        $scope.noresults = false;
-                        $scope.loadingcustomers = false;
-                        var customers = response.data.customers;
-                        var results = [];
-                        angular.forEach(customers, function(item) {
-                            item.full_name = item.first_name + " " + item.last_name;
-                            if (item.full_name.toLowerCase().indexOf(search_string.toLowerCase()) > -1) {
-                                results.push(item);
-                            }
-                        });
-                        return results;
-                    } else {
-                        $scope.noresults = true;
-                        $scope.loadingcustomers = false;
-                        $scope.isChoosed = false;
-                        jQuery('#nocustomer').text(response.message);
+            function getProfileInfo() {
+                var url = appSettings.serverPath + appSettings.serviceApis.my_profile;
+                services.funcGetRequest(url).then(function(response) {
+                    var user = response.data.user;
+                    $scope.adminInfo = {
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        email: user.email,
+                        mobile_number: user.mobile_number
                     }
                     //notify({ classes: 'alert-success', message: response.message });
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: response.message });
-                });
-            }
-
-            $scope.$on('gmPlacesAutocomplete::placeChanged', function() {
-                var location = $scope.autocomplete.getPlace().geometry.location;
-                $scope.lat = location.lat();
-                $scope.lng = location.lng();
-                $scope.$apply();
-            });
-
-            //typeahead selected object info
-            $scope.onSelect = function($item, $model, $label) {
-                $scope.$item = $item;
-                $scope.customerId = $item.id;
-                $scope.isChoosed = true;
+                }, function(error, status) {
+                    if (response)
+                        notify({ classes: 'alert-danger', message: response.message });
+                })
 
             };
-
-            //Get customer Id from search existing customer typeahead
-            $scope.funcGetSearchedCustomerId = function(isValid) {
-
-            };
-
-            // function to submit the form after all validation has occurred
-            $scope.funcAddCustomer = function(isValid) {
-                var customer = {
-                    first_name: $scope.customerInfo.first_name,
-                    last_name: $scope.customerInfo.last_name,
-                    email: $scope.customerInfo.email,
-                    mobile_number: $scope.customerInfo.mobile_number,
-                    organisation: $scope.customerInfo.organisation
+            // function to update user profile
+            $scope.funcUpdateProfile = function(isValid) {
+                var user = {
+                    first_name: $scope.adminInfo.first_name,
+                    last_name: $scope.adminInfo.last_name,
+                    email: $scope.adminInfo.email,
+                    mobile_number: $scope.adminInfo.mobile_number
                 };
-                var url = appSettings.serverPath + appSettings.serviceApis.addcustomer;
-                services.funcPostRequest(url, { "customer": customer }).then(function(response) {
-                    $scope.customerId = response.data.customer.id;
+                var url = appSettings.serverPath + appSettings.serviceApis.profileupdate;
+                services.funcPostRequest(url, { "user": user }).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
@@ -192,11 +120,11 @@ app
                 })
 
             };
-            $scope.funcSelectVehicleType = function(){
-                    var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
-                        services.funcGetRequest(url).then(function(response) {
-                        $scope.vehicleType = response.data.vehicle_types;
-                   
+            $scope.funcSelectVehicleType = function() {
+                var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
+                services.funcGetRequest(url).then(function(response) {
+                    $scope.vehicleType = response.data.vehicle_types;
+
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
@@ -236,7 +164,7 @@ app
 
                 //*********DIRECTIONS AND ROUTE**********************//
                 source = $scope.tripsummary.pickupAt; //'Marathahalli, Bengaluru, Karnataka 560037, India'; 
-                destination = $scope.tripsummary.dropoffAt;//'Hebbal, Bengaluru, Karnataka 560024, India';
+                destination = $scope.tripsummary.dropoffAt; //'Hebbal, Bengaluru, Karnataka 560024, India';
 
                 var request = {
                     origin: source,
