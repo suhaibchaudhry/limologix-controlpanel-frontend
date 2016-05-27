@@ -1,4 +1,4 @@
-<header class="clearfix">
+<header class="clearfix" ng-controller="UpdateInfoCtrl">
 
   <!-- Branding -->
   <div class="branding {{main.settings.brandingColor}}">
@@ -316,7 +316,7 @@
       <a href class="dropdown-toggle" uib-dropdown-toggle>
         <img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">
         <span>
-        {{main.user.name}}
+        {{loggedUser}}
           <fa name="angle-down"></fa></span>
       </a>
   

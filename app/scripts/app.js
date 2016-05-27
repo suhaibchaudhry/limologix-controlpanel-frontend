@@ -113,6 +113,7 @@ var app = angular
         }else{
             constant.user = {};
         }
+        //sets token on evry refresh
         if ( constant.user['Auth-Token']) {
             $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
         } else {

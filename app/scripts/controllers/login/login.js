@@ -23,6 +23,7 @@ app
       var url = appSettings.serverPath + appSettings.serviceApis.signin;
       services.funcPostRequest(url,$scope.user).then(function(response){
             $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
+            $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
             constants.user = response.data;
             constants.user.name = response.data.username;
             $window.sessionStorage['user'] = JSON.stringify(constants.user);

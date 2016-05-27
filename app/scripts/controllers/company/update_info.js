@@ -37,7 +37,7 @@ app
             }
             //Model which handles selected country and state update
             $scope.selected = {}
-
+            $scope.loggedUser = countriesConstant.user.name;
             getCountries();
             //Get countries from API
             function getCountries() {
@@ -54,11 +54,11 @@ app
                         $scope.countries = response.data;
                         countriesConstant.countries = $scope.countries;
                         $scope.selected.selectedCountry = $scope.countries[0];
-                        if(countriesConstant.user['Auth-Token']){
+                       // if(countriesConstant.user['Auth-Token']){
                            getCompanyInfo().then(function(address) {
                             $scope.GetSelectedCountry(address);
                             });         
-                        }
+                      //  }
                         
                     }, function(error) {
                         notify({ classes: 'alert-danger', message: error.message });
