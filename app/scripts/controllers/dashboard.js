@@ -19,7 +19,7 @@ app
   function($scope,$http,$rootScope,$window,appSettings,services,constant){
     $scope.page = {
       title: 'Dashboard',
-      subtitle: 'Place subtitle here...'
+      subtitle: '' //'Place subtitle here...'
     };
 
     getCompanyInfo();
