@@ -155,7 +155,7 @@ var app = angular
     $translateProvider.useLocalStorage();
     $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy(null);
-   // $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
 }])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
