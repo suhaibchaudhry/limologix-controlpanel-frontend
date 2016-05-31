@@ -30,7 +30,6 @@ app
                     return;
                 };
                 var user = {
-                    username: $scope.resetPwd.userName,
                     password: $scope.resetPwd.password
                 };
                 var url = appSettings.serverPath + appSettings.serviceApis.resetPassword;

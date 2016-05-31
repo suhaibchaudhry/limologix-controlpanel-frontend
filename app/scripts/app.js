@@ -68,8 +68,8 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://172.16.90.106:9000',
-        serverPath: "http://172.16.90.106:9000/api/v1/",
+        server_address: 'http://limologix.softwaystaging.com',
+        serverPath: "http://limologix.softwaystaging.com/api/v1/",
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -86,6 +86,7 @@ var app = angular
             selectVehicleType: 'users/vehicles/types',
             my_profile: 'users/profile/show',
             profileupdate:'users/profile/update',
+            forgotPassword: 'users',
             logout: 'users/logout'
         }
     })
@@ -851,7 +852,7 @@ var app = angular
         .state('core.forgotpass', {
             url: '/forgotpass',
             controller: 'ForgotPasswordCtrl',
-            templateUrl: 'views/tmpl/pages/forgotpass.html'
+            templateUrl: 'views/tmpl/profile/forgotpass.html'
         })
         //page 404
         .state('core.page404', {

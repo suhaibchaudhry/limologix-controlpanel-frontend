@@ -26,7 +26,7 @@
           </ul>
         </li>
         <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
-          <a ui-sref="app.dispatch"><fa name="pencil"></fa> <span>{{ 'Menu.DISPATCHES' | translate }}</span></a>
+          <a ui-sref="app.dispatch"><fa name="pencil" class="fa-car"></fa> <span>{{ 'Menu.DISPATCHES' | translate }}</span></a>
           <ul>
             <li ui-sref-active="active"><a ui-sref="app.dispatch.dispatch_ride_request"><fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a></li>
             <li ui-sref-active="active"><a ui-sref="app.dispatch.pendingdispatches"><fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}</a></li>
@@ -35,7 +35,7 @@
         </li>
 
           <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
-          <a ui-sref="app.profile"><fa name="pencil"></fa> <span>{{ 'Menu.PROFILE' | translate }}</span></a>
+          <a ui-sref="app.profile"><fa name="pencil" class="icon-user"></fa> <span>{{ 'Menu.PROFILE' | translate }}</span></a>
           <ul>
             <li ui-sref-active="active"><a ui-sref="app.profile.my_account"><fa name="caret-right"></fa> {{ 'Menu.MY_ACCOUNT' | translate }}</a></li>
             <li ui-sref-active="active"><a ui-sref="app.profile.reset_password"><fa name="caret-right"></fa> {{ 'Menu.RESET_PASSWORD' | translate }}</a></li>
