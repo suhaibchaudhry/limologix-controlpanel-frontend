@@ -68,8 +68,8 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://limologix.softwaystaging.com',
-        serverPath: "http://limologix.softwaystaging.com/api/v1/",
+        server_address: 'http://limologix.api.softwaystaging.com',
+        serverPath: 'http://limologix.api.softwaystaging.com/api/v1/',
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -86,7 +86,8 @@ var app = angular
             selectVehicleType: 'users/vehicles/types',
             my_profile: 'users/profile/show',
             profileupdate:'users/profile/update',
-            forgotPassword: 'users',
+            resetPassword:'users/profile/reset_authentication_details',
+            //forgotPassword: 'users',
             logout: 'users/logout'
         }
     })
