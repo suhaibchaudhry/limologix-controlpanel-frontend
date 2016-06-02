@@ -68,8 +68,9 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://limologix.softwaystaging.com',
-        serverPath: "http://limologix.softwaystaging.com/api/v1/",
+        server_address: 'http://172.16.90.106:9000', //'http://limologix.softwaystaging.com',
+        version: 'v1',
+        serverPath: 'http://172.16.90.106:9000/api/v1/', //"http://limologix.softwaystaging.com/api/v1/",
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -85,39 +86,24 @@ var app = angular
             tripSummary: 'users/trips/show',
             selectVehicleType: 'users/vehicles/types',
             my_profile: 'users/profile/show',
-            profileupdate:'users/profile/update',
-            forgotPassword: 'users',
+            profileupdate: 'users/profile/update',
+            reset_auth_details:'users/profile/reset_authentication_details',
+            restpasswrdfromemail:'users/reset_password',
+            forgotPassword: 'users/forgot_password',
             logout: 'users/logout'
         }
     })
-    //session expired
-    .factory('authHttpResponseInterceptor', ['$q', '$location', function($q, $location) {
-        return {
-            response: function(response) {
-                if (response.status === 401 || response.status === -1) {
-                    //notify({ classes: 'alert-success', message: "Session expired" });
-                    $location.url('/login');
-                }
-                return response || $q.when(response);
-            },
-            responseError: function(rejection) {
-                if (rejection.status === 401 || rejection.status === -1) {
-                    $location.url('/login');
-                }
-                return $q.reject(rejection);
-            }
-        }
-    }])
-    .run(['$rootScope', '$state', '$http', '$stateParams', '$window','countriesConstant', function($rootScope, $state, $http, $stateParams, $window,constant) {
+    
+    .run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant', function($rootScope, $state, $http, $stateParams, $window, constant) {
         //If user logged in and 
         var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
-        if(user['Auth-Token']){
+        if (user['Auth-Token']) {
             constant.user = user;
-        }else{
+        } else {
             constant.user = {};
         }
         //sets token on evry refresh
-        if ( constant.user['Auth-Token']) {
+        if (constant.user['Auth-Token']) {
             $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
         } else {
             $state.go('core.login')
@@ -148,7 +134,7 @@ var app = angular
 }])
 
 //angular-language
-.config(['$translateProvider','$httpProvider', function($translateProvider,$httpProvider) {
+.config(['$translateProvider', '$httpProvider', function($translateProvider, $httpProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languages/',
         suffix: '.json'
@@ -156,11 +142,31 @@ var app = angular
     $translateProvider.useLocalStorage();
     $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy(null);
+    //capture the response and process it before completing the call
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
 }])
+//session expired
+    .factory('authHttpResponseInterceptor', ['$q', '$location', function($q, $location) {
+        return {
+            response: function(response) {
+                if (response.status === 401 || response.status === -1) {
+                    //notify({ classes: 'alert-success', message: "Session expired" });
+                    $location.url('/login');
+                }
+                return response || $q.when(response);
+            },
+            responseError: function(rejection) {
+                if (rejection.status === 401 || rejection.status === -1) {
+                    $location.url('/login');
+                }
+                return $q.reject(rejection);
+            }
+        }
+    }])
 
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+    // use the HTML5 History API
+    //$locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/core/login');
 
     $stateProvider
@@ -284,11 +290,11 @@ var app = angular
             templateUrl: 'views/tmpl/ui/alerts.html'
         })
         //ui/general
-//         .state('app.ui.general', {
-//             url: '/general',
-//             controller: 'GeneralCtrl',
-//             templateUrl: 'views/tmpl/ui/general.html'
-//         })
+        //         .state('app.ui.general', {
+        //             url: '/general',
+        //             controller: 'GeneralCtrl',
+        //             templateUrl: 'views/tmpl/ui/general.html'
+        //         })
         //ui/tree
         .state('app.ui.tree', {
             url: '/tree',
@@ -589,7 +595,7 @@ var app = angular
             template: '<div ui-view></div>'
         })
 
-        .state('app.dispatch', {
+    .state('app.dispatch', {
             url: '/dispatch',
             template: '<div ui-view></div>'
         })
@@ -613,7 +619,7 @@ var app = angular
             url: '/profile',
             template: '<div ui-view></div>'
         })
-         .state('app.profile.my_account', {
+        .state('app.profile.my_account', {
             url: '/my_account',
             controller: 'MyAccountCtrl',
             templateUrl: 'views/tmpl/profile/my_account.html'
@@ -850,9 +856,15 @@ var app = angular
         })
         //forgot password
         .state('core.forgotpass', {
-            url: '/forgotpass',
-            controller: 'ForgotPasswordCtrl',
+            url: '/forgot-password',
+            controller: 'forgotPwdCtrl',
             templateUrl: 'views/tmpl/profile/forgotpass.html'
+        })
+        //reset password from email
+        .state('core.resetpass', {
+            url: '/reset_password',
+            controller: 'ResetPassEmailCtrl',
+            templateUrl: 'views/tmpl/profile/reset_password_email.html'
         })
         //page 404
         .state('core.page404', {

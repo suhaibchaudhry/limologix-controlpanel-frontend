@@ -26,10 +26,10 @@
                 </p>
             </div>
             <div class="form-group">
-                <input type="email" class="form-control underline-input" placeholder="User Email" ng-model="user.email" required>
-                <p class="help-block">
-                    <span class="email_error" style="color:red"></span>
-                </p>
+                <input type="email" class="form-control underline-input" placeholder="User Email" ng-model="user.email" required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+                 <p class="help-block">
+                  <span style="color:red" ng-show="form.email.$error.pattern">Not valid Email.</span>
+               </p>
             </div>
             <p class="help-block text-left">
                 Enter your company details below:
@@ -38,10 +38,10 @@
                 <input type="text" class="form-control underline-input" placeholder="Company Name" ng-model="company.name" required>
             </div>
             <div class="form-group">
-                <input type="email" class="form-control underline-input" placeholder="Company Email" ng-model="company.email" required>
+                <input type="email" class="form-control underline-input" placeholder="Company Email" ng-model="company.email" required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
                 <p class="help-block">
-                    <span class="company_email_error" style="color:red"></span>
-                </p>
+                  <span style="color:red" ng-show="form.email.$error.pattern">Not valid Email.</span>
+               </p>
             </div>
             <!-- <div class="form-group text-left">
          <label class="checkbox checkbox-custom checkbox-custom-sm inline-block">

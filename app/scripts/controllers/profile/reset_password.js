@@ -32,7 +32,7 @@ app
                 var user = {
                     password: $scope.resetPwd.password
                 };
-                var url = appSettings.serverPath + appSettings.serviceApis.resetPassword;
+                var url = appSettings.serverPath + appSettings.serviceApis.reset_auth_details;
                 services.funcPostRequest(url, { "user": user }).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
                     $state.go('app.profile.my_account');

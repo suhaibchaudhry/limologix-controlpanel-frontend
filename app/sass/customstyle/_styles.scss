@@ -1,0 +1,23 @@
+.media-preview {
+    width: 100%;
+    height: auto;
+}
+
+.media-container {
+    margin-bottom: 20px;
+}
+
+.custom-preview {
+    width: 100%;
+    border: 2px solid #eee;
+    background-color: #F5F5F5;
+    min-height: 50px;
+}
+
+.thumb {
+    width: 150px;
+    height: 150px;
+    float: none;
+    position: relative;
+    top: 7px;
+}

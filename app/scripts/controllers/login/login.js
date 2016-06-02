@@ -27,7 +27,7 @@ app
             constants.user = response.data;
             constants.user.name = response.data.username;
             $window.sessionStorage['user'] = JSON.stringify(constants.user);
-            $state.go('app.company.details');         
+            $state.go('app.dashboard');         
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){
            if(error && error.message)

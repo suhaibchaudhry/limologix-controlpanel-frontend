@@ -16,7 +16,8 @@ app
       'notify',
       '$window',
       'services',
-       function ($scope, $state,$http,appSettings,notify,$window,services) {
+      'countriesConstant',
+       function ($scope, $state,$http,appSettings,notify,$window,services,constants) {
         $scope.register = function() {
           var user = {
             first_name:$scope.user.first_name,
@@ -37,7 +38,11 @@ app
          services.funcPostRequest(url,signupDetails).then(function(response){
           $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
           $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
-          $state.go('app.company.details');         
+          constants.user = response.data;
+          constants.user.name = response.data.username;
+          $window.sessionStorage['user'] = JSON.stringify(constants.user);
+          $state.go('app.dashboard'); 
+                  
           notify({ classes: 'alert-success',message:response.message});
          },function(error){  
             if(error.message)    

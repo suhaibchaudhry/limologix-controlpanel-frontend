@@ -1,7 +1,9 @@
 <!doctype html>
 <html ng-app="limoLogixApp" ng-controller="MainCtrl" class="no-js {{containerClass}}">
-  <head>
+
+<head>
     <meta charset="utf-8">
+    <!--     <base href="/"> -->
     <title>Limo Logix - Admin Dashboard</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -48,41 +50,41 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  </head>
-  <body id="minovate" class="{{main.settings.navbarHeaderColor}} {{main.settings.activeColor}} {{containerClass}} header-fixed aside-fixed rightbar-hidden appWrapper" ng-class="{'header-fixed': main.settings.headerFixed, 'header-static': !main.settings.headerFixed, 'aside-fixed': main.settings.asideFixed, 'aside-static': !main.settings.asideFixed, 'rightbar-show': main.settings.rightbarShow, 'rightbar-hidden': !main.settings.rightbarShow}">
+</head>
 
+<body id="minovate" class="{{main.settings.navbarHeaderColor}} {{main.settings.activeColor}} {{containerClass}} header-fixed aside-fixed rightbar-hidden appWrapper" ng-class="{'header-fixed': main.settings.headerFixed, 'header-static': !main.settings.headerFixed, 'aside-fixed': main.settings.asideFixed, 'aside-static': !main.settings.asideFixed, 'rightbar-show': main.settings.rightbarShow, 'rightbar-hidden': !main.settings.rightbarShow}">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
     <!-- Application content -->
     <div id="wrap" ui-view autoscroll="false"></div>
-
     <!-- Page Loader -->
     <div id="pageloader" page-loader></div>
-
-
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
     </script>
     <script src='//maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places,drawing&sensor=false&language=en&v=3.17'></script>
-    
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
     <!-- endbuild -->
-
     <!-- build:js(.) scripts/vendor.js -->
-
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -200,14 +202,10 @@
     <script src="bower_components/vs-google-autocomplete/dist/vs-google-autocomplete.js"></script>
     <script src="bower_components/vs-google-autocomplete/dist/vs-autocomplete-validator.js"></script>
     <!-- endbower -->
-
     <!-- endbuild -->
-
     <!-- build:js({.tmp,app}) scripts/app.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
-
-
     <script src="scripts/controllers/login/login.js"></script>
     <script src="scripts/controllers/signup/signup.js"></script>
     <script src="scripts/controllers/company/update_info.js"></script>
@@ -215,10 +213,10 @@
     <script src="scripts/controllers/dispatch/pending_dispatches.js"></script>
     <script src="scripts/controllers/profile/my_account.js"></script>
     <script src="scripts/controllers/profile/reset_password.js"></script>
+    <script src="scripts/controllers/profile/reset_password_email.js"></script>
+    <script src="scripts/controllers/profile/forgot_password.js"></script>
     <script src="scripts/controllers/logout/logout.js"></script>
-
-     <script src="scripts/directives/angular-media-preview.module.js"></script>
-
+    <script src="scripts/directives/angular-media-preview.module.js"></script>
     <script src="scripts/directives/navcollapse.js"></script>
     <script src="scripts/directives/slimscroll.js"></script>
     <script src="scripts/controllers/navbar-chart.js"></script>
@@ -287,7 +285,6 @@
     <script src="scripts/controllers/mail-compose.js"></script>
     <script src="scripts/controllers/mail-single.js"></script>
     <script src="scripts/controllers/mail.js"></script>
-    
     <script src="scripts/controllers/pages-forgot-password.js"></script>
     <script src="scripts/controllers/pages-gallery.js"></script>
     <script src="scripts/controllers/pages-timeline.js"></script>
@@ -311,7 +308,6 @@
     <script src="scripts/controllers/pages-intro.js"></script>
     <script src="scripts/controllers/ui-dragula.js"></script>
     <script src="scripts/directives/tilecontrollightbox.js"></script>
-
     <script src="scripts/controllers/material/autocomplete.js"></script>
     <script src="scripts/controllers/material/bottom-sheet.js"></script>
     <script src="scripts/controllers/material/buttons.js"></script>
@@ -341,37 +337,10 @@
     <script src="scripts/controllers/material/toolbar.js"></script>
     <script src="scripts/controllers/material/tooltip.js"></script>
     <script src="scripts/controllers/material/whiteframe.js"></script>
-
-
     <!-- endbuild -->
-
     <!-- providers -->
     <script src="scripts/modules/service-provider.js"></script>
     <script src="scripts/modules/company-constant.js"></script>
     <!-- End Providers -->
 </body>
-<style>
-    .media-preview {
-      width: 100%;
-      height: auto;
-    }
-
-    .media-container {
-      margin-bottom: 20px;
-    }
-
-    .custom-preview {
-      width: 100%;
-      border: 2px solid #eee;
-      background-color: #F5F5F5;
-      min-height: 50px;
-    }
-    .thumb {
-    width: 150px;
-    height: 150px;
-    float: none;
-    position: relative;
-    top: 7px;
-    }
-</style>
 </html>

@@ -2,14 +2,16 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:ForgotPasswordCtrl
+ * @name limoLogixApp.controller:forgotPwdCtrl
  * @description
- * # ForgotPasswordCtrl
- * Controller of the minovateApp
+ * # forgotPwdCtrl
+ * Controller of the limoLogixApp
  */
 app
-    .controller('ForgotPasswordCtrl', ['notify', '$scope', '$http', 'appSettings', 'services', '$state', 'countriesConstant',
-        function(notify, $scope, $http, appSettings, services, $state, constant) {
+  .controller('forgotPwdCtrl',
+    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant',
+    function ($scope, $state,$http,appSettings,notify, $window,services, constants) {
+  	          
             $scope.page = {
                 title: 'Forgot Password',
                 subtitle: '' //'Place subtitle here...'
@@ -19,14 +21,11 @@ app
                 email: ''
             }
             $scope.forgotPwd = {};
-            $scope.funcforgotPassword = function(isValid) {
-                var user = {
-                    email: $scope.forgotPwd.email
-                };
+            $scope.funcforgotPassword = function() {
                 var url = appSettings.serverPath + appSettings.serviceApis.forgotPassword;
-                services.funcPostRequest(url, { "user": user }).then(function(response) {
+                services.funcPostRequest(url, { "email": $scope.forgotPwd.email }).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
-                    $state.go('app.profile.my_account');
+                    $state.go('core.login');
                 }, function(error, status) {
                     if (error)
                         notify({ classes: 'alert-danger', message: error.message });

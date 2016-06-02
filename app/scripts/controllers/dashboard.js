@@ -21,10 +21,10 @@ app
       title: 'Dashboard',
       subtitle: '' //'Place subtitle here...'
     };
-
-    getCompanyInfo();
+     if(constant.user['Auth-Token']){
+        getCompanyInfo();
+     }
     function getCompanyInfo(){
-       if(constant.user['Auth-Token']){
          var url = appSettings.serverPath + appSettings.serviceApis.company_info;
          services.funcGetRequest(url).then(function(response){
             var response = response.data.company;
@@ -35,8 +35,6 @@ app
          }, function(error){
              
          })
-       
-       }
      }
     function displayLogo(){
       $scope.picFilePreview = appSettings.server_address + $scope.companyInfo.logoUrl;
