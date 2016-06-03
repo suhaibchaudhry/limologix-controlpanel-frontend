@@ -2,5 +2,6 @@
   app
   .constant('countriesConstant', { 
       countries : [],
-      user : {}
+      user : {},
+      tripdata:{}
   })

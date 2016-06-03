@@ -21,3 +21,7 @@
     position: relative;
     top: 7px;
 }
+//Fix for goole map place autocomplete hidden when user t in modal
+.pac-container {
+    z-index: 100000;
+}
