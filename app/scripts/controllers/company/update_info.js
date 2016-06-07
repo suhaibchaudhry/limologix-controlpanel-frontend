@@ -17,7 +17,8 @@ app
             };
             var vm = this;
             $scope.base64Img = '';
-            $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
+            $scope.phoneNumbr = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            //  /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
             //     $scope.countryCode = 'US';
             //     $scope.stateCode = 'AK';
             $scope.companyInfo = {
@@ -98,7 +99,7 @@ app
                             image: appSettings.server_address + response.logo.image
                         },
                         secondary_phone_number: response.secondary_phone_number,
-                        fax: response.fax,
+                        //fax: response.fax,
                         street: response.address ? response.address.street : '',
                         city: response.address ? response.address.city : '',
                         zipcode: response.address ? response.address.zipcode : ''
@@ -151,7 +152,7 @@ app
                                 image: $scope.logo_image
                             },
                             secondary_phone_number: $scope.companyInfo.secondary_phone_number,
-                            fax: $scope.companyInfo.fax,
+                            //fax: $scope.companyInfo.fax,
                             address: {
                                 street: $scope.companyInfo.street,
                                 city: $scope.companyInfo.city,

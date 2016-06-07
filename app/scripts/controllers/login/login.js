@@ -12,12 +12,12 @@ app
     ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant',
     function ($scope, $state,$http,appSettings,notify, $window,services, constants) {
   	$scope.user = {
-      	username :'',
+      	email :'',
       	password:''
     };
     $scope.login = function() {
       $scope.user = {
-      	username : $scope.user.username,
+      	email : $scope.user.useremail,
       	password : $scope.user.password
       }
       var url = appSettings.serverPath + appSettings.serviceApis.signin;
@@ -25,7 +25,7 @@ app
             $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
             $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
             constants.user = response.data;
-            constants.user.name = response.data.username;
+            constants.user.name = response.data.full_name;
             $window.sessionStorage['user'] = JSON.stringify(constants.user);
             $state.go('app.dashboard');         
             notify({ classes: 'alert-success',message:response.message});

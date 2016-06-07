@@ -16,13 +16,13 @@ app
             };
 
             $scope.resetPwd = {
-                userName: '',
+                //userName: '',
                 password: '',
                 cnfpassword: ''
 
             }
             $scope.resetPwd = {};
-            $scope.resetPwd.userName = constant.user.name;
+           // $scope.resetPwd.userName = constant.user.name;
             $scope.funcresetPassword = function(isValid) {
                 if ($scope.resetPwd.password !== $scope.resetPwd.cnfpassword) {
                     $scope.resetPwd.password = $scope.resetPwd.cnfpassword = '';

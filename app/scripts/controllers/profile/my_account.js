@@ -21,7 +21,7 @@ app
                 title: 'My Account',
                 subtitle: '' //'Place subtitle here...'
             };
-            $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
+            $scope.phoneNumbr =  /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
             $scope.adminInfo = {
                 first_name: '',
                 last_name: '',

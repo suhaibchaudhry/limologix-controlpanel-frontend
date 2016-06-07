@@ -84,6 +84,7 @@ var app = angular
             getExistingCustomers: '/users/customers/search',
             createTrip: 'users/trips/create',
             tripSummary: 'users/trips/show',
+            tripUpdate: 'users/trips/update',
             selectVehicleType: 'users/vehicles/types',
             my_profile: 'users/profile/show',
             profileupdate: 'users/profile/update',

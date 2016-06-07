@@ -52,11 +52,11 @@
                             </div>
                             <div class="form-group col-md-6 mb-0">
                                 <label for="mobile_number">Primary Phone Number: </label>
-                                <input type="text" placeholder="+1-541-754-3010" name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="adminInfo.mobile_number" numbers-only required>
+                                <input type="text" placeholder="541-754-3010" name="mobile_number" id="mobile_number" class="form-control" ng-pattern="phoneNumbr" ng-model="adminInfo.mobile_number" numbers-only required>
                                 <p class="help-block">
                                     <span style="color:red;" ng-show="step1.mobile_number.$error.minlength">Phone no not less that 10 char.</span>
                                     <span style="color:red;" ng-show="step1.mobile_number.$error.maxlength">Phone no not more than 11 char.</span>
-                                    <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [+1-541-754-3010 || 1-541-754-3010]</span>
+                                    <br><span style="color:red;" ng-show="step1.mobile_number.$error.pattern">Please match pattern [541-754-3010]</span>
                                 </p>
                             </div>
                         </div>

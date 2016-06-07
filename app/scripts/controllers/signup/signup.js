@@ -22,7 +22,7 @@ app
           var user = {
             first_name:$scope.user.first_name,
             last_name:$scope.user.last_name,
-            username : $scope.user.username,
+            //username : $scope.user.username,
             password : $scope.user.password,
             email : $scope.user.email
           };
@@ -39,7 +39,7 @@ app
           $http.defaults.headers.common['Auth-Token'] = response.data['Auth-Token'];
           $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
           constants.user = response.data;
-          constants.user.name = response.data.username;
+          constants.user.name = response.data.full_name;
           $window.sessionStorage['user'] = JSON.stringify(constants.user);
           $state.go('app.dashboard'); 
                   

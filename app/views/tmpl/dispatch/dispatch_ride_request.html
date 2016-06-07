@@ -186,14 +186,7 @@
                         <div class="form-group col-md-6">
                             <label for="trip_summary">
                                 <h3><strong>Trip Summary:</strong></h3> </label>
-                            <br>
-                            <span>{{tripsummary.pickupdatetime| date:"dd/MM/yyyy"}}{{", "}}{{tripsummary.pickupdatetime| date:"hh:mm a"}}</span>
-                            <br>
-                            <span><img src="images/source_marker.png" style="width:4%">{{tripsummary.pickupAt}}</span>
-                            <br>
-                            <span><img src="images/destination_marker.png" style="width:4%">{{tripsummary.dropoffAt}}</span>
-                        </div>
-                        <div class="tile-body">
+                                  <div class="tile-body">
                             <div>
                                 <script type="text/ng-template" id="myModalContent.html">
                                     <div class="modal-body">
@@ -261,14 +254,22 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="ok()"><i class="fa fa-arrow-right"></i> Submit</button>
+                                        <!--<button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="ok()"><i class="fa fa-arrow-right"></i> Submit</button>-->
                                         <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
                                     </div>
                                 </script>
-                                <a ng-click="open()"><i class="icon-pencil"></i></a>
-                                
+                                <a ng-click="editTripModalOpen()"><i class="icon-pencil"></i></a>
+                             
                             </div>
                         </div>
+                            <br>
+                            <span>{{tripsummary.pickupdatetime| date:"dd/MM/yyyy"}}{{", "}}{{tripsummary.pickupdatetime| date:"hh:mm a"}}</span>
+                            <br>
+                            <span><img src="images/source_marker.png" style="width:4%">{{tripsummary.pickupAt}}</span>
+                            <br>
+                            <span><img src="images/destination_marker.png" style="width:4%">{{tripsummary.dropoffAt}}</span>
+                        </div>
+                      
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
