@@ -612,7 +612,7 @@ var app = angular
             templateUrl: 'views/tmpl/dispatch/dispatch_ride_request.html'
         })
         .state('app.dispatch.pendingdispatches', {
-            url: '/pendingdispatches',
+            url: '/pending_dispatches',
             controller: 'PendingDispatchesCtrl',
             templateUrl: 'views/tmpl/dispatch/pending_dispatches.html'
         })

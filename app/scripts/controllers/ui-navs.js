@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:UiNavsCtrl
+ * @name limoLogixApp.controller:UiNavsCtrl
  * @description
  * # UiNavsCtrl
- * Controller of the minovateApp
+ * Controller of the limoLogixApp
  */
 app
   .controller('NavsCtrl', function ($scope) {

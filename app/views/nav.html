@@ -1,50 +1,53 @@
 <div id="sidebar-wrap" ng-controller="NavCtrl">
-  <uib-accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
-
-    <uib-accordion-group is-open="status.isFirstOpen">
-      <uib-accordion-heading>
-        Navigation <i class="pull-right fa" ng-class="{'fa-angle-up': status.isFirstOpen, 'fa-angle-down': !status.isFirstOpen}"></i>
-      </uib-accordion-heading>
-      <ul id="navigation" nav-collapse ripple>
-        <li ui-sref-active="active"><a ui-sref="app.dashboard"><fa name="dashboard"></fa> <span>{{ 'Menu.DASHBOARD' | translate }}</span></a></li>
-        <!-- <li ui-sref-active="active" ng-class="{'open':$state.includes('app.mail')}">
-          <a ui-sref="app.mail"><fa name="envelope-o"></fa> <span>{{ 'Menu.MAIL' | translate }}</span> <span class="badge bg-lightred">6</span></a>
-          <ul>
-            <li ui-sref-active="active"><a ui-sref="app.mail.inbox"><fa name="caret-right"></fa> {{ 'Menu.INBOX' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.mail.compose"><fa name="caret-right"></fa> {{ 'Menu.COMPOSE_MAIL' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.mail.single"><fa name="caret-right"></fa> {{ 'Menu.SINGLE_MAIL' | translate }}</a></li>
-          </ul>
-        </li> -->
-        <li ui-sref-active="active" ng-class="{'open':$state.includes('app.company')}">
-          <a ui-sref="app.company"><fa name="list"></fa> <span>{{ 'Menu.COMPANY_SETTINGS' | translate }}</span></a>
-          <ul>
-            <!-- <li ui-sref-active="active"><a ui-sref="app.forms.common"><fa name="caret-right"></fa> {{ 'Menu.COMMON_ELEMENTS' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.forms.validate"><fa name="caret-right"></fa> {{ 'Menu.VALIDATION_ELEMENTS' | translate }}</a></li> -->
-            <li ui-sref-active="active"><a ui-sref="app.company.details"><fa name="caret-right"></fa> {{ 'Menu.COMPANY_INFORMATION' | translate }} </a></li>
-            <!-- <li ui-sref-active="active"><a ui-sref="app.forms.upload"><fa name="caret-right"></fa> {{ 'Menu.FILE_UPLOAD' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.forms.imgcrop"><fa name="caret-right"></fa> {{ 'Menu.IMAGE_CROP' | translate }}</a></li> -->
-          </ul>
-        </li>
-        <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
-          <a ui-sref="app.dispatch"><fa name="pencil" class="fa-car"></fa> <span>{{ 'Menu.DISPATCHES' | translate }}</span></a>
-          <ul>
-            <li ui-sref-active="active"><a ui-sref="app.dispatch.dispatch_ride_request"><fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.dispatch.pendingdispatches"><fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}</a></li>
-            
-          </ul>
-        </li>
-
-          <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
-          <a ui-sref="app.profile"><fa name="pencil" class="icon-user"></fa> <span>{{ 'Menu.PROFILE' | translate }}</span></a>
-          <ul>
-            <li ui-sref-active="active"><a ui-sref="app.profile.my_account"><fa name="caret-right"></fa> {{ 'Menu.MY_ACCOUNT' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.profile.reset_password"><fa name="caret-right"></fa> {{ 'Menu.RESET_PASSWORD' | translate }}</a></li>
-           
-          </ul>
-        </li>
-
-        
-        <!--<li ui-sref-active="active" ng-class="{'open':$state.includes('app.material')}">
+    <uib-accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
+        <uib-accordion-group is-open="status.isFirstOpen">
+            <uib-accordion-heading>
+                Navigation <i class="pull-right fa" ng-class="{'fa-angle-up': status.isFirstOpen, 'fa-angle-down': !status.isFirstOpen}"></i>
+            </uib-accordion-heading>
+            <ul id="navigation" nav-collapse ripple>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.dashboard">
+                        <fa name="dashboard"></fa> <span>{{ 'Menu.DASHBOARD' | translate }}</span></a>
+                </li>
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.company')}">
+                    <a ui-sref="app.company">
+                        <fa name="list"></fa> <span>{{ 'Menu.COMPANY_SETTINGS' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.company.details">
+                                <fa name="caret-right"></fa> {{ 'Menu.COMPANY_INFORMATION' | translate }} </a>
+                        </li>
+                    </ul>
+                </li>
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
+                    <a ui-sref="app.dispatch">
+                        <fa name="pencil" class="fa-car"></fa> <span>{{ 'Menu.DISPATCHES' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.dispatch.dispatch_ride_request">
+                                <fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.dispatch.pendingdispatches">
+                                <fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}<span class="badge badge-danger">{{pending_dispatch_count}}</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}">
+                    <a ui-sref="app.profile">
+                        <fa name="pencil" class="icon-user"></fa> <span>{{ 'Menu.PROFILE' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.profile.my_account">
+                                <fa name="caret-right"></fa> {{ 'Menu.MY_ACCOUNT' | translate }}</a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.profile.reset_password">
+                                <fa name="caret-right"></fa> {{ 'Menu.RESET_PASSWORD' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li ui-sref-active="active" ng-class="{'open':$state.includes('app.material')}">
           <a ui-sref="app.material"><fa name="puzzle-piece"></fa> <span>{{ 'Menu.MATERIAL_UI' | translate }}</span></a>
           <ul>
             <li ui-sref-active="active"><a ui-sref="app.material.autocomplete"><fa name="caret-right"></fa> Autocomplete</a></li>
@@ -147,8 +150,7 @@
         </li>
         <li ui-sref-active="active"><a ui-sref="app.calendar"><fa name="calendar-o"></fa> <span>{{ 'Menu.CALENDAR' | translate }}</span> <span class="label label-success">new events</span></a></li>
         <li ui-sref-active="active"><a ui-sref="app.charts"><fa name="bar-chart-o"></fa> <span>{{ 'Menu.CHARTS_GRAPHS' | translate }}</span></a></li> -->
-
-       <!--  <li>
+                <!--  <li>
           <a href="javascript:;"><fa name="magic"></fa> <span>{{ 'Menu.MENU_LEVELS' | translate }}</span></a>
           <ul>
             <li>
@@ -165,7 +167,7 @@
                   </li>
                 </ul>
             </li> -->
-            <!-- <li>
+                <!-- <li>
               <a href="javascript:;"><fa name="caret-right"></fa> {{ 'Menu.MENU_LEVEL' | translate }} 1.2</a>
               <ul>
                 <li>
@@ -183,15 +185,14 @@
                   </ul>
                 </li> -->
                 <!-- <li><a href="javascript:;"><fa name="caret-right"></fa> {{ 'Menu.MENU_LEVEL' | translate }} 2.2</a></li> -->
-              </ul>
+            </ul>
             </li>
-          </ul>
-        </li>
-        <!-- <li ui-sref-active="active"><a ui-sref="app.help"><fa name="book"></fa> <span>{{ 'Menu.DOCUMENTATION' | translate }}</span></a></li> -->
-      </ul>
-    </uib-accordion-group>
-
-    <!-- <uib-accordion-group is-open="status.isSecondOpen" class="charts">
+            </ul>
+            </li>
+            <!-- <li ui-sref-active="active"><a ui-sref="app.help"><fa name="book"></fa> <span>{{ 'Menu.DOCUMENTATION' | translate }}</span></a></li> -->
+            </ul>
+        </uib-accordion-group>
+        <!-- <uib-accordion-group is-open="status.isSecondOpen" class="charts">
       <uib-accordion-heading>
         Orders Summary <i class="pull-right fa" ng-class="{'fa-angle-up': status.isSecondOpen, 'fa-angle-down': !status.isSecondOpen}"></i>
       </uib-accordion-heading>

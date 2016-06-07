@@ -16,5 +16,6 @@ app
       isSecondOpen: true,
       isThirdOpen: true
     };
+    $scope.pending_dispatch_count = 10;
 
   });

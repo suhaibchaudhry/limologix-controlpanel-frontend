@@ -10,6 +10,7 @@
 app
     .controller('DispatchRideRequestCtrl', [
         '$scope',
+        '$rootScope',
         '$http',
         'appSettings',
         '$window',
@@ -19,13 +20,14 @@ app
         '$uibModal',
         '$log',
         'countriesConstant',
-        function($scope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants) {
+        'dispatchRideProvider',
+        function($scope, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
                 title: 'Dispatch Ride Request',
                 subtitle: '' //'Place subtitle here...'
             };
             $scope.items = ['item1', 'item2', 'item3'];
-            $scope.phoneNumbr = /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
+            $scope.phoneNumbr = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
             $scope.customerInfo = {
                 first_name: '',
                 last_name: '',
@@ -43,17 +45,11 @@ app
                 pickupdate: '',
                 pickuptime: ''
             };
-
-            //             $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-            //             $scope.trip.pickuptime = $filter('date')($scope.trip.pickuptime, 'hh:mm a');
-
             $scope.options = {
                 types: ['(cities)'],
-                componentRestrictions: { country: 'FR' }
+                componentRestrictions: { country: 'us' }
             };
-
             $scope.customerId = "";
-
             // Google place autocomplete location Object of pick up and drop off
             $scope.pickup = {
                 name: '',
@@ -119,7 +115,6 @@ app
                 $scope.$item = $item;
                 $scope.customerId = $item.id;
                 $scope.isChoosed = true;
-
             };
 
             //Get customer Id from search existing customer typeahead
@@ -144,7 +139,6 @@ app
                     if (response)
                         notify({ classes: 'alert-danger', message: response.message });
                 })
-
             };
 
             $scope.funcMakeTrip = function(isValid) {
@@ -187,7 +181,7 @@ app
 
                 }
             }
-            $scope.tripsummary = {};
+
             $scope.funcGetTripSummary = function(tripId) {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
                 services.funcPostRequest(url, { "trip_id": tripId }).then(function(response) {
@@ -196,8 +190,7 @@ app
                         pickupAt: response.data.trip.start_destination.place,
                         dropoffAt: response.data.trip.end_destination.place
                     }
-
-                    $scope.funcGetRoute();
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt);
                     $scope.funcSelectVehicleType();
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
@@ -205,9 +198,10 @@ app
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
-
-
-
+            //update trip summary model values
+            $rootScope.$on('updateTrip', function(e, tripsummary) {
+                $scope.tripsummary = tripsummary;
+            });
 
             $scope.funcSelectVehicleType = function() {
                 var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
@@ -220,70 +214,10 @@ app
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
-            $scope.funcGetRoute = function() {
-                var source, destination;
-                var directionsDisplay;
-                var directionsService = new google.maps.DirectionsService();
-                directionsDisplay = new google.maps.DirectionsRenderer({
-                    suppressMarkers: true,
-                    polylineOptions: {
-                        strokeColor: "#9ACD32",
-                        strokeWeight: 5
-                    }
-                });
-                var icons = {
-                    start: new google.maps.MarkerImage(
-                        'images/source_marker.png',
-                        new google.maps.Size(44, 32), //width,height
-                        new google.maps.Point(0, 0), // The origin point (x,y)
-                        new google.maps.Point(22, 32)),
-                    end: new google.maps.MarkerImage(
-                        'images/destination_marker.png',
-                        new google.maps.Size(44, 32),
-                        new google.maps.Point(0, 0),
-                        new google.maps.Point(22, 32))
-                };
-                // var mapOptions = {
-                //                         zoom: 7,
-                //                         center: mumbai
-                //                     };
-                var map = new google.maps.Map(document.getElementById('dvMap'));
-                directionsDisplay.setMap(map);
-                //directionsDisplay.setPanel(document.getElementById('dvPanel'));
-
-                //*********DIRECTIONS AND ROUTE**********************//
-                source = $scope.tripsummary.pickupAt; //'Marathahalli, Bengaluru, Karnataka 560037, India'; 
-                destination = $scope.tripsummary.dropoffAt; //'Hebbal, Bengaluru, Karnataka 560024, India';
-
-                var request = {
-                    origin: source,
-                    destination: destination,
-                    travelMode: google.maps.TravelMode.DRIVING
-                };
-                directionsService.route(request, function(response, status) {
-                    if (status == google.maps.DirectionsStatus.OK) {
-                        directionsDisplay.setDirections(response);
-                        var leg = response.routes[0].legs[0];
-                        makeMarker(leg.start_location, icons.start, source, map);
-                        makeMarker(leg.end_location, icons.end, destination, map);
-                    } else {
-                        notify({ classes: 'alert-error', message: 'unable to retrive route' });
-                    }
-                });
-
-                function makeMarker(position, icon, title, map) {
-                    new google.maps.Marker({
-                        position: position,
-                        map: map,
-                        icon: icon,
-                        title: title
-                    });
-                }
-            }
             $scope.editTripModalOpen = function(size) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'myModalContent.html',
-                    controller: 'ModalInstanceCtrl1',
+                    controller: 'TripEditModalCtrl',
                     size: size,
                     resolve: {
                         items: function() {
@@ -300,11 +234,10 @@ app
             }
         }
     ])
-    // Please note that $modalInstance represents a modal window (instance) dependency.
-    // It is not the same as the $modal service used above.
 
-.controller('ModalInstanceCtrl1', [
+.controller('TripEditModalCtrl', [
         '$scope',
+        '$rootScope',
         '$uibModalInstance',
         '$filter',
         '$http',
@@ -313,9 +246,9 @@ app
         'notify',
         'services',
         'countriesConstant',
-        function($scope, $uibModalInstance, $filter, $http, $window, appSettings, notify, services, constants) {
+        'dispatchRideProvider',
+        function($scope, $rootScope, $uibModalInstance, $filter, $http, $window, appSettings, notify, services, constants, dispatchRideProvider) {
             $scope.tripinfo = constants.tripdata;
-
             //display pickup and drop off location info in modal
             $scope.pickup = {
                 name: $scope.tripinfo.start_destination.place,
@@ -336,35 +269,9 @@ app
                     }
                 }
             };
-            // $scope.tripinfo.pickup_date = constants.tripdata.pick_up_at.split(',')[0];
-            // $scope.tripinfo.pickup_time = constants.tripdata.pick_up_at.split(',')[1];
-            //         $scope.tripinfo = {
-            //             "start_destination": {
-            //                 "latitude": 12.9791734,
-            //                 "longitude": 77.57704669999998,
-            //                 "place": "Hebbal, Bengaluru, Karnataka 560024, India"
-            //             },
-
-            //             "end_destination": {
-            //                 "latitude": 12.9791734,
-            //                 "longitude": 77.57704669999998,
-            //                 "place": "Gandhi Nagarfsf"
-
-            //             },
-            //             "pickup_date": "33/03/1234",
-            //             "pickup_time": "09:80 AM",
-            //             "passengers_count": 9,
-            //             "customer_id": 4
-            //         }
-
-
-
 
             $scope.funcEditTrip = function(isValid) {
-
                 //updated pickup and drop off location info
-
-
                 $scope.editTrip = {};
                 $scope.editTrip.pickup_date = $filter('date')($scope.tripinfo.pickup_date, 'dd/MM/yyyy');
                 $scope.editTrip.pickup_time = $filter('date')($scope.tripinfo.pickup_time, 'hh:mm a');
@@ -414,9 +321,8 @@ app
                     if (response)
                         notify({ classes: 'alert-danger', message: response.message });
                 })
-
-
             }
+
             $scope.funcUpdateTripSummary = function(tripId) {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
                 services.funcPostRequest(url, { "trip_id": tripId }).then(function(response) {
@@ -425,39 +331,38 @@ app
                         pickupAt: response.data.trip.start_destination.place,
                         dropoffAt: response.data.trip.end_destination.place
                     }
-
-                    $scope.funcGetRoute();
+                    $rootScope.$emit('updateTrip', $scope.tripsummary)
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt);
                 }, function(error, status) {
                     if (response)
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
 
-
-            // $scope.ok = function() {
-            //     $uibModalInstance.close();
-            // };
-
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         }
     ])
-    .controller('DatepickerCtrl', function($scope) {
-
+    .controller('DatepickerTripCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
         $scope.today = function() {
-            $scope.trip.pickupdate = new Date();
+            //make a trip datepicker
+            if ($scope.trip)
+                $scope.trip.pickupdate = new Date();
+            //update trip datepicker
+            if ($scope.tripinfo)
+                $scope.tripinfo.pickup_date = constants.tripdata.pickup_date; //new Date('2011-09-19T19:49:21+04:00');
         };
 
         $scope.today();
 
         $scope.clear = function() {
-            $scope.trip.pickupdate = null;
+            $scope.tripinfo.pickup_date = null;
         };
 
         // Disable weekend selection
         $scope.disabled = function(date, mode) {
-            return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 10));
+            return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
         };
 
         $scope.toggleMin = function() {
@@ -480,109 +385,45 @@ app
 
         $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         $scope.format = $scope.formats[0];
-    })
+    }])
 
-.controller('DatepickerTripCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
-
-    $scope.today = function() {
-        $scope.tripinfo.pickup_date = constants.tripdata.pickup_date; //new Date('2011-09-19T19:49:21+04:00');
-
-
-
-    };
-
-    $scope.today();
-
-    $scope.clear = function() {
-        $scope.tripinfo.pickup_date = null;
-    };
-
-    // Disable weekend selection
-    $scope.disabled = function(date, mode) {
-        return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
-    };
-
-    $scope.toggleMin = function() {
-        $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-
-    $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1,
-        'class': 'datepicker'
-    };
-
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-}])
-
-.controller('TimepickerCtrl', function($scope) {
+.controller('TimepickerCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
+    if ($scope.trip)
         $scope.trip.pickuptime = new Date();
-
-        $scope.hstep = 1;
-        $scope.mstep = 15;
-
-        $scope.options = {
-            hstep: [1, 2, 3],
-            mstep: [1, 5, 10, 15, 25, 30]
-        };
-
-        $scope.ismeridian = true;
-        $scope.toggleMode = function() {
-            $scope.ismeridian = !$scope.ismeridian;
-        };
-
-        $scope.update = function() {
-            var d = new Date();
-            d.setHours(14);
-            d.setMinutes(0);
-            $scope.trip.pickuptime = d;
-        };
-
-        $scope.changed = function() {
-            console.log('Time changed to: ' + $scope.trip.pickuptime);
-        };
-
-        $scope.clear = function() {
-            $scope.trip.pickuptime = null;
-        };
-    })
-    .controller('TimepickerCtrl1', ['$scope', 'countriesConstant', function($scope, constants) {
+    if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
 
-        $scope.hstep = 1;
-        $scope.mstep = 15;
+    $scope.hstep = 1;
+    $scope.mstep = 15;
 
-        $scope.options = {
-            hstep: [1, 2, 3],
-            mstep: [1, 5, 10, 15, 25, 30]
-        };
+    $scope.options = {
+        hstep: [1, 2, 3],
+        mstep: [1, 5, 10, 15, 25, 30]
+    };
 
-        $scope.ismeridian = true;
-        $scope.toggleMode = function() {
-            $scope.ismeridian = !$scope.ismeridian;
-        };
+    $scope.ismeridian = true;
+    $scope.toggleMode = function() {
+        $scope.ismeridian = !$scope.ismeridian;
+    };
 
-        $scope.update = function() {
-            var d = new Date();
-            d.setHours(14);
-            d.setMinutes(0);
+    $scope.update = function() {
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        if ($scope.trip)
+            $scope.trip.pickuptime = d;
+        if ($scope.tripinfo)
             $scope.tripinfo.pickup_time = d;
-        };
+    };
 
-        $scope.changed = function() {
-            console.log('Time changed to: ' + $scope.tripinfo.pickup_time);
-        };
+    $scope.changed = function() {
+        //console.log('Time changed to: ' + $scope.tripinfo.pickup_time);
+    };
 
-        $scope.clear = function() {
+    $scope.clear = function() {
+        if ($scope.trip)
+            $scope.trip.pickuptime = null;
+        if ($scope.tripinfo)
             $scope.tripinfo.pickup_time = null;
-        };
-    }])
+    };
+}])
