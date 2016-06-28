@@ -49,6 +49,10 @@ app
                 types: ['(cities)'],
                 componentRestrictions: { country: 'us' }
             };
+            $scope.trip_options = {
+                types: ['(cities)'],
+                componentRestrictions: { country: 'us' }
+            };
             $scope.customerId = "";
             // Google place autocomplete location Object of pick up and drop off
             $scope.pickup = {
@@ -73,6 +77,7 @@ app
             };
             //Boolean which check user has selected customer from typeahead list
             $scope.isChoosed = false;
+            $scope.BookNow = false;
             //$scope.vehicleType = [{ "id": 1, "name": "Luxury Sedan", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "Economy Sedan", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
 
             $scope.getExistingCustomers = function(search_string) {
@@ -190,7 +195,7 @@ app
                         pickupAt: response.data.trip.start_destination.place,
                         dropoffAt: response.data.trip.end_destination.place
                     }
-                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt);
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt,notify);
                     $scope.funcSelectVehicleType();
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
@@ -214,6 +219,13 @@ app
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
+            $scope.bookVehicle = function(element) {
+                angular.forEach($scope.vehicleType, function(elem) {
+                    elem.active = false;
+                });
+                $scope.BookNow = true;
+                element.active = !element.active;
+            }
             $scope.editTripModalOpen = function(size) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'myModalContent.html',

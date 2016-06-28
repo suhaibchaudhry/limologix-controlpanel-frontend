@@ -7,7 +7,7 @@ function funcservices() {
     return {
         $get: function($http, $q) {
             return {
-                getRoutes:function(pickup,dropoff){
+                getRoutes:function(pickup,dropoff,notify){
                     var source, destination;
                     var directionsDisplay;
                     var directionsService = new google.maps.DirectionsService();
@@ -30,17 +30,17 @@ function funcservices() {
                             new google.maps.Point(0, 0),
                             new google.maps.Point(22, 32))
                     };
-                    // var mapOptions = {
-                    //                         zoom: 7,
-                    //                         center: mumbai
-                    //                     };
-                    var map = new google.maps.Map(document.getElementById('dvMap'));
+                    var mapOptions = {
+                        zoom: 7,
+                        center: pickup
+                    };
+                    var map = new google.maps.Map(document.getElementById('dvMap'),mapOptions);
                     directionsDisplay.setMap(map);
                     //directionsDisplay.setPanel(document.getElementById('dvPanel'));
 
                     //*********DIRECTIONS AND ROUTE**********************//
-                    source = pickup; //'Marathahalli, Bengaluru, Karnataka 560037, India'; 
-                    destination = dropoff; //'Hebbal, Bengaluru, Karnataka 560024, India';
+                    source = pickup;
+                    destination = dropoff; 
 
                     var request = {
                         origin: source,

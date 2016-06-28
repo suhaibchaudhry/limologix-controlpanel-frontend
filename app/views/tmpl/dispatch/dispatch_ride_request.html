@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab active="steps.step2" disable=" !isChoosed || step0.$invalid">
+            <uib-tab active="steps.step2" disable=" !isChoosed || step0.$invalid || step2.$valid">
                 <!-- disable="step0.$invalid || step1.$invalid"-->
                 <uib-tab-heading>
                     Make a trip
@@ -231,7 +231,7 @@
                                                         <label><strong>Pick up point</strong></label>
                                                         <br/>
                                                         <div>
-                                                            <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name" vs-google-autocomplete vs-latitude="pickup.components.location.lat" vs-longitude="pickup.components.location.long" required>
+                                                            <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name" vs-google-autocomplete="options" vs-latitude="pickup.components.location.lat" vs-longitude="pickup.components.location.long" required>
                                                         </div>
                                                         <!--<span class="help-block"><b>place: </b>{{pickup.name}}</span>
                                                     <span class="help-block"><b>Latitude: </b>{{pickup.components.location.lat}}</span>
@@ -243,7 +243,7 @@
                                                     <div class="form-group col-md-6 mb-0">
                                                         <label><strong>Drop off point</strong></label>
                                                         <br/>
-                                                        <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" vs-google-autocomplete vs-latitude="dropoff.components.location.lat" vs-longitude="dropoff.components.location.long" required>
+                                                        <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" vs-google-autocomplete="options" vs-latitude="dropoff.components.location.lat" vs-longitude="dropoff.components.location.long" required>
                                                         <!--                             <span class="help-block"><b>place: </b>{{dropoff.name}}</span>
                             <span class="help-block"><b>Latitude: </b>{{dropoff.components.location.lat}}</span>
                             <span class="help-block"><b>Longitude: </b>{{dropoff.components.location.long}}</span> -->
@@ -294,13 +294,14 @@
                                         <p>{{vehicle.description}}</p>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <!--                                         <h2><strong>$57.25</strong></h2>
-                                        <p>rate details</p> -->
-                                        <button>Book now</button>
+                                        <button ng-click="bookVehicle(vehicle)" ng-class="{'btn btn-activeButton mb-10' : vehicle.active, 'btn btn-default mb-10': !vehicle.active}">Book Now</button>
                                     </div>
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                    <div <div class="col-sm-offset-5 col-sm-2 text-center">
+                        <button ng-class="{'btn btn-activeButton mb-10' : BookNow, 'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='!BookNow'>Dispatch Trip Request</button>
                     </div>
                 </form>
                 </br>

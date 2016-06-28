@@ -37,3 +37,20 @@
     left: 181px;
     font-size: 20px;
 }
+
+.btn.btn-activeButton {
+    color: #16a085;
+    border-color: #cdd3d7;
+    background-color:#94d4aa;
+}
+.superAdminLink{
+    font-size: 21px;
+    position: absolute;
+    top: 29px;
+    right: 45px;
+    color: #ffffff;
+}
+.pendingList{
+    float: left;
+    padding: 10px 50px 10px 10px;
+}

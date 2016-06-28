@@ -68,9 +68,9 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://172.16.90.117:9000', //'http://limologix.softwaystaging.com',
+        server_address: 'http://172.16.90.117:9000',  //'http://limologix.softwaystaging.com', 
         version: 'v1',
-        serverPath: 'http://172.16.90.117:9000/api/v1/', //"http://limologix.softwaystaging.com/api/v1/",
+        serverPath: 'http://172.16.90.117:9000/api/v1/', //"http://limologix.api.softwaystaging.com/api/v1/", 
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -86,12 +86,15 @@ var app = angular
             tripSummary: 'users/trips/show',
             tripUpdate: 'users/trips/update',
             selectVehicleType: 'users/vehicles/types',
+            tripPending: 'users/trips/index',
             my_profile: 'users/profile/show',
             profileupdate: 'users/profile/update',
             reset_auth_details:'users/profile/reset_authentication_details',
             restpasswrdfromemail:'users/reset_password',
             forgotPassword: 'users/forgot_password',
-            logout: 'users/logout'
+            logout: 'users/logout',
+            //super-admin
+            super_admin_sign_in:'admins/sign_in'
         }
     })
     
@@ -109,6 +112,22 @@ var app = angular
         } else {
             $state.go('core.login')
         }
+
+        //If super admin logged in and 
+        var superadmin = $window.sessionStorage['superadmin'] ? JSON.parse($window.sessionStorage['superadmin']) : {};
+        if (superadmin['Auth-Token']) {
+            constant.superadmin = superadmin;
+        } else {
+            constant.superadmin = {};
+        }
+        //sets token on evry refresh
+        if (constant.superadmin['Auth-Token']) {
+            $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
+        } else {
+            $state.go('core.super_admin_login')
+        }
+
+
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -182,6 +201,20 @@ var app = angular
             url: '/dashboard',
             controller: 'DashboardCtrl',
             templateUrl: 'views/tmpl/dashboard.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css'
+                    ]);
+                }]
+            }
+        })
+        //dashboard
+        .state('app.driver_verification', {
+            url: '/driver_verification',
+            controller: 'DriverVerificationCtrl',
+            templateUrl: 'views/super_admin/driver_verification.html',
             resolve: {
                 plugins: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -842,6 +875,13 @@ var app = angular
             controller: 'LoginCtrl',
             templateUrl: 'views/tmpl/login/login.html'
         })
+         //super admin login
+        .state('core.super_admin_login', {
+            url: '/super_admin/login',
+            controller: 'SuperAdminLoginCtrl',
+            templateUrl: 'views/super_admin/login/login.html'
+        })
+
         //logout
         .state('core.logout', {
             url: '/login',

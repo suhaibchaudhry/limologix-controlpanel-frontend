@@ -27,7 +27,7 @@
                             <a ui-sref="app.dispatch.dispatch_ride_request">
                                 <fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a>
                         </li>
-                        <li ui-sref-active="active">
+                        <li ui-sref-active="active" ng-controller="PendingDispatchesCtrl">
                             <a ui-sref="app.dispatch.pendingdispatches">
                                 <fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}<span class="badge badge-danger">{{pending_dispatch_count}}</span></a>
                         </li>
