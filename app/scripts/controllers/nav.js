@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-  .controller('NavCtrl', function ($scope) {
+  .controller('NavCtrl', function ($scope,$rootScope) {
     $scope.oneAtATime = false;
 
     $scope.status = {
@@ -16,6 +16,6 @@ app
       isSecondOpen: true,
       isThirdOpen: true
     };
-    $scope.pending_dispatch_count = 10;
-
+    //$scope.pending_dispatch_count = 10;
+    console.log('dfdf',$rootScope.isSuperAdmin);
   });

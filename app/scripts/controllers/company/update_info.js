@@ -39,7 +39,8 @@ app
             //Model which handles selected country and state update
             $scope.selected = {}
             $scope.loggedUser = countriesConstant.user.name;
-            getCountries();
+                getCountries();
+                        
             //Get countries from API
             function getCountries() {
                 //Load countries and keep them in constants on app load and get countries from constants

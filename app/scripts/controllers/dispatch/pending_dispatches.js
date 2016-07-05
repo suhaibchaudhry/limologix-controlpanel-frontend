@@ -14,12 +14,14 @@ app
         'appSettings',
         'services',
         'notify',
-         function($scope, $http, appSettings,services,notify) {
+        '$rootScope',
+         function($scope, $http, appSettings,services,notify,$rootScope) {
           $scope.page = {
             title:'Pending Dispatches',
             subtitle :''
           }
-          getPendingList();
+          
+            getPendingList();
 
           function getPendingList() {
               var url = appSettings.serverPath + appSettings.serviceApis.tripPending;

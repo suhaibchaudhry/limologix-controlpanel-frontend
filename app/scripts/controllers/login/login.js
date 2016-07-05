@@ -9,12 +9,23 @@
  */
 app
   .controller('LoginCtrl',
-    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant',
-    function ($scope, $state,$http,appSettings,notify, $window,services, constants) {
+    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant','$rootScope',
+    function ($scope, $state,$http,appSettings,notify, $window,services, constants,$rootScope) {
   	$scope.user = {
       	email :'',
       	password:''
     };
+
+    $scope.oneAtATime = false;
+
+    $scope.status = {
+      isFirstOpen: true,
+      isSecondOpen: true,
+      isThirdOpen: true
+    };
+    //$scope.pending_dispatch_count = 10;
+   
+
     $scope.login = function() {
       $scope.user = {
       	email : $scope.user.useremail,
@@ -27,7 +38,9 @@ app
             constants.user = response.data;
             constants.user.name = response.data.full_name;
             $window.sessionStorage['user'] = JSON.stringify(constants.user);
-            $state.go('app.dashboard');         
+            $rootScope.isSuperAdmin = false; 
+            $state.go('app.dashboard');
+            console.log('admin',$rootScope.isSuperAdmin);
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){
            if(error && error.message)

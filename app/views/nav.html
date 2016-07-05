@@ -1,4 +1,4 @@
-<div id="sidebar-wrap" ng-controller="NavCtrl">
+<div id="sidebar-wrap" ng-controller="LoginCtrl">
     <uib-accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
         <uib-accordion-group is-open="status.isFirstOpen">
             <uib-accordion-heading>
@@ -47,6 +47,21 @@
                         </li>
                     </ul>
                 </li>
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.shop')}">
+                    <a ui-sref="app.driver">
+                        <fa name="shopping-cart"></fa> <span>{{ 'Menu.DRIVER' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.driver.drivers">
+                                <fa name="caret-right"></fa> {{ 'Menu.DRIVERS' | translate }}</a>
+                        </li>
+                       <!--  <li ui-sref-active="active">
+                            <a ui-sref="app.shop.single-driver">
+                                <fa name="caret-right"></fa> {{ 'Menu.SINGLE_ORDER' | translate }}</a>
+                        </li> -->
+                       
+                    </ul>
+                </li>
                 <!--<li ui-sref-active="active" ng-class="{'open':$state.includes('app.material')}">
           <a ui-sref="app.material"><fa name="puzzle-piece"></fa> <span>{{ 'Menu.MATERIAL_UI' | translate }}</span></a>
           <ul>
@@ -81,17 +96,7 @@
             <li ui-sref-active="active"><a ui-sref="app.material.whiteframe"><fa name="caret-right"></fa> Whiteframe</a></li>
           </ul>
         </li>
-         <li ui-sref-active="active" ng-class="{'open':$state.includes('app.shop')}">
-          <a ui-sref="app.shop"><fa name="shopping-cart"></fa> <span>{{ 'Menu.SHOP' | translate }}</span></a>
-          <ul>
-            <li ui-sref-active="active"><a ui-sref="app.shop.orders"><fa name="caret-right"></fa> {{ 'Menu.ORDERS' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.shop.single-order"><fa name="caret-right"></fa> {{ 'Menu.SINGLE_ORDER' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.shop.products"><fa name="caret-right"></fa> {{ 'Menu.PRODUCTS' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.shop.single-product"><fa name="caret-right"></fa> {{ 'Menu.SINGLE_PRODUCT' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.shop.invoices"><fa name="caret-right"></fa> {{ 'Menu.INVOICES' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="app.shop.single-invoice"><fa name="caret-right"></fa> {{ 'Menu.SINGLE_INVOICE' | translate }}</a></li>
-          </ul>
-        </li>
+         
         <li ui-sref-active="active" ng-class="{'open':$state.includes('app.tables')}">
           <a ui-sref="app.tables"><fa name="table"></fa> <span>{{ 'Menu.TABLES' | translate }}</span></a>
           <ul>

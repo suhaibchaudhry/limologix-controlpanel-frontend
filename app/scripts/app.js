@@ -68,7 +68,7 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://172.16.90.117:9000',  //'http://limologix.softwaystaging.com', 
+        server_address: 'http://172.16.90.117:9000', //'http://limologix.softwaystaging.com', 
         version: 'v1',
         serverPath: 'http://172.16.90.117:9000/api/v1/', //"http://limologix.api.softwaystaging.com/api/v1/", 
         serviceApis: {
@@ -89,17 +89,21 @@ var app = angular
             tripPending: 'users/trips/index',
             my_profile: 'users/profile/show',
             profileupdate: 'users/profile/update',
-            reset_auth_details:'users/profile/reset_authentication_details',
-            restpasswrdfromemail:'users/reset_password',
+            reset_auth_details: 'users/profile/reset_authentication_details',
+            restpasswrdfromemail: 'users/reset_password',
             forgotPassword: 'users/forgot_password',
             logout: 'users/logout',
             //super-admin
-            super_admin_sign_in:'admins/sign_in'
+            super_admin_sign_in:'admins/sign_in',
+            getDriverList : 'admins/drivers/index',
+            getIndividualDriverDetail: 'admins/drivers/show'
         }
     })
+
+.run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant', function($rootScope, $state, $http, $stateParams, $window, constant) {
+    //If user logged in and 
+    //
     
-    .run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant', function($rootScope, $state, $http, $stateParams, $window, constant) {
-        //If user logged in and 
         var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
         if (user['Auth-Token']) {
             constant.user = user;
@@ -112,42 +116,27 @@ var app = angular
         } else {
             $state.go('core.login')
         }
+      
 
-        //If super admin logged in and 
-        var superadmin = $window.sessionStorage['superadmin'] ? JSON.parse($window.sessionStorage['superadmin']) : {};
-        if (superadmin['Auth-Token']) {
-            constant.superadmin = superadmin;
-        } else {
-            constant.superadmin = {};
-        }
-        //sets token on evry refresh
-        if (constant.superadmin['Auth-Token']) {
-            $http.defaults.headers.common['Auth-Token'] = $window.sessionStorage['Auth-Token'];
-        } else {
-            $state.go('core.super_admin_login')
-        }
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    $rootScope.$on('$stateChangeSuccess', function(event, toState) {
 
+        event.targetScope.$watch('$viewContentLoaded', function() {
 
+            angular.element('html, body, #content').animate({ scrollTop: 0 }, 200);
 
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
-        $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+            setTimeout(function() {
+                angular.element('#wrap').css('visibility', 'visible');
 
-            event.targetScope.$watch('$viewContentLoaded', function() {
-
-                angular.element('html, body, #content').animate({ scrollTop: 0 }, 200);
-
-                setTimeout(function() {
-                    angular.element('#wrap').css('visibility', 'visible');
-
-                    if (!angular.element('.dropdown').hasClass('open')) {
-                        angular.element('.dropdown').find('>ul').slideUp();
-                    }
-                }, 200);
-            });
-            $rootScope.containerClass = toState.containerClass;
+                if (!angular.element('.dropdown').hasClass('open')) {
+                    angular.element('.dropdown').find('>ul').slideUp();
+                }
+            }, 200);
         });
-    }])
+        $rootScope.containerClass = toState.containerClass;
+    });
+}])
 
 .config(['uiSelectConfig', function(uiSelectConfig) {
     uiSelectConfig.theme = 'bootstrap';
@@ -155,17 +144,17 @@ var app = angular
 
 //angular-language
 .config(['$translateProvider', '$httpProvider', function($translateProvider, $httpProvider) {
-    $translateProvider.useStaticFilesLoader({
-        prefix: 'languages/',
-        suffix: '.json'
-    });
-    $translateProvider.useLocalStorage();
-    $translateProvider.preferredLanguage('en');
-    $translateProvider.useSanitizeValueStrategy(null);
-    //capture the response and process it before completing the call
-    $httpProvider.interceptors.push('authHttpResponseInterceptor');
-}])
-//session expired
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'languages/',
+            suffix: '.json'
+        });
+        $translateProvider.useLocalStorage();
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useSanitizeValueStrategy(null);
+        //capture the response and process it before completing the call
+        $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    }])
+    //session expired
     .factory('authHttpResponseInterceptor', ['$q', '$location', function($q, $location) {
         return {
             response: function(response) {
@@ -210,20 +199,7 @@ var app = angular
                 }]
             }
         })
-        //dashboard
-        .state('app.driver_verification', {
-            url: '/driver_verification',
-            controller: 'DriverVerificationCtrl',
-            templateUrl: 'views/super_admin/driver_verification.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css'
-                    ]);
-                }]
-            }
-        })
+        
         //mail
         .state('app.mail', {
             abstract: true,
@@ -526,26 +502,7 @@ var app = angular
             controller: 'mtWhiteframeCtrl',
             templateUrl: 'views/tmpl/material/whiteframe.html'
         })
-        //shop
-        .state('app.shop', {
-            url: '/shop',
-            template: '<div ui-view></div>'
-        })
-        //shop/orders
-        // .state('app.shop.orders', {
-        //   url: '/orders',
-        //   controller: 'OrdersCtrl',
-        //   templateUrl: 'views/tmpl/shop/orders.html',
-        //   resolve: {
-        //     plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-        //       return $ocLazyLoad.load([
-        //         'scripts/vendor/datatables/datatables.bootstrap.min.css',
-        //         'scripts/vendor/datatables/Pagination/input.js',
-        //         'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-        //       ]);
-        //     }]
-        //   }
-        // })
+        
         //shop/products
         .state('app.shop.products', {
             url: '/products',
@@ -875,20 +832,58 @@ var app = angular
             controller: 'LoginCtrl',
             templateUrl: 'views/tmpl/login/login.html'
         })
-         //super admin login
-        .state('core.super_admin_login', {
-            url: '/super_admin/login',
-            controller: 'SuperAdminLoginCtrl',
-            templateUrl: 'views/super_admin/login/login.html'
+        //driver verification by super admin
+        .state('app.driver', {
+            url: '/driver',
+            template: '<div ui-view></div>'
         })
-
-        //logout
-        .state('core.logout', {
-            url: '/login',
-            controller: 'LogoutCtrl',
-            templateUrl: 'views/tmpl/login/login.html'
-
+        //shop/orders
+        .state('app.driver.drivers', {
+          url: '/drivers',
+          controller: 'DriversCtrl',
+          templateUrl: 'views/super_admin/drivers.html',
+          resolve: {
+            plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                'scripts/vendor/datatables/Pagination/input.js',
+                'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+              ]);
+            }]
+          }
         })
+        //shop/single-order
+        .state('app.driver.single-driver', {
+            url: '/single-driver/:driver_id',
+            controller: 'SingleDriverCtrl',
+            templateUrl: 'views/super_admin/single-driver.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/Pagination/input.js',
+                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                    ]);
+                }]
+            }
+        })
+        // //dashboard
+        // .state('app.driver_verification', {
+        //     url: '/driver_verification',
+        //     controller: 'DriverVerificationCtrl',
+        //     templateUrl: 'views/super_admin/driver_verification.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
+
+  
         //signup
         .state('core.signup', {
             url: '/signup',
@@ -907,6 +902,13 @@ var app = angular
             controller: 'ResetPassEmailCtrl',
             templateUrl: 'views/tmpl/profile/reset_password_email.html'
         })
+        //logout
+        .state('core.logout', {
+            url: '/login',
+            controller: 'LogoutCtrl',
+            templateUrl: 'views/tmpl/login/login.html'
+
+        })  
         //page 404
         .state('core.page404', {
             url: '/page404',

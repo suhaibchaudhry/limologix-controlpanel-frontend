@@ -9,12 +9,23 @@
  */
 app
   .controller('SuperAdminLoginCtrl',
-    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant',
-    function ($scope, $state,$http,appSettings,notify, $window,services, constants) {
-  	$scope.user = {
+    ['$scope','$state','$http','appSettings','notify','$window','services','countriesConstant','$rootScope',
+    function ($scope, $state,$http,appSettings,notify, $window,services, constants,$rootScope) {
+  	$scope.oneAtATime = false;
+
+    $scope.status = {
+      isFirstOpen: true,
+      isSecondOpen: true,
+      isThirdOpen: true
+    };
+    $scope.user = {
       	email :'',
       	password:''
     };
+    $scope.userType = {
+      superAdmin : true,
+      admin:false
+    }
     $scope.login = function() {
       $scope.user = {
       	email : 'superadmin@limologix.com',
@@ -27,7 +38,9 @@ app
             constants.superadmin = response.data;
             constants.superadmin.name = response.data.full_name;
             $window.sessionStorage['superadmin'] = JSON.stringify(constants.superadmin);
-            $state.go('app.driver_verification');         
+            $scope.userType.superAdmin = true;
+            console.log('superadmin',$scope.userType.superAdmin);
+            $state.go('app.driver.drivers');         
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){
            if(error && error.message)

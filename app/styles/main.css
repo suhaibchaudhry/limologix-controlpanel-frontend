@@ -12477,4 +12477,7 @@ hr.line-full {
   float: left;
   padding: 10px 50px 10px 10px; }
 
+.wordBreak {
+  word-break: break-all; }
+
 /*# sourceMappingURL=main.css.map */
