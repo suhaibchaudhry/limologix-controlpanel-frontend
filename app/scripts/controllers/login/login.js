@@ -16,15 +16,7 @@ app
       	password:''
     };
 
-    $scope.oneAtATime = false;
-
-    $scope.status = {
-      isFirstOpen: true,
-      isSecondOpen: true,
-      isThirdOpen: true
-    };
-    //$scope.pending_dispatch_count = 10;
-   
+    $scope.isAdmin = false;   
 
     $scope.login = function() {
       $scope.user = {
@@ -37,10 +29,18 @@ app
             $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
             constants.user = response.data;
             constants.user.name = response.data.full_name;
-            $window.sessionStorage['user'] = JSON.stringify(constants.user);
-            $rootScope.isSuperAdmin = false; 
-            $state.go('app.dashboard');
-            console.log('admin',$rootScope.isSuperAdmin);
+            constants.userRole = response.data.role;
+            if(constants.userRole == 'admin'){
+                $scope.isAdmin = true;
+                $window.sessionStorage['UserRole'] = constants.userRole;
+                $window.sessionStorage['user'] = JSON.stringify(constants.user);
+                $state.go('app.dashboard');
+            }else{
+                $scope.isAdmin = false;
+                $window.sessionStorage['UserRole'] = constants.userRole;
+                $window.sessionStorage['user'] = JSON.stringify(constants.user);
+                $state.go('app.driver.drivers');
+            }
             notify({ classes: 'alert-success',message:response.message});
        }, function(error){
            if(error && error.message)

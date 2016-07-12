@@ -8,31 +8,70 @@
  * Controller of the minovateApp
  */
 app
-    .controller('SingleDriverCtrl',['$scope', '$state', '$http', 'appSettings','services','$stateParams',
-    function($scope, $state, $http, appSettings, services, $stateParams) {
-        console.log("ssss", $stateParams.driver_id);
-        $scope.page = {
-            title: 'Single Driver',
-            subtitle: '',//'Place subtitle here...'
-        };
-        $scope.imagePath =  appSettings.server_address;
-        // $scope.driver_id = $state.get('driver_id') || undefined;
+    .controller('SingleDriverCtrl', ['$scope', '$state', '$http', 'notify', 'appSettings', 'services', '$stateParams',
+        function($scope, $state, $http, notify, appSettings, services, $stateParams) {
+            $scope.page = {
+                title: 'Single Driver',
+                subtitle: '', //'Place subtitle here...'
+            };
+            $scope.imagePath = appSettings.server_address;
+            funcGetDetails();
 
-        funcGetDetails();
+            function funcGetDetails() {
 
-        function funcGetDetails(){
-            
                 var url = appSettings.serverPath + appSettings.serviceApis.getIndividualDriverDetail;
                 var postData = {
-                    "driver":{
-                        "id" : $stateParams.driver_id
+                    "driver": {
+                        "id": $stateParams.driver_id
                     }
                 };
                 services.funcPostRequest(url, postData).then(function(response) {
                     $scope.driversList = response.data.driver;
-                    console.log("driversList",$scope.driversList);
-                });
+                    console.log("driversList", $scope.driversList);
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                })
+            }
+            $scope.funcBlock = function() {
+                var url = appSettings.serverPath + appSettings.serviceApis.userBlock;
+                var postData = {
+                    "driver": {
+                        "id": $stateParams.driver_id
+                    }
+                };
+                services.funcPostRequest(url, postData).then(function(response) {
+                    notify({ classes: 'alert-success', message: response.message });
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                })
+
+            }
+            $scope.funcDisapprove = function() {
+                var url = appSettings.serverPath + appSettings.serviceApis.userDisapprove;
+                var postData = {
+                    "driver": {
+                        "id": $stateParams.driver_id
+                    }
+                };
+                services.funcPostRequest(url, postData).then(function(response) {
+                    notify({ classes: 'alert-success', message: response.message });
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                })
+            }
+            $scope.funcApprove = function() {
+                var url = appSettings.serverPath + appSettings.serviceApis.userApprove;
+                var postData = {
+                    "driver": {
+                        "id": $stateParams.driver_id
+                    }
+                };
+                services.funcPostRequest(url, postData).then(function(response) {
+                    notify({ classes: 'alert-success', message: response.message });
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                })
+            }
+
         }
-        //getIndividualDriverDetails();
-            
-    }]);            
+    ]);

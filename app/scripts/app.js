@@ -94,17 +94,23 @@ var app = angular
             forgotPassword: 'users/forgot_password',
             logout: 'users/logout',
             //super-admin
-            super_admin_sign_in:'admins/sign_in',
-            getDriverList : 'admins/drivers/index',
-            getIndividualDriverDetail: 'admins/drivers/show'
+            getDriverList : 'users/drivers/index',
+            getIndividualDriverDetail: 'users/drivers/show',
+            userApprove:'users/drivers/approve',
+            userBlock:'users/drivers/block',
+            userDisapprove:'users/drivers/disapprove'
         }
     })
 
 .run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant', function($rootScope, $state, $http, $stateParams, $window, constant) {
-    //If user logged in and 
-    //
+    //If user logged in  - Admin or Super Admin
     
         var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
+        var userrole = $window.sessionStorage['UserRole'];
+        if(userrole){
+            constant.userRole = userrole;
+        }
+
         if (user['Auth-Token']) {
             constant.user = user;
         } else {

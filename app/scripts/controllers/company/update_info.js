@@ -18,9 +18,6 @@ app
             var vm = this;
             $scope.base64Img = '';
             $scope.phoneNumbr = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-            //  /^\+?\d{1}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
-            //     $scope.countryCode = 'US';
-            //     $scope.stateCode = 'AK';
             $scope.companyInfo = {
                 name: '',
                 email: '',
@@ -37,9 +34,13 @@ app
                 picFile: ''
             }
             //Model which handles selected country and state update
-            $scope.selected = {}
+            $scope.selected = {};
+            $scope.isAdmin = false;
             $scope.loggedUser = countriesConstant.user.name;
+            if(countriesConstant.userRole == 'admin'){
+                $scope.isAdmin = true;
                 getCountries();
+            }
                         
             //Get countries from API
             function getCountries() {

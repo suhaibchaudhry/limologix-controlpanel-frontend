@@ -8,38 +8,38 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl',[
-      '$scope',
-      '$http',
-      '$rootScope',
-      '$window',
-      'appSettings',
-      'services',
-      'countriesConstant',
-  function($scope,$http,$rootScope,$window,appSettings,services,constant){
-    $scope.page = {
-      title: 'Dashboard',
-      subtitle: '' //'Place subtitle here...'
-    };
-     if(constant.user['Auth-Token']){
-        getCompanyInfo();
-     }
-    function getCompanyInfo(){
-         var url = appSettings.serverPath + appSettings.serviceApis.company_info;
-         services.funcGetRequest(url).then(function(response){
-            var response = response.data.company;
-            $scope.companyInfo = {
-              logoUrl:response.logo.image
+    .controller('DashboardCtrl', [
+        '$scope',
+        '$http',
+        '$rootScope',
+        '$window',
+        'appSettings',
+        'services',
+        'countriesConstant',
+        function($scope, $http, $rootScope, $window, appSettings, services, constant) {
+            $scope.page = {
+                title: 'Dashboard',
+                subtitle: '' //'Place subtitle here...'
+            };
+            if (constant.user['Auth-Token']) {
+                getCompanyInfo();
             }
-             displayLogo();
-         }, function(error){
-             
-         })
-     }
-    function displayLogo(){
-      $scope.picFilePreview = appSettings.server_address + $scope.companyInfo.logoUrl;
-    }
-}]);
 
+            function getCompanyInfo() {
+                var url = appSettings.serverPath + appSettings.serviceApis.company_info;
+                services.funcGetRequest(url).then(function(response) {
+                    var response = response.data.company;
+                    $scope.companyInfo = {
+                        logoUrl: response.logo.image
+                    }
+                    displayLogo();
+                }, function(error) {
 
+                })
+            }
 
+            function displayLogo() {
+                $scope.picFilePreview = appSettings.server_address + $scope.companyInfo.logoUrl;
+            }
+        }
+    ]);

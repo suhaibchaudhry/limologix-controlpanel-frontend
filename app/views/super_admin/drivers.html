@@ -1,190 +1,96 @@
 <div class="page page-orders">
-
-
-  <!-- page header -->
-  <div class="pageheader">
-
-    <h2>{{page.title}} <span>// {{page.subtitle}}</span></h2>
-
-    <div class="page-bar">
-
-      <ul class="page-breadcrumb">
-        <li>
-          <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
-        </li>
-        <li>
-          <a href="javascript:;">Shop</a>
-        </li>
-        <li>
-          <a ui-sref="app.shop.orders">{{page.title}}</a>
-        </li>
-      </ul>
-
-    </div>
-
-  </div>
-  <!-- /page header -->
-  <!-- page content -->
-  <div class="pagecontent">
-
-
-    <!-- row -->
-    <div class="row">
-      <!-- col -->
-      <div class="col-md-12">
-
-
-        <div class="alert alert-danger">
-          <strong>Note!</strong> This table have only demo purpose. Data are not loaded from database but from dummy json.
-        </div>
-
-
-        <!-- tile -->
-        <section class="tile" fullscreen="isFullscreen01">
-
-          <!-- tile header -->
-          <div class="tile-header dvd dvd-btm">
-            <h1 class="custom-font"><strong>Drivers</strong> List</h1>
-            <ul class="controls">
-
-              <li><a href="javascipt:;"><i class="fa fa-plus mr-5"></i> New Order</a></li>
-
-              <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
-
-                <a href class="dropdown-toggle" uib-dropdown-toggle>Tools <i class="fa fa-angle-down ml-5"></i></a>
-
-                <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-                  <li>
-                    <a href>Export to XLS</a>
-                  </li>
-                  <li>
-                    <a href>Export to CSV</a>
-                  </li>
-                  <li>
-                    <a href>Export to XML</a>
-                  </li>
-                  <li role="presentation" class="divider"></li>
-                  <li>
-                    <a href>Print Invoices</a>
-                  </li>
-
-                </ul>
-
-              </li>
-
-              <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
-
-                <a href uib-dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
-
-                <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-                  <li>
-                    <a href tile-control-toggle>
-                      <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
-                      <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href tile-control-refresh ng-click="ajaxFaker()">
-                      <fa name="refresh"></fa> Refresh
-                    </a>
-                  </li>
-                  <li>
-                    <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
-                      <fa name="expand"></fa> Fullscreen
-                    </a>
-                  </li>
-                  <li>
-                    <a href tile-control-lightbox>
-                      <fa name="magnet"></fa> Open in Lightbox
-                    </a>
-                  </li>
-
-                </ul>
-
-              </li>
-              <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li>
+    <!-- page header -->
+    <div class="pageheader">
+        <h2>{{page.title}} <span> {{page.subtitle}}</span></h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a ui-sref="app.driver.drivers"><i class="fa fa-home"></i> {{main.title}}</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Driver</a>
+                </li>
+                <li>
+                    <a ui-sref="app.driver.drivers">{{page.title}}</a>
+                </li>
             </ul>
-          </div>
-          <!-- /tile header -->
-
-          <!-- tile body -->
-          <div class="tile-body" ng-controller="OrdersTableCtrl1 as showCase">
-            <div class="table-responsive-wide">
-              <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
-                <thead>
-                  <tr>
-                    <th style="width:40px;">
-                      <label class="checkbox checkbox-custom checkbox-custom-sm m-0">
-                        <input type="checkbox" ng-model="showCase.selectedAll" ng-click="showCase.selectAll()"><i></i>
-                      </label>
-                    </th>
-                    <th style="width:80px;">Order ID</th>
-                    <th style="width:80px;">First Name</th>
-                    <th style="width:90px;">Last Name</th>
-                    <th style="width:120px;">email</th>
-                    <th style="width:180px;">Mobile No</th>
-                    <th style="width:80px;">Status</th>
-                    <th style="width:100px;">Vehicle</th>
-                    <th style="width:150px;">Actions</th>
-                  </tr>
-                  </thead>
-                  <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>ID</th>
-                    <th>fName</th>
-                    <th>lName</th>
-                    <th>email</th>
-                    <th>Mobile no</th>
-                    <th>Status</th>
-                    <th>Vehicle</th>
-                    <th></th>
-                  </tr>
-                  </tfoot>
-                  <tbody>
-                  <tr ng-repeat="order in showCase.orders">
-                    <td><label class="checkbox checkbox-custom checkbox-custom-sm m-0"><input type="checkbox" ng-model="order.selected"><i></i></label></td>
-                    <td>{{ order.id }}</td>
-                    <td>{{order.first_name}}</td>
-                    <td>{{ order.last_name }}</td>
-                    <td>{{ order.email}}</td>
-                    <td>{{ order.mobile_number }}</td>
-                    <td><span class="label" ng-class="{'bg-success' : order.status == 'sent','bg-warning' : order.status == 'closed','bg-primary' : order.status == 'cancelled','bg-lightred' : order.status == 'pending'}">{{ order.status }}</span></td>
-                      
-                    <td>{{ order.vehicle.vehicle_type.name }}</td>
-                    <td>
-                        <a ng-click="showCase.getIndividualDriverDetails(order.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
-                        <a href="javascript:;" class="btn btn-xs btn-lightred"><i class="fa fa-times"></i> Delete</a>
-                    </td>
-                  </tr>
-                  </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- /tile body -->
-
-        </section>
-        <!-- /tile -->
-
-      </div>
-      <!-- /col -->
+        </div>
     </div>
-    <!-- /row -->
-
-
-
-
-  </div>
-  <!-- /page content -->
-
-
-
-
-
-
- 
-
-
-
-
+    <!-- /page header -->
+    <!-- page content -->
+    <div class="pagecontent">
+        <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-md-12">
+                <!-- tile -->
+                <section class="tile" fullscreen="isFullscreen01">
+                    <!-- tile header -->
+                    <div class="tile-header dvd dvd-btm">
+                        <h1 class="custom-font"><strong>Drivers</strong> List</h1>
+                    </div>
+                    <!-- /tile header -->
+                    <!-- tile body -->
+                    <div class="tile-body" ng-controller="OrdersTableCtrl as showCase">
+                        <div class="table-responsive-wide">
+                            <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;">
+                                            <!-- <label class="checkbox checkbox-custom checkbox-custom-sm m-0">
+                        <input type="checkbox" ng-model="showCase.selectedAll" ng-click="showCase.selectAll()"><i></i>
+                      </label> -->
+                                        </th>
+                                        <th style="width:80px;">Driver ID</th>
+                                        <th style="width:80px;">First Name</th>
+                                        <th style="width:90px;">Last Name</th>
+                                        <th style="width:120px;">email</th>
+                                        <th style="width:180px;">Mobile No</th>
+                                        <th style="width:80px;">Status</th>
+                                        <th style="width:100px;">Vehicle</th>
+                                        <th style="width:150px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>ID</th>
+                                        <th>fName</th>
+                                        <th>lName</th>
+                                        <th>email</th>
+                                        <th>Mobile no</th>
+                                        <th>Status</th>
+                                        <th>Vehicle</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr ng-repeat="order in showCase.orders">
+                                        <td>
+                                            <!-- <label class="checkbox checkbox-custom checkbox-custom-sm m-0"><input type="checkbox" ng-model="order.selected"><i></i></label> -->
+                                        </td>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{order.first_name}}</td>
+                                        <td>{{ order.last_name }}</td>
+                                        <td>{{ order.email}}</td>
+                                        <td>{{ order.mobile_number }}</td>
+                                        <td><span class="label" ng-class="{'bg-success' : order.status == 'approved','bg-warning' : order.status == 'disapproved','bg-danger' : order.status == 'blocked','bg-primary' : order.status == 'pending'}">{{ order.status }}</span></td>
+                                        <td>{{ order.vehicle.vehicle_type.name }}</td>
+                                        <td>
+                                            <a ng-click="showCase.getIndividualDriverDetails(order.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /tile body -->
+                </section>
+                <!-- /tile -->
+            </div>
+            <!-- /col -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /page content -->
 </div>

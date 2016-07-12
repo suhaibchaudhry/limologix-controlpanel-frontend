@@ -8,7 +8,11 @@
  * Controller of the minovateApp
  */
 app
-  .controller('NavCtrl', function ($scope,$rootScope) {
+  .controller('NavCtrl',[
+    '$scope',
+    '$rootScope',
+    'countriesConstant',
+    function ($scope,$rootScope,constant) {
     $scope.oneAtATime = false;
 
     $scope.status = {
@@ -16,6 +20,8 @@ app
       isSecondOpen: true,
       isThirdOpen: true
     };
-    //$scope.pending_dispatch_count = 10;
-    console.log('dfdf',$rootScope.isSuperAdmin);
-  });
+    if(constant.userRole == 'admin')
+      $scope.isAdmin = true;
+    else 
+      $scope.isAdmin = false;
+  }]);

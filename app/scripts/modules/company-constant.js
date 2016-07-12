@@ -4,5 +4,6 @@
       countries : [],
       user : {},
       superadmin:{},
-      tripdata:{}
+      tripdata:{},
+      userRole:""
   })
