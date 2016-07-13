@@ -100,11 +100,11 @@ app
 
         vm.selectAll = function() {
 
-            if ($scope.selectedAl = false;
+            if ($scope.selectedAll) {
+                $scope.selectedAll = false;
             } else {
                 $scope.selectedAll = true;
-            }l) {
-                $scope.selectedAll
+            }
 
             angular.forEach(vm.orders, function(order) {
                 order.selected = $scope.selectedAll;
