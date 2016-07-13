@@ -3,5 +3,7 @@
   .constant('countriesConstant', { 
       countries : [],
       user : {},
-      tripdata:{}
+      superadmin:{},
+      tripdata:{},
+      userRole:""
   })
