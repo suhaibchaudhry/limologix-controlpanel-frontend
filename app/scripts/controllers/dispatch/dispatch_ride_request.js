@@ -53,6 +53,7 @@ app
                 types: ['(cities)'],
                 componentRestrictions: { country: 'us' }
             };
+            $scope.imagePath = appSettings.server_images_path;
             $scope.customerId = "";
             // Google place autocomplete location Object of pick up and drop off
             $scope.pickup = {

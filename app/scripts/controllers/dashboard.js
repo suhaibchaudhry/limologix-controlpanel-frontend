@@ -39,7 +39,7 @@ app
             }
 
             function displayLogo() {
-                $scope.picFilePreview = appSettings.server_address + $scope.companyInfo.logoUrl;
+                $scope.picFilePreview = appSettings.server_images_path + $scope.companyInfo.logoUrl;
             }
         }
     ]);

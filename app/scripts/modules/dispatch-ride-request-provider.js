@@ -20,12 +20,12 @@ function funcservices() {
                     });
                     var icons = {
                         start: new google.maps.MarkerImage(
-                            'images/source_marker.png',
+                            'images/source_marker.9db0b1d4.png',
                             new google.maps.Size(44, 32), //width,height
                             new google.maps.Point(0, 0), // The origin point (x,y)
                             new google.maps.Point(22, 32)),
                         end: new google.maps.MarkerImage(
-                            'images/destination_marker.png',
+                            'images/destination_marker.23597b9e.png',
                             new google.maps.Size(44, 32),
                             new google.maps.Point(0, 0),
                             new google.maps.Point(22, 32))
