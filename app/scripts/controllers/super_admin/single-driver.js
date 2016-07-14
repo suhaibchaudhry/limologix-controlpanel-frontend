@@ -14,7 +14,7 @@ app
                 title: 'Single Driver',
                 subtitle: '', //'Place subtitle here...'
             };
-            $scope.imagePath = appSettings.server_address;
+            $scope.imagePath = appSettings.server_images_path;
             funcGetDetails();
 
             function funcGetDetails() {
