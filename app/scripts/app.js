@@ -10,7 +10,6 @@
  */
 
 /*jshint -W079 */
-
 var app = angular
     .module('limoLogixApp', [
         'ngAnimate',
@@ -80,7 +79,7 @@ var app = angular
             company_info: 'users/companies/show',
             company_getCountries: 'master_data/countries',
             company_getStates: 'master_data/states',
-            //Dispatch
+            //Dispatch requests
             addcustomer: 'users/customers/create',
             getExistingCustomers: '/users/customers/search',
             createTrip: 'users/trips/create',
