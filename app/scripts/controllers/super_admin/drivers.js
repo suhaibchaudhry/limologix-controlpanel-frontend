@@ -14,7 +14,7 @@ app
             subtitle: '',//'Place subtitle here...'
         };
     })
-    .controller('OrdersTableCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
+    .controller('OrdersTableCtrl1', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
        
         var vm = this;
         vm.orders = [];
@@ -75,7 +75,6 @@ app
 
 
         vm.getIndividualDriverDetails = function(driver_id){
-            console.log('id',driver_id);
             $state.go('app.driver.single-driver', {"driver_id":driver_id});
         }      
 

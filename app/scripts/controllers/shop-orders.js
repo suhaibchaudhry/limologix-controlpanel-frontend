@@ -65,7 +65,7 @@ app
         });
 
     })
-    .controller('OrdersTableCtrl1', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
+    .controller('OrdersTableCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
        
         var vm = this;
         vm.orders = [];

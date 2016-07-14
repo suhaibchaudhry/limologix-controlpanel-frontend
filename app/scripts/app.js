@@ -68,10 +68,10 @@ var app = angular
         'vsGoogleAutocomplete'
     ])
     .constant('appSettings', {
-        server_address: 'http://limologix.softwaystaging.com',  //'http://172.16.90.117:9000',
-        server_images_path:"http://limologix.api.softwaystaging.com",
+        server_address: 'http://172.16.90.117:9000', //'http://limologix.softwaystaging.com',  
+        server_images_path: 'http://172.16.90.117:9000', //"http://limologix.api.softwaystaging.com",
         version: 'v1',
-        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", // 'http://172.16.90.117:9000/api/v1/', 
+        serverPath: 'http://172.16.90.117:9000/api/v1/', //"http://limologix.api.softwaystaging.com/api/v1/", // 'http://172.16.90.117:9000/api/v1/', 
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -512,82 +512,82 @@ var app = angular
         })
         
         //shop/products
-        .state('app.shop.products', {
-            url: '/products',
-            controller: 'ProductsCtrl',
-            templateUrl: 'views/tmpl/shop/products.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.shop.products', {
+        //     url: '/products',
+        //     controller: 'ProductsCtrl',
+        //     templateUrl: 'views/tmpl/shop/products.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
         //shop/invoices
-        .state('app.shop.invoices', {
-            url: '/invoices',
-            controller: 'InvoicesCtrl',
-            templateUrl: 'views/tmpl/shop/invoices.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.shop.invoices', {
+        //     url: '/invoices',
+        //     controller: 'InvoicesCtrl',
+        //     templateUrl: 'views/tmpl/shop/invoices.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
         //shop/single-order
-        .state('app.shop.single-order', {
-            url: '/single-order',
-            controller: 'SingleOrderCtrl',
-            templateUrl: 'views/tmpl/shop/single-order.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.shop.single-order', {
+        //     url: '/single-order',
+        //     controller: 'SingleOrderCtrl',
+        //     templateUrl: 'views/tmpl/shop/single-order.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
         //shop/single-product
-        .state('app.shop.single-product', {
-            url: '/single-product',
-            controller: 'SingleProductCtrl',
-            templateUrl: 'views/tmpl/shop/single-product.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js',
-                        'scripts/vendor/touchspin/jquery.bootstrap-touchspin.js',
-                        'scripts/vendor/touchspin/jquery.bootstrap-touchspin.css'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.shop.single-product', {
+        //     url: '/single-product',
+        //     controller: 'SingleProductCtrl',
+        //     templateUrl: 'views/tmpl/shop/single-product.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js',
+        //                 'scripts/vendor/touchspin/jquery.bootstrap-touchspin.js',
+        //                 'scripts/vendor/touchspin/jquery.bootstrap-touchspin.css'
+        //             ]);
+        //         }]
+        //     }
+        // })
         //shop/single-invoice
-        .state('app.shop.single-invoice', {
-            url: '/single-invoice',
-            controller: 'SingleInvoiceCtrl',
-            templateUrl: 'views/tmpl/shop/single-invoice.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.shop.single-invoice', {
+        //     url: '/single-invoice',
+        //     controller: 'SingleInvoiceCtrl',
+        //     templateUrl: 'views/tmpl/shop/single-invoice.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
         //forms
         .state('app.company', {
             url: '/company',
