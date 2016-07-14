@@ -285,7 +285,7 @@
                                 <div class="row" ng-style="{ 'border':'solid 1px #DCDCDC','padding':'12px'}">
                                     <div class="form-group col-md-2">
                                         </br>
-                                        <img src='{{imagePath}}{{vehicle.image}}' style="width:100%;height:100%">
+                                        <img src='{{imagePath}}{{vehicle.image}}' style="width:100%;height:100%;margin-top:35px;">
                                         <br/>
                                         <i class="fa fa-male fa-1g">&nbsp;&nbsp;&nbsp; {{vehicle.capacity}}</i>
                                     </div>
@@ -301,7 +301,7 @@
                         </ul>
                     </div>
                     <div class="col-sm-offset-5 col-sm-2 text-center">
-                        <button ng-class="{'btn btn-activeButton mb-10' : BookNow, 'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='!BookNow'>Dispatch Trip Request</button>
+                        <button ng-class="{'btn btn-activeButton mb-10' : BookNow, 'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='!BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
                     </div>
                 </form>
                 </br>

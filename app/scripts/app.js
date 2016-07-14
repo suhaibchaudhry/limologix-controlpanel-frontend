@@ -89,6 +89,7 @@ var app = angular
             selectVehicleType: 'users/vehicles/types',
             tripPending: 'users/trips/index',
             my_profile: 'users/profile/show',
+            tripDispatch :'users/trips/dispatch',
             profileupdate: 'users/profile/update',
             reset_auth_details: 'users/profile/reset_authentication_details',
             restpasswrdfromemail: 'users/reset_password',

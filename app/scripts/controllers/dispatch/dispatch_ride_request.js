@@ -174,7 +174,6 @@ app
                     }
                     var url = appSettings.serverPath + appSettings.serviceApis.createTrip;
                     services.funcPostRequest(url, customerDetails).then(function(response) {
-                        console.log(response);
                         $scope.tripId = response.data.trip.id;
                         constants.tripdata.tripId = $scope.tripId;
                         notify({ classes: 'alert-success', message: response.message });
@@ -196,7 +195,7 @@ app
                         pickupAt: response.data.trip.start_destination.place,
                         dropoffAt: response.data.trip.end_destination.place
                     }
-                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt,notify);
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
                     $scope.funcSelectVehicleType();
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
@@ -221,12 +220,28 @@ app
                 })
             };
             $scope.bookVehicle = function(element) {
+                $scope.vehicleId = element.id;
                 angular.forEach($scope.vehicleType, function(elem) {
                     elem.active = false;
                 });
                 $scope.BookNow = true;
                 element.active = !element.active;
             }
+
+            $scope.funcTripDispatch = function() {
+                var url = appSettings.serverPath + appSettings.serviceApis.tripDispatch;
+                var trip = {
+                    "id": $scope.tripId,
+                    "vehicle_type_id": $scope.vehicleId
+                }
+
+                services.funcPostRequest(url, { 'trip': trip }).then(function(response) {
+                    notify({ classes: 'alert-success', message: response.message });
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: response.message });
+                })
+            }
+
             $scope.editTripModalOpen = function(size) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'myModalContent.html',
@@ -402,7 +417,7 @@ app
 
 .controller('TimepickerCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
     if ($scope.trip)
-        $scope.trip.pickuptime = new Date();
+        $scope.trip.pickuptime = new Date().toUTCString();
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
 
