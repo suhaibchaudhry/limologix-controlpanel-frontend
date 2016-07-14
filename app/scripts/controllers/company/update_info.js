@@ -98,7 +98,7 @@ app
                         primary_phone_number: response.primary_phone_number,
                         logo: {
                             name: response.logo.name,
-                            image: appSettings.server_address + response.logo.image
+                            image: appSettings.server_images_path + response.logo.image
                         },
                         secondary_phone_number: response.secondary_phone_number,
                         //fax: response.fax,
