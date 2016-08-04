@@ -1,0 +1,94 @@
+<div class="page page-orders">
+    <!-- page header -->
+    <div class="pageheader">
+        <h2>{{page.title}} <span> {{page.subtitle}}</span></h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Custom Groups</a>
+                </li>
+                <li>
+                    <a ui-sref="app.custom-groups.create-groups">{{page.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header -->
+    <!-- page content -->
+    <div class="pagecontent">
+        <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-md-12">
+                <div class="tile-body">
+                    <div class='row'>
+                        <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-click='toggle = !toggle'>Create custom group</button>
+                    </div>
+                </div>
+                <section class="tile tile-simple" ng-show='toggle' ng-animate="'box'">
+                    <div class="tile-body" style="background-color:white">
+                        <form name="groupcreateform">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><b>Title:</b></label>
+                                    <input type="text" name="title" id="title" class="form-control input-lg" placeholder="Title" ng-model="title" required>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><b>Description</b></label>
+                                    <input type="textarea" name="Description" id="Description" class="form-control input-lg" placeholder="Enter Description" ng-model="Description" required>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-disabled="groupcreateform.$invalid" ng-click="CreateBucket();">Create</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                <div class="tile-body" ng-controller="GroupsTableCustomGroupCtrl as showCase">
+                    <div class="table-responsive-wide">
+                        <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 700px;">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px;">Group Id</th>
+                                    <th style="width:200px;">Group Name</th>
+                                    <th style="width:250px;">Description</th>
+                                    <th style="width:150px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>gName</th>
+                                    <th>descp</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="group in showCase.groups">
+                                    <td>{{group.id}}</td>
+                                    <td>{{group.name}}</td>
+                                    <td style="word-break:break-all">{{group.description}}</td>
+                                    <td>
+                                        <a ng-click="showCase.AddDrivers(group.id)" class="btn btn-xs btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add driver</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /col -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /page content -->
+</div>

@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="bower_components/dragular/dist/dragular.min.css" />
     <link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css" />
     <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.css" />
+    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -202,25 +203,41 @@
     <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
     <script src="bower_components/vs-google-autocomplete/dist/vs-google-autocomplete.js"></script>
     <script src="bower_components/vs-google-autocomplete/dist/vs-autocomplete-validator.js"></script>
+    <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/app.js -->
+    <script src="scripts/client.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/login/login.js"></script>
     <script src="scripts/controllers/super_admin/login/login.js"></script>
     <script src="scripts/controllers/super_admin/drivers.js"></script>
     <script src="scripts/controllers/super_admin/single-driver.js"></script>
+
     <script src="scripts/controllers/signup/signup.js"></script>
     <script src="scripts/controllers/company/update_info.js"></script>
+
     <script src="scripts/controllers/dispatch/dispatch_ride_request.js"></script>
     <script src="scripts/controllers/dispatch/pending_dispatches.js"></script>
+     <script src="scripts/controllers/dispatch/active_dispatches.js"></script>
+    <script src="scripts/controllers/dispatch/single_active_dispatches.js"></script>
+
+    <script src="scripts/controllers/custom_group/create_groups/custom-group-create.js"></script>
+     <script src="scripts/controllers/custom_group/create_groups/custom-group-add-drivers.js"></script>
+    <script src="scripts/controllers/custom_group/create_groups/custom-group-single-driver.js"></script>
+      <script src="scripts/controllers/custom_group/group_information/custom-group-info.js"></script>
+      <script src="scripts/controllers/custom_group/group_information/custom-group-info-drivers.js"></script>
+      <script src="scripts/controllers/custom_group/group_information/custom-group-single-driver-info.js"></script>
+
+    <script src="scripts/controllers/super_admin/ads_upload.js"></script>
     <script src="scripts/controllers/profile/my_account.js"></script>
     <script src="scripts/controllers/profile/reset_password.js"></script>
     <script src="scripts/controllers/profile/reset_password_email.js"></script>
     <script src="scripts/controllers/profile/forgot_password.js"></script>
     <script src="scripts/controllers/logout/logout.js"></script>
     <script src="scripts/directives/angular-media-preview.module.js"></script>
+    <script src="scripts/directives/backbtnhandle.js"></script>
     <script src="scripts/directives/navcollapse.js"></script>
     <script src="scripts/directives/slimscroll.js"></script>
     <script src="scripts/controllers/navbar-chart.js"></script>
@@ -346,6 +363,7 @@
     <script src="scripts/modules/service-provider.js"></script>
     <script src="scripts/modules/company-constant.js"></script>
     <script src="scripts/modules/dispatch-ride-request-provider.js"></script>
+    <script src="scripts/modules/toastr-notification-factory.js"></script>
     <!-- End Providers -->
 </body>
 </html>

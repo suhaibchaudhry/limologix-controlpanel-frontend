@@ -19,7 +19,7 @@
     <!-- /page header -->
     <!-- page content -->
     <div class="pagecontent">
-        <uib-tabset class="tab-animation tab-container tab-wizard" justified="true" set-ng-animate="true" ng-init="steps={step0:true,step1:true, step2:false, step3:false, step4:false, step5: false}">
+        <uib-tabset class="tab-animation tab-container tab-wizard" justified="true" set-ng-animate="true" ng-init="steps">
             <uib-tab active="steps.step1" disable=" isChoosed || step0.$valid || step1.$valid">
                 <uib-tab-heading>
                     Add a new customer
@@ -54,14 +54,14 @@
                                 <form name="step1" role="form" novalidate class="form-validation" ng-submit="funcAddCustomer(step1.$valid);">
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="first_name">First Name: </label>
+                                            <label for="first_name">First Name: <sup class="mandatory">*</sup></label>
                                             <input type="text" name="first_name" id="first_name" class="form-control" ng-model="customerInfo.first_name" required>
                                             <p class="help-block">
                                                 <span ng-show="step1.first_name.$invalid && !step1.first_name.$pristine">First Name is required.</span>
                                             </p>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="last_name">Last Name: </label>
+                                            <label for="last_name">Last Name: <sup class="mandatory">*</sup></label>
                                             <input type="text" name="last_name" id="last_name" class="form-control" ng-model="customerInfo.last_name" ng-minlength="1" ng-maxlength="10" required>
                                             <p class="help-block">
                                                 <span ng-show="step1.last_name.$invalid && !step1.last_name.$pristine">Last name is required.</span>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab active="steps.step2" disable=" !isChoosed || step0.$invalid || step2.$valid">
+            <uib-tab active="steps.step2" disable=" !isChoosed || step0.$invalid">
                 <!-- disable="step0.$invalid || step1.$invalid"-->
                 <uib-tab-heading>
                     Make a trip
@@ -116,17 +116,17 @@
                 <form name="step2" role="form" novalidate ng-submit="funcMakeTrip(step2.$valid);">
                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
-                            <label for="name">Passenger Count:<sup>*</sup> </label>
+                            <label for="name"><strong>Passenger Count:</strong><sup class="mandatory">*</sup></label><br/>
                             <input type="text" name="passenger_count" id="passenger_count" class="form-control" ng-model="trip.passenger_count" required numbers-only>
                             <p class="help-block">
-                                <span ng-show="step2.passenger_count.$invalid && !step2.passenger_count.$pristine">Passenger Count is required.</span>
+                                <span ng-show="step2.passenger_count.$invalid && !step2.passenger_count.$pristine" style="color:red;">Passenger Count is required.</span>
                             </p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
-                            <strong>Pick-up Date</strong>
+                            <strong>Pick-up Date <sup class="mandatory">*</sup></strong><br/>
                             <div class="tile-body" ng-controller="DatepickerTripCtrl">
                                 <!--                                 <pre class="alert alert-info mt-20">Selected date is: <em>{{trip.pickupdate | date:'dd-MM-yyyy' }}</em></pre> -->
                                 <p class="input-group">
@@ -141,7 +141,7 @@
                     <hr>
                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
-                            <strong>Pick-up Time</strong>
+                            <strong>Pick-up Time <sup class="mandatory">*</sup></strong><br/>
                             <div class="tile-body" ng-controller="TimepickerCtrl">
                                 <uib-timepicker ng-model="trip.pickuptime" ng-change="changed()" hour-step="1" minute-step="1" show-meridian="ismeridian" required></uib-timepicker>
                                 <button class="btn btn-sm btn-default" ng-click="clear()">Clear</button>
@@ -149,34 +149,71 @@
                             </div>
                         </div>
                     </div>
+                                            
+                   
+                <!-- pick up and drop off by locality or airports ising autocomplete-->
+
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-0">
+                            <label><strong>Choose Pick up point by  &nbsp; <i class="fa fa-map-marker"></i>&nbsp;Locality &nbsp; OR &nbsp; Airports &nbsp;<i class="fa fa-plane"></i></strong></label><sup class="mandatory">*</sup>
+                            <br/>
+                        </div>
+                    </div> <br/>                  
+               
                     <div class="row">
                         <div class="form-group col-md-6 mb-0">
-                            <label><strong>Pick up point</strong></label>
-                            <br/>
                             <div>
-                                <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name" vs-google-autocomplete="options" vs-latitude="pickup.components.location.lat" vs-longitude="pickup.components.location.long" required>
+                                <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name">
                             </div>
-                            <!--                             <span class="help-block"><b>place: </b>{{pickup.name}}</span>
-                            <span class="help-block"><b>Latitude: </b>{{pickup.components.location.lat}}</span>
-                            <span class="help-block"><b>Longitude: </b>{{pickup.components.location.long}}</span> -->
                         </div>
-                    </div>
+                    </div><br/>
+                   <!--  <div class="row" ng-show="!isPickupBy">
+                    {{airport_name}}
+                        <div class="form-group col-md-6 mb-0">
+                            <label><strong>Pick up point by Airports</strong></label>
+                            <input class="form-control" id='pickup_airport' typeahead-editable="true" placeholder = 'Airports' uib-typeahead="item.airport_name for item in getAirports($viewValue)| limitTo:10" typeahead-on-select="onSelectAirport($item);" type="text" class="searchInput" ng-model="airport_name" ng-required="!pickup.name">
+                            <span ng-show="no_airport_results" id="noairports" style="color:red"></span>
+                        </div>
+                    </div> -->
                     <hr>
-                    <div class="row">
+                   <div class="row">
+                      <div class="form-group col-md-12 mb-0">
+                          <label><strong>Choose Drop off point by &nbsp;<i class="fa fa-map-marker"></i>&nbsp;Locality &nbsp; OR &nbsp; Airports &nbsp;<i class="fa fa-plane"></i></strong></label><sup class="mandatory">*</sup>
+                          <br/>
+                      </div><br/>
+                  </div>
+                  <!-- <div class="row">
+                      <div class="form-group mb-0" style="margin-left:19px">
+                          <div type="button" ng-class="{'btn-success':dropoffOptionSelected ,'btn-info':!dropoffOptionSelected}" class="btn btn-lg mb-10" ng-click="isDropOffByLocation()"><i class="fa fa-map-marker"></i> &nbsp;Locality&nbsp; or&nbsp;Airports &nbsp;<i class="fa fa-plane"></i></div>
+                          &nbsp;
+                          
+                      </div>
+                  </div> -->
+                  <div class="row">
+                      <div class="form-group col-md-6 mb-0">
+                          <br/>
+                          <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" required>
+                      </div>
+                  </div> <br/>
+                  <!-- <div class="row" ng-show="!isDropOffBy">
+                      <div class="form-group col-md-6 mb-0">
+                          <label><strong>Drop off point by Airports</strong></label>
+                          <input class="form-control" typeahead-editable="true" uib-typeahead="item.airport_name for item in getAirports($viewValue)| limitTo:10" typeahead-on-select="onSelectAirport1($item, $model, $label)" type="text" class="searchInput" ng-model="search1.airport_name" ng-required="!dropoff.name">
+                          <span ng-show="no_airport_results1" id="noairports1" style="color:red"></span>
+                      </div>
+                  </div>  -->
+                    <!-- <div class="row">
                         <div class="form-group col-md-6 mb-0">
                             <label><strong>Drop off point</strong></label>
                             <br/>
                             <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" vs-google-autocomplete="options" vs-latitude="dropoff.components.location.lat" vs-longitude="dropoff.components.location.long" required>
-                            <!--                             <span class="help-block"><b>place: </b>{{dropoff.name}}</span>
-                            <span class="help-block"><b>Latitude: </b>{{dropoff.components.location.lat}}</span>
-                            <span class="help-block"><b>Longitude: </b>{{dropoff.components.location.long}}</span> -->
                         </div>
-                    </div>
+                    </div> -->
                     <hr>
-                    <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default" ng-click="steps.step3=true">Make a Trip</button>
+                    <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default">Make a Trip</button>
                 </form>
             </uib-tab>
-            <uib-tab active="steps.step3" disable="step2.$invalid">
+            <uib-tab active="steps.step3" disable="step2.$invalid || !isTripFormValid">
                 <uib-tab-heading>
                     Select Vehicle
                     <span class="badge badge-default pull-right wizard-step">3</span>
@@ -186,87 +223,15 @@
                         <div class="form-group col-md-6">
                             <label for="trip_summary">
                                 <h3><strong>Trip Summary:</strong></h3> </label>
-                            <div class="tile-body trip-edit-modal">
-                                <div>
-                                    <script type="text/ng-template" id="myModalContent.html">
-                                        <div class="modal-body">
-                                            <form name="EditTrip" role="form" novalidate ng-submit="funcEditTrip(EditTrip.$valid);">
-                                                <div class="row">
-                                                    <div class="form-group col-md-4 mb-0">
-                                                        <label for="name">Passenger Count:<sup>*</sup> </label>
-                                                        <input type="text" name="passenger_count" id="passenger_count" class="form-control" ng-model="tripinfo.passengers_count" required numbers-only>
-                                                        <p class="help-block">
-                                                            <span ng-show="EditTrip.passenger_count.$invalid && !EditTrip.passenger_count.$pristine">Passenger Count is required.</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="form-group col-md-4 mb-0">
-                                                        <strong>Pick-up Date</strong>
-                                                        <div class="tile-body" ng-controller="DatepickerTripCtrl">
-                                                            <!--                                 <pre class="alert alert-info mt-20">Selected date is: <em>{{trip.pickupdate | date:'dd-MM-yyyy' }}</em></pre> -->
-                                                            <p class="input-group">
-                                                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="tripinfo.pickup_date" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-                                                                <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
-                                      </span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="form-group col-md-4 mb-0">
-                                                        <strong>Pick-up Time</strong>
-                                                        <div class="tile-body" ng-controller="TimepickerCtrl">
-                                                            <uib-timepicker ng-model="tripinfo.pickup_time" ng-change="changed()" hour-step="1" minute-step="1" show-meridian="ismeridian" required></uib-timepicker>
-                                                            <button class="btn btn-sm btn-default" ng-click="clear()">Clear</button>
-                                                            <hr>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-0">
-                                                        <label><strong>Pick up point</strong></label>
-                                                        <br/>
-                                                        <div>
-                                                            <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name" vs-google-autocomplete="options" vs-latitude="pickup.components.location.lat" vs-longitude="pickup.components.location.long" required>
-                                                        </div>
-                                                        <!--<span class="help-block"><b>place: </b>{{pickup.name}}</span>
-                                                    <span class="help-block"><b>Latitude: </b>{{pickup.components.location.lat}}</span>
-                                                    <span class="help-block"><b>Longitude: </b>{{pickup.components.location.long}}</span>-->
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-0">
-                                                        <label><strong>Drop off point</strong></label>
-                                                        <br/>
-                                                        <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" vs-google-autocomplete="options" vs-latitude="dropoff.components.location.lat" vs-longitude="dropoff.components.location.long" required>
-                                                        <!--                             <span class="help-block"><b>place: </b>{{dropoff.name}}</span>
-                            <span class="help-block"><b>Latitude: </b>{{dropoff.components.location.lat}}</span>
-                            <span class="help-block"><b>Longitude: </b>{{dropoff.components.location.long}}</span> -->
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <button type="submit" ng-disabled="EditTrip.$invalid" class="btn btn-default" ng-click="steps.step3=true">Update</button>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <!--<button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="ok()"><i class="fa fa-arrow-right"></i> Submit</button>-->
-                                            <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
-                                        </div>
-                                    </script>
-                                    <a ng-click="editTripModalOpen()"><i class="icon-pencil"></i></a>
-                                </div>
-                            </div>
+                           
                             <br>
-                            <span>{{tripsummary.pickupdatetime| date:"dd/MM/yyyy"}}{{", "}}{{tripsummary.pickupdatetime| date:"hh:mm a"}}</span>
+                            <!-- 
+                            <span>{{tripsummary.pickupdatetime| date:"dd/MM/yyyy"}}{{", "}}{{tripsummary.pickupdatetime| date:"hh:mm a"}}</span> -->
+                            <span>{{tripsummary.pickupdatetime | date:"dd/MM/yyyy"}}</span>
                             <br>
-                            <span><img src="images/source_marker.9db0b1d4.png" style="width:4%">{{tripsummary.pickupAt}}</span>
+                            <span><img src="images/source_marker.png" style="width:4%">{{tripsummary.pickupAt}}</span>
                             <br>
-                            <span><img src="images/destination_marker.23597b9e.png" style="width:4%">{{tripsummary.dropoffAt}}</span>
+                            <span><img src="images/destination_marker.png" style="width:4%">{{tripsummary.dropoffAt}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -285,7 +250,7 @@
                                 <div class="row" ng-style="{ 'border':'solid 1px #DCDCDC','padding':'12px'}">
                                     <div class="form-group col-md-2">
                                         </br>
-                                        <img ng-src='{{imagePath}}{{vehicle.image}}' style="width:100%;height:100%;margin-top:35px;">
+                                        <img ng-src="{{imagePath}}{{vehicle.image}}" style="width:100%;height:100%">
                                         <br/>
                                         <i class="fa fa-male fa-1g">&nbsp;&nbsp;&nbsp; {{vehicle.capacity}}</i>
                                     </div>
@@ -301,7 +266,7 @@
                         </ul>
                     </div>
                     <div class="col-sm-offset-5 col-sm-2 text-center">
-                        <button ng-class="{'btn btn-activeButton mb-10' : BookNow, 'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='!BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
+                        <button ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='!BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
                     </div>
                 </form>
                 </br>

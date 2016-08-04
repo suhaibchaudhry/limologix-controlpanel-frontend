@@ -34,7 +34,7 @@ function funcservices() {
                         zoom: 7,
                         center: pickup
                     };
-                    var map = new google.maps.Map(document.getElementById('dvMap'),mapOptions);
+                    var map = new google.maps.Map(document.getElementById('dvMap'));
                     directionsDisplay.setMap(map);
                     //directionsDisplay.setPanel(document.getElementById('dvPanel'));
 

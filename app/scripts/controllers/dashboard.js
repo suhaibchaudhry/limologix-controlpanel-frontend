@@ -21,7 +21,7 @@ app
                 title: 'Dashboard',
                 subtitle: '' //'Place subtitle here...'
             };
-            if (constant.user['Auth-Token']) {
+            if (constant.userRole == 'admin') {
                 getCompanyInfo();
             }
 

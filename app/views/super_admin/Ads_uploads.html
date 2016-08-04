@@ -1,0 +1,56 @@
+<form name='myform'>
+    <!--  <div>
+            <label for="InputFileM">Multiple File input</label>
+            <input type="file" id="inputfilem" ng-model="formImages" accept="image/*" image-Reader multiple/>
+        </div> -->
+    <section class = 'tile tile-simple'>
+        <div class="row tile-body">
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="InputFileM" style="font-size:20px;">Browse Advertisements:</label>
+                </div>
+                <div class="col-md-8">
+                    <button type="file" class=" text-light text-white btn btn-success form-group col-md-2 btn-rounded" ng-click="uploadAds()" required>Browse &nbsp;</button>
+                    <input type='file' name="formImages" ng-model="formImages" id="inputfilem" accept="image/gif, image/jpeg, image/png ,image/jpg" image-Reader multiple style="display:none" ng-required="true" />
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <label ng-repeat="img in formImages" ng-if="formImages.length>0" style="margin-left:30px;">
+                <img src="{{img}}" alt="" />
+            </label>
+        </div>
+        <input type="submit" ng-show="formImages.length>0" class="btn btn-success btn-group-sm btn-submit btn-rounded" ng-click="submitImg(myform)" />
+    </section>
+</form>
+<form name="form">
+    <section class="tile tile-simple">
+        <div class="tile-body">
+            <div class="row">
+                <h3><strong style="margin-left:40px;">Uploaded Ads:</strong></h3> </label>
+            </div>
+        </div>
+    </section>
+    <section class="tile tile-simple">
+        <div class="tile-body">
+            <ul style="list-style:none;">
+                <li ng-repeat="ads in imgsArr track by $index" style="margin-left:30px;">
+                    <div class="row" ng-style="{ 'border':'solid 1px #DCDCDC','padding':'12px'}">
+                        <div class="form-group col-md-4">
+                            </br>
+                            <img ng-src='{{imagePath}}{{ads.image}}' style="width:50%;height:50%">
+                            <br/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <p style="font-size:25px; margin-top:35px;">&nbsp;&nbsp;&nbsp; <b>{{ads.name}}</b></p>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button type="button" class="btn btn-red mb-10 btn-md btn-rounded" style="margin-top:35px;" ng-click = "removeAd(ads.id);">Remove</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</form>

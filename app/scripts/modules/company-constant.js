@@ -5,5 +5,5 @@
       user : {},
       superadmin:{},
       tripdata:{},
-      userRole:""
+      userRole:""      
   })

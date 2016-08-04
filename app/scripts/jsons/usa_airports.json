@@ -1,0 +1,247 @@
+[{
+        "IATA_code": "IAH",
+        "latitude": "29.9843998",
+        "longitude": "-95.3414001",
+        "city": "Houston",
+        "airport_name": "George Bush Intercontinental Houston"
+    }, {
+        "IATA_code": "MIA",
+        "latitude": "25.7931995",
+        "longitude": "-80.2906036",
+        "city": "Miami",
+        "airport_name": "Miami International"
+    }, {
+        "IATA_code": "MCO",
+        "latitude": "28.4293995",
+        "longitude": "-81.3089981",
+        "city": "Orlando",
+        "airport_name": "Orlando International"
+    }, {
+        "IATA_code": "EWR",
+        "latitude": "40.6925011",
+        "longitude": "-74.1687012",
+        "city": "Newark",
+        "airport_name": "Newark Liberty International"
+    }, {
+        "IATA_code": "SEA",
+        "latitude": "47.4490013",
+        "longitude": "-122.3089981",
+        "city": "Seattle",
+        "airport_name": "Seattle Tacoma International"
+    }, {
+        "IATA_code": "MSP",
+        "latitude": "44.882",
+        "longitude": "-93.2218018",
+        "city": "Minneapolis",
+        "airport_name": "Minneapolis-St Paul International/Wold-Chamberlain"
+    }, {
+        "IATA_code": "DTW",
+        "latitude": "42.2123985",
+        "longitude": "-83.3534012",
+        "city": "Detroit",
+        "airport_name": "Detroit Metropolitan Wayne County"
+    }, {
+        "IATA_code": "PHL",
+        "latitude": "39.8718987",
+        "longitude": "-75.2410965",
+        "city": "Philadelphia",
+        "airport_name": "Philadelphia International"
+    }, {
+        "IATA_code": "BOS",
+        "latitude": "42.3642998",
+        "longitude": "-71.0052033",
+        "city": "Boston",
+        "airport_name": "General Edward Lawrence Logan International"
+    }, {
+        "IATA_code": "LGA",
+        "latitude": "40.7771988",
+        "longitude": "-73.8725967",
+        "city": "New York",
+        "airport_name": "La Guardia"
+    }, {
+        "IATA_code": "ATL",
+        "latitude": "33.6366997",
+        "longitude": "-84.4281006",
+        "city": "Atlanta",
+        "airport_name": "Hartsfield Jackson Atlanta International"
+    }, {
+        "IATA_code": "ORD",
+        "latitude": "41.9785996",
+        "longitude": "-87.9048004",
+        "city": "Chicago",
+        "airport_name": "Chicago O’Hare International"
+    }, {
+        "IATA_code": "LAX",
+        "latitude": "33.9425011",
+        "longitude": "-118.4079971",
+        "city": "Los Angeles",
+        "airport_name": "Los Angeles International"
+    }, {
+        "IATA_code": "DFW",
+        "latitude": "32.896801",
+        "longitude": "-97.038002",
+        "city": "Dallas-Fort Worth",
+        "airport_name": "Dallas Fort Worth International"
+    }, {
+        "IATA_code": "DEN",
+        "latitude": "39.8616982",
+        "longitude": "-104.6729965",
+        "city": "Denver",
+        "airport_name": "Denver International Airport"
+    }, {
+        "IATA_code": "JFK",
+        "latitude": "40.639801",
+        "longitude": "-73.7789002",
+        "city": "New York",
+        "airport_name": "John F Kennedy International"
+    }, {
+        "IATA_code": "SFO",
+        "latitude": "37.6189995",
+        "longitude": "-122.375",
+        "city": "San Francisco",
+        "airport_name": "San Francisco International"
+    }, {
+        "IATA_code": "CLT",
+        "latitude": "35.2140007",
+        "longitude": "-80.9431",
+        "city": "Charlotte",
+        "airport_name": "Charlotte Douglas International"
+    }, {
+        "IATA_code": "LAS",
+        "latitude": "36.080101",
+        "longitude": "-115.1520004",
+        "city": "Las Vegas",
+        "airport_name": "McCarran International"
+    }, {
+        "IATA_code": "PHX",
+        "latitude": "33.4342995",
+        "longitude": "-112.012001",
+        "city": "Phoenix",
+        "airport_name": "Phoenix Sky Harbor International"
+    }, {
+        "IATA_code": "FLL",
+        "latitude": "26.0725994",
+        "longitude": "-80.1527023",
+        "city": "Fort Lauderdale",
+        "airport_name": "Fort Lauderdale Hollywood International"
+    }, {
+        "IATA_code": "BWI",
+        "latitude": "39.1753998",
+        "longitude": "-76.6682968",
+        "city": "Baltimore",
+        "airport_name": "Baltimore/Washington International Thurgood Marshall"
+    }, {
+        "IATA_code": "IAD",
+        "latitude": "38.9445",
+        "longitude": "-77.4558029",
+        "city": "Washington",
+        "airport_name": "Washington Dulles International"
+    }, {
+        "IATA_code": "SLC",
+        "latitude": "40.7883987",
+        "longitude": "-111.9779968",
+        "city": "Salt Lake City ",
+        "airport_name": "Salt Lake City International"
+    }, {
+        "IATA_code": "DCA",
+        "latitude": "38.8521004",
+        "longitude": "-77.0376968",
+        "city": "Washington",
+        "airport_name": "Ronald Reagan Washington National"
+    }, {
+        "IATA_code": "MDW",
+        "latitude": "41.7859993",
+        "longitude": "-87.7524033",
+        "city": "Chicago",
+        "airport_name": "Chicago Midway International"
+    }, {
+        "IATA_code": "HNL",
+        "latitude": "21.3187008",
+        "longitude": "-157.9219971",
+        "city": "Honolulu",
+        "airport_name": "Honolulu International"
+    }, {
+        "IATA_code": "SAN",
+        "latitude": "32.7336006",
+        "longitude": "-117.1900024",
+        "city": "San Diego",
+        "airport_name": "San Diego International"
+    }, {
+        "IATA_code": "TPA",
+        "latitude": "27.9755001",
+        "longitude": "-82.5332031",
+        "city": "Tampa",
+        "airport_name": "Tampa International"
+    }, {
+        "IATA_code": "CLE",
+        "latitude": "41.4117012",
+        "longitude": "-81.8498001",
+        "city": "Cleveland",
+        "airport_name": "Cleveland Hopkins International"
+    },
+
+
+
+
+    {
+        "IATA_code": "PDX",
+        "latitude": "45.5886993",
+        "longitude": "-122.5979996",
+        "city": "Portland",
+        "airport_name": "Portland International"
+    }, {
+        "IATA_code": "STL",
+        "latitude": "38.7486992",
+        "longitude": "-90.3700027",
+        "city": "St Louis",
+        "airport_name": "Lambert St Louis International"
+    }, {
+        "IATA_code": "HOU",
+        "latitude": "29.6453991",
+        "longitude": "-95.2789002",
+        "city": "    Houston",
+        "airport_name": "William P Hobby"
+    }, {
+        "IATA_code": "OAK",
+        "latitude": "37.7212982",
+        "longitude": "-122.2210007",
+        "city": "Oakland",
+        "airport_name": "Metropolitan Oakland International"
+    }, {
+        "IATA_code": "MCI",
+        "latitude": "39.2975998",
+        "longitude": "-94.7138977",
+        "city": "Kansas City",
+        "airport_name": "Kansas City International"
+    }, {
+        "IATA_code": "BNA",
+        "latitude": "36.1245003",
+        "longitude": "-86.6781998",
+        "city": "Nashville",
+        "airport_name": "Nashville International"
+    }, {
+        "IATA_code": "AUS",
+        "latitude": "30.1945",
+        "longitude": "-97.669899",
+        "city": "Austin",
+        "airport_name": "Austin Bergstrom International"
+    }, {
+        "IATA_code": "RDU",
+        "latitude": "35.8776016",
+        "longitude": "-78.7874985",
+        "city": "Raleigh/Durham",
+        "airport_name": "Raleigh Durham International"
+    }, {
+        "IATA_code": "SMF",
+        "latitude": "38.6954002",
+        "longitude": "-121.5910034",
+        "city": "Sacramento",
+        "airport_name": "Sacramento International"
+    }, {
+        "IATA_code": "SNA",
+        "latitude": "33.6757011",
+        "longitude": "-117.8679962",
+        "city": "Santa Ana",
+        "airport_name": "John Wayne-Orange County"
+    }
+]

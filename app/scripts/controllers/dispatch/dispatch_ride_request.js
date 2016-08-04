@@ -26,6 +26,9 @@ app
                 title: 'Dispatch Ride Request',
                 subtitle: '' //'Place subtitle here...'
             };
+
+            $scope.steps = { step0: true, step1: true, step2: false, step3: false, step4: false, step5: false }
+
             $scope.items = ['item1', 'item2', 'item3'];
             $scope.phoneNumbr = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
             $scope.customerInfo = {
@@ -35,9 +38,24 @@ app
                 mobile_number: '',
                 organisation: ''
             }
+
+            var arr = [];
+            $scope.isTripFormValid = false;
+            $scope.pickup_place_invalid_msg = false;
+            $scope.dropoff_place_invalid_msg = false;
+            $scope.pickup_place_valid = false;
+            $scope.dropoff_place_valid = false;
+            $scope.imagePath = appSettings.server_images_path;
+
             $scope.selected = '';
             $scope.noresults = false;
             $scope.loadingcustomers = false;
+            $scope.isChoosedAirports = false;
+            $scope.isChoosedAirports1 = false;
+            $scope.pickupOptionSelected = true;
+            $scope.dropoffOptionSelected = true;
+            $scope.isPickupBy = true;
+            $scope.isDropOffBy = true;
             $scope.lat = undefined;
             $scope.lng = undefined;
             $scope.trip = {
@@ -46,14 +64,14 @@ app
                 pickuptime: ''
             };
             $scope.options = {
-                types: ['(cities)'],
+                // types: ['geocode'],
                 componentRestrictions: { country: 'us' }
             };
+
             $scope.trip_options = {
                 types: ['(cities)'],
                 componentRestrictions: { country: 'us' }
             };
-            $scope.imagePath = appSettings.server_images_path;
             $scope.customerId = "";
             // Google place autocomplete location Object of pick up and drop off
             $scope.pickup = {
@@ -80,6 +98,68 @@ app
             $scope.isChoosed = false;
             $scope.BookNow = false;
             //$scope.vehicleType = [{ "id": 1, "name": "Luxury Sedan", "description": "Hic odit distinctio cum sequi dolores tempore.", "capacity": 9, "image": "/uploads/vehicle_type/image/1/dummy_image_9.png" }, { "id": 2, "name": "Economy Sedan", "description": "Optio sed et veniam eum.", "capacity": 7, "image": "/uploads/vehicle_type/image/2/dummy_image_7.png" }]
+
+            setTimeout(function() {
+                var pickupId = document.getElementById('pickup');
+                var dropoffId = document.getElementById('dropoff');
+                GetPickUpCoordinates(pickupId);
+                GetDropoffCoordinates(dropoffId);
+            }, 5000);
+
+
+
+            function GetPickUpCoordinates(id) {
+                var places = new google.maps.places.Autocomplete(id, $scope.options);
+                google.maps.event.addListener(places, 'place_changed', function() {
+                    var place = places.getPlace();
+                    var address = place.formatted_address;
+                    var geocoder = new google.maps.Geocoder();
+                    $scope.address = address;
+
+                    geocoder.geocode({ 'address': $scope.address }, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            $scope.pickup_place_valid = true;
+                            //  $scope.pickup_place_invalid_msg = false;
+                            $scope.pickup_place = $scope.address;
+                            $scope.pickup_latitude = results[0].geometry.location.lat();
+                            $scope.pickup_longitude = results[0].geometry.location.lng();
+                            //console.log('pickup',$scope.address,latitude,longitude);
+                        } else {
+                            alert('invalid pickup address');
+                            // $scope.pickup_place_invalid_msg = true;
+                            $scope.pickup_place_valid = false;
+                        }
+                    });
+                });
+            }
+
+            function GetDropoffCoordinates(id) {
+                var places = new google.maps.places.Autocomplete(id, $scope.options);
+                google.maps.event.addListener(places, 'place_changed', function() {
+                    var place = places.getPlace();
+                    var address = place.formatted_address;
+                    var geocoder = new google.maps.Geocoder();
+
+                    $scope.address = address;
+                    geocoder.geocode({ 'address': $scope.address }, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            $scope.dropoff_place_valid = true;
+                            $scope.dropoff_place_invalid_msg = false;
+                            $scope.dropoff_place = $scope.address;
+                            $scope.dropoff_latitude = results[0].geometry.location.lat();
+                            $scope.dropoff_longitude = results[0].geometry.location.lng();
+                            //console.log('pickup',$scope.address,latitude,longitude);
+                        } else {
+                            alert('invalid dropoff address');
+                            $scope.dropoff_place_valid = false;
+                            $scope.dropoff_place_invalid_msg = true;
+                        }
+                    });
+                });
+            }
+
+
+
 
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
@@ -110,11 +190,19 @@ app
             }
 
             $scope.$on('gmPlacesAutocomplete::placeChanged', function() {
+                alert("hh");
                 var location = $scope.autocomplete.getPlace().geometry.location;
                 $scope.lat = location.lat();
                 $scope.lng = location.lng();
                 $scope.$apply();
+                console.log("hiiiii");
             });
+            $scope.funcGetPickUpLocality = function() {
+                $("#pickup_airport").val('');
+                $scope.isChoosedAirports = true;
+                //alert("hi")
+
+            }
 
             //typeahead selected object info
             $scope.onSelect = function($item, $model, $label) {
@@ -147,45 +235,298 @@ app
                 })
             };
 
+            // $scope.isPickupByLocation = function() {
+            //     //$("#pickup_airport").val('');
+            //     $scope.airport_name = ''
+            //     $scope.isPickupBy = true;
+            //     $scope.pickupOptionSelected = true;
+            // }
+            // $scope.isPickupByAirport = function() {
+            //     // $("#pickup").val('');
+
+            //     $scope.isPickupBy = false;
+            //     $scope.pickupOptionSelected = false;
+
+            // }
+            // $scope.isDropOffByLocation = function() {
+            //     $scope.isDropOffBy = true;
+            //     $scope.dropoffOptionSelected = true;
+            // }
+            // $scope.isDropOffByAirport = function() {
+            //     $scope.isDropOffBy = false;
+            //     $scope.dropoffOptionSelected = false;
+            // }
+            // $scope.getAirports = function(search_string) {
+            //     return $http.get('scripts/jsons/usa_airports.json').then(function(response) {
+            //         if (response.data) {
+            //             $scope.no_airport_results = false;
+            //             $scope.loadingcustomers = false;
+            //             $scope.airports = response.data;
+            //             var results = [];
+            //             angular.forEach($scope.airports, function(item) {
+            //                 item.airport_name = item.airport_name;
+            //                 if (item.airport_name.toLowerCase().indexOf(search_string.toLowerCase()) > -1) {
+            //                     $scope.no_airport_results = false;
+
+            //                     results.push(item);
+            //                 } else {
+            //                     $scope.no_airport_results = true;
+            //                     $scope.isChoosedAirports = false;
+            //                     jQuery('#noairports').text('No matched airports');
+            //                 }
+            //             });
+            //             return results;
+            //         }
+
+            //     });
+            // }
+            // $scope.getAirports1 = function(search_string) {
+            //         return $http.get('scripts/jsons/usa_airports.json').then(function(response) {
+            //             if (response.data) {
+            //                 $scope.no_airport_results1 = false;
+            //                 $scope.loadingcustomers = false;
+            //                 var airports = response.data;
+            //                 var results = [];
+            //                 angular.forEach(airports, function(item) {
+            //                     item.airport_name = item.airport_name;
+            //                     if (item.airport_name.toLowerCase().indexOf(search_string.toLowerCase()) > -1) {
+            //                         results.push(item);
+            //                     }
+            //                 });
+            //                 return results;
+            //             } else {
+            //                 $scope.no_airport_results1 = true;
+            //                 $scope.isChoosedAirports1 = false;
+            //                 jQuery('#noairports1').text('No matched airports');
+            //             }
+
+            //         });
+            //     }
+            //     //typeahead selected object info
+            // $scope.onSelectAirport = function(item) {
+            //     $scope.isChoosedAirports = true;
+            //     $scope.no_airport_results = false;
+            //     // $scope.$item = $item;
+            //     // $scope.pickup_airport_place = $item.airport_name;
+            //     // $scope.pickup_airport_latitude = $item.latitude;
+            //     // $scope.pickup_airport_longitude = $item.longitude;
+
+            //     // $scope.pickup.name = $item.airport_name;
+            //     // $scope.pickup.components.location.lat = $item.latitude;
+            //     // $scope.pickup.components.location.long = $item.longitude;
+            //     // $scope.isChoosedAirports = true;
+            //     // $scope.pickup.name = null;
+            // };
+
+            // //typeahead selected object info
+            // $scope.onSelectAirport1 = function($item, $model, $label) {
+            //     $scope.$item = $item;
+            //     $scope.dropoff_airport_place = $item.airport_name;
+            //     $scope.dropoff_airport_latitude = $item.latitude;
+            //     $scope.dropoff_airport_longitude = $item.longitude;
+            //     $scope.isChoosedAirports1 = true;
+            // };
+            function geocodeAddress(geocoder, locations, i) {
+
+                // var geocoder1 = new google.maps.Geocoder();
+                //$scope.address0 = locations[0];
+                //$scope.address1 = locations[1];
+                var address = locations[i];
+
+                var obj = {};
+                geocoder.geocode({ 'address': locations[i] }, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        console.log(address, results[0].geometry.location.lat(), results[0].geometry.location.lng());
+
+                        arr.push(results[0]);
+                        console.log('hello', arr);
+
+
+                        // var pickupinfo = {
+                        //     "val" : i
+                        // };
+                        // return pickupinfo ;
+
+                        // $scope.dropoff_place = $scope.address1;
+                        // $scope.dropoff_latitude = results[0].geometry.location.lat();
+                        // $scope.dropoff_longitude = results[0].geometry.location.lng();
+
+
+                        // if (i === 0) {
+                        //     $scope.pickup_place_valid = true;
+                        //     // $scope.pickup_place_invalid_msg = false;
+                        //     $scope.pickup_place = $scope.address0;
+                        //     $scope.pickup_latitude = results[0].geometry.location.lat();
+                        //     $scope.pickup_longitude = results[0].geometry.location.lng();
+                        //     return;
+                        // }
+                        // if(i===1) {
+                        //     $scope.dropoff_place_valid = true;
+                        //     //$scope.dropoff_place_invalid_msg = false;
+                        //     $scope.dropoff_place = $scope.address1;
+                        //     $scope.dropoff_latitude = results[0].geometry.location.lat();
+                        //     $scope.dropoff_longitude = results[0].geometry.location.lng();
+                        //     return;
+                        // }
+
+                    }
+                    // else {
+                    //     if (i === 0) {
+                    //         alert('invalid pickup address');
+                    //         $scope.pickup_place_valid = false;
+                    //         return;
+                    //         //$scope.pickup_place_invalid_msg = true;
+                    //     }
+                    //     if(i===1){
+                    //         alert('invalid dropoff address');
+                    //         $scope.dropoff_place_valid = false;
+                    //         return;
+                    //         //$scope.pickup_place_invalid_msg = true;
+                    //     }
+
+                    // }
+                })
+            }
+            // function invalidDropoffAddress(place2,geocoder) {
+            //     //var geocoder2 = new google.maps.Geocoder();
+            //     $scope.dropoff_address = place2;
+
+            //         geocoder.geocode({ 'address': $scope.dropoff_address }, function(results, status) {
+            //             if (status == google.maps.GeocoderStatus.OK) {
+            //                 $scope.dropoff_place_valid = true;
+            //                  $scope.dropoff_place_invalid_msg = false;
+            //                 $scope.dropoff_place = $scope.dropoff_address;
+            //                 $scope.dropoff_latitude = results[0].geometry.location.lat();
+            //                 $scope.dropoff_longitude = results[0].geometry.location.lng();
+            //             } else {
+            //                 alert('invalid dropoff address');
+            //                 $scope.dropoff_place_valid = false;
+            //                 $scope.dropoff_place_invalid_msg = true;
+            //             }
+            //         });
+
+            // }
+            //var locations = ['New York, NY', 'Philadelphia, PA'];
+            var locations = [];
+            var geocoder;
+            var locationsArr = [];
+            var count = 0;
+            //initialize();
+
+            function initialize() {
+                // $scope.isTripFormValid = true;
+                // $scope.steps.step3 = true;
+                count = 0;
+                locations = [];
+                locationsArr = [];
+                $scope.pickupId = jQuery('#pickup').val();
+                $scope.dropoffId = jQuery('#dropoff').val();
+                locations[0] = $scope.pickupId;
+                locations[1] = $scope.dropoffId;
+                geocoder = new google.maps.Geocoder();
+
+                for (var i = 0; i < locations.length; i++) {
+                    geocodeAddress1(locations, i);
+                }
+            }
+            //google.maps.event.addDomListener(window, "load", initialize);
+
+            function geocodeAddress1(locations, i) {
+                var address = locations[i];
+                geocoder.geocode({ 'address': locations[i] }, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        //alert(i);
+                        var obj = {
+                            i: i,
+                            address: address,
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng()
+                        }
+                        count++;
+                        locationsArr.push(obj);
+                        if (count === 2) {
+                            $scope.isTripFormValid = true;
+                            $scope.steps.step3 = true;
+                            call();
+                        }
+
+                    } else {
+                        alert(address + " is invalid address:");
+                        $scope.isTripFormValid = false;
+                        // $scope.steps.step3 = false;
+                        $scope.steps.step2 = true;
+                        if (i === 0)
+                            $scope.pickup_place_valid = false;
+                        if (i === 1)
+                            $scope.dropoff_place_valid = false;
+                    }
+                });
+            }
+
+
             $scope.funcMakeTrip = function(isValid) {
-                if (isValid) {
+                $scope.pickupId = jQuery('#pickup').val();
+                $scope.dropoffId = jQuery('#dropoff').val();
+                initialize();
+            }
+
+            function call() {
+                if ($scope.isTripFormValid) {
+
                     $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
+
                     $scope.trip.pickup_time = $filter('date')($scope.trip.pickuptime, 'hh:mm a');
+                    console.log($scope.pickup.name, $scope.pickup.components.location.lat, $scope.pickup.components.location.long);
+
                     $scope.tripInfo = {
                         start_destination: {
-                            place: $scope.pickup.name,
-                            latitude: $scope.pickup.components.location.lat,
-                            longitude: $scope.pickup.components.location.long
+                            place: $scope.pickup_place,
+                            latitude: $scope.pickup_latitude,
+                            longitude: $scope.pickup_longitude
                         },
                         end_destination: {
-                            place: $scope.dropoff.name,
-                            latitude: $scope.dropoff.components.location.lat,
-                            longitude: $scope.dropoff.components.location.long
+                            place: $scope.dropoff_place,
+                            latitude: $scope.dropoff_latitude,
+                            longitude: $scope.dropoff_longitude
                         },
                         pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickup_time,
                         passengers_count: $scope.trip.passenger_count,
                         customer_id: $scope.customerId
                     };
+                    console.log($scope.tripInfo.pick_up_at);
                     constants.tripdata = $scope.tripInfo;
                     constants.tripdata.pickup_date = $scope.trip.pickupdate;
                     constants.tripdata.pickup_time = $scope.trip.pickuptime;
                     var customerDetails = {
                         "trip": $scope.tripInfo
                     }
-                    var url = appSettings.serverPath + appSettings.serviceApis.createTrip;
-                    services.funcPostRequest(url, customerDetails).then(function(response) {
-                        $scope.tripId = response.data.trip.id;
-                        constants.tripdata.tripId = $scope.tripId;
-                        notify({ classes: 'alert-success', message: response.message });
-                        $scope.funcGetTripSummary($scope.tripId);
-                    }, function(error, status) {
-                        if (response)
-                            notify({ classes: 'alert-danger', message: response.message });
-                    })
+
+
+                    $scope.tripsummary = {
+                        pickupdatetime: $scope.tripInfo.pick_up_at,
+                        pickupAt: $scope.tripInfo.start_destination.place,
+                        dropoffAt: $scope.tripInfo.end_destination.place
+                    }
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
+                    $scope.funcSelectVehicleType();
+
+
+                    // var url = appSettings.serverPath + appSettings.serviceApis.createTrip;
+                    // services.funcPostRequest(url, customerDetails).then(function(response) {
+                    //     console.log(response);
+                    //     $scope.tripId = response.data.trip.id;
+                    //     constants.tripdata.tripId = $scope.tripId;
+                    //     notify({ classes: 'alert-success', message: response.message });
+                    //     $scope.funcGetTripSummary($scope.tripId);
+                    // }, function(error, status) {
+                    //     if (response)
+                    //         notify({ classes: 'alert-danger', message: response.message });
+                    // })
                 } else {
 
                 }
             }
+
 
             $scope.funcGetTripSummary = function(tripId) {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
@@ -203,6 +544,7 @@ app
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
+
             //update trip summary model values
             $rootScope.$on('updateTrip', function(e, tripsummary) {
                 $scope.tripsummary = tripsummary;
@@ -212,7 +554,7 @@ app
                 var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
                 services.funcGetRequest(url).then(function(response) {
                     $scope.vehicleType = response.data.vehicle_types;
-
+                    console.log("vehicleType", $scope.vehicleType);
                     // notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
                     if (response)
@@ -227,7 +569,6 @@ app
                 $scope.BookNow = true;
                 element.active = !element.active;
             }
-
             $scope.funcTripDispatch = function() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripDispatch;
                 var trip = {
@@ -236,12 +577,12 @@ app
                 }
 
                 services.funcPostRequest(url, { 'trip': trip }).then(function(response) {
+                    console.log('resp', response);
                     notify({ classes: 'alert-success', message: response.message });
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: response.message });
                 })
             }
-
             $scope.editTripModalOpen = function(size) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'myModalContent.html',
@@ -417,7 +758,10 @@ app
 
 .controller('TimepickerCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
     if ($scope.trip)
-        $scope.trip.pickuptime = new Date().toUTCString();
+    //$scope.trip.pickuptime = new Date();
+        var date = new Date();
+    $scope.trip.pickuptime = date.toUTCString();
+    console.log("utc Time", $scope.trip.pickuptime);
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
 
@@ -455,3 +799,18 @@ app
             $scope.tripinfo.pickup_time = null;
     };
 }])
+
+
+function getTimeDifference() {
+    var notifiedDate = '2016-07-27T15:13:45.754+05:30';
+    var currentDate = new Date();
+    var utcDate = new Date(notifiedDate)
+    var hourDifference = utcDate.getHours() - currentDate.getHours();
+    var minuteDifference = utcDate.getMinutes() - currentDate.getMinutes();
+
+    console.log("hours", hourDifference);
+    console.log("Minutes", minuteDifference);
+    if (((hourDifference == 0) && (minuteDifference <= 5)) || ((hourDifference == 1) && (minuteDifference < 5))) {
+
+    }
+}

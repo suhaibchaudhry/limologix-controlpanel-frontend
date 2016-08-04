@@ -61,6 +61,7 @@ app
             }
             $scope.funcApprove = function() {
                 var url = appSettings.serverPath + appSettings.serviceApis.userApprove;
+                //get driver id from url
                 var postData = {
                     "driver": {
                         "id": $stateParams.driver_id

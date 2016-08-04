@@ -31,6 +31,25 @@
                             <a ui-sref="app.dispatch.pendingdispatches">
                                 <fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}<span class="badge badge-danger">{{pending_dispatch_count}}</span></a>
                         </li>
+                         <li ui-sref-active="active" ng-controller="ActiveDispatchesCtrl">
+                            <a ui-sref="app.dispatch.activedispatches">
+                                <fa name="caret-right"></fa> {{ 'Menu.ACTIVE_DISPATCHES' | translate }}<span class="badge badge-danger">{{active_dispatch_count}}</span></a>
+                        </li>
+                    </ul>
+                </li>
+               
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}" ng-show="isAdmin">
+                    <a ui-sref="app.custom-groups">
+                        <fa name="pencil" class="fa-users"></fa> <span>{{ 'Menu.GROUPS' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.custom-groups.create-groups">
+                                <fa name="caret-right"></fa> {{ 'Menu.CREATEGROUPS' | translate }}</a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.custom-groups.groups-info">
+                                <fa name="caret-right"></fa> {{ 'Menu.GROUPSINFO' | translate }}</a>
+                        </li>
                     </ul>
                 </li>
                 <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}" ng-show="isAdmin">
@@ -59,6 +78,16 @@
                             <a ui-sref="app.shop.single-driver">
                                 <fa name="caret-right"></fa> {{ 'Menu.SINGLE_ORDER' | translate }}</a>
                         </li> -->
+                    </ul>
+                </li>
+                <li ui-sref-active="active" ng-class="{'open':$state.includes('app.free_ads')}" ng-hide = 'isAdmin'>
+                    <a ui-sref="app.free_ads">
+                        <fa name="shopping-cart"></fa> <span>{{ 'Menu.FREE_ADS' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.free_ads.file_upload">
+                                <fa name="caret-right"></fa> {{ 'Menu.FILE_UPLOAD' | translate }}</a>
+                        </li>                       
                     </ul>
                 </li>
             </ul>
