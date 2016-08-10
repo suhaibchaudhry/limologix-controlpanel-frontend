@@ -1,4 +1,4 @@
-<header class="clearfix" ng-controller="UpdateInfoCtrl">
+<header class="clearfix" ng-controller="AllNotificationsCtrl">
     <!-- Branding -->
     <div class="branding {{main.settings.brandingColor}}">
         <a class="brand" ui-sref="app.dashboard">
@@ -14,10 +14,76 @@
                 <fa name="outdent"></fa>
             </a>
         </li>
+       
     </ul>
     <!-- Left-side navigation end -->
     <!-- Right-side navigation -->
     <ul class="nav-right pull-right list-inline">
+         <li class="dropdown notifications" uib-dropdown>
+            <a href class="dropdown-toggle" uib-dropdown-toggle>
+                <fa name="bell"></fa>
+                <span class="badge bg-lightred notifications_badge">{{notificaton_size}}</span>
+            </a>
+           
+            <div class="dropdown-menu pull-right with-arrow panel panel-default animated littleFadeInLeft" role="menu">
+                <div class="panel-heading">
+                    You have <strong>{{notificaton_size}}</strong> notifications
+                </div>
+                <ul class="list-group message_list">
+<!--                   {{message1}} -->
+                    <li class="list-group-item" ng-show="message1[0]" ng-click="getNotificationId(message1.title)">
+                        <a href="javascript:;" class="media">
+ <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message1[0].title}}</span>
+                                <span class="block">{{message1[0].body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                            </div>
+                        </a>
+                    </li>
+                        <li class="list-group-item" ng-show="message1[1]" ng-click="getNotificationId(message1.title)">
+                        <a href="javascript:;" class="media">
+ <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message1[1].title}}</span>
+                                <span class="block">{{message1[1].body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                            </div>
+                        </a>
+                    </li>
+                        <li class="list-group-item" ng-show="message1[2]" ng-click="getNotificationId(message1.title)">
+                        <a href="javascript:;" class="media">
+ <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message1[2].title}}</span>
+                                <span class="block">{{message1[2].body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                            </div>
+                        </a>
+                    </li>
+
+                    
+                </ul>
+                 <div class="panel-footer" ng-show="!message1.length">
+                    <a href="javascript:;">No notifications <fa name="angle-right" class="pull-right"></fa></a>
+                </div>
+                <div class="panel-footer" ng-show="message1.length">
+                    <a ui-sref="app.notifications.notifications-all">Show all notifications <fa name="angle-right" class="pull-right"></fa></a>
+                </div>
+            </div>
+        </li>
         <li class="dropdown nav-profile" uib-dropdown>
             <a href class="dropdown-toggle" uib-dropdown-toggle>
                 <fa name="pencil" class="icon-user"></fa>

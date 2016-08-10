@@ -11,7 +11,7 @@
                 </li>
                 <li ui-sref-active="active" ng-class="{'open':$state.includes('app.company')}" ng-show="isAdmin">
                     <a ui-sref="app.company">
-                        <fa name="list"></fa> <span>{{ 'Menu.COMPANY_SETTINGS' | translate }}</span></a>
+                        <fa name="building"></fa> <span>{{ 'Menu.COMPANY_SETTINGS' | translate }}</span></a>
                     <ul>
                         <li ui-sref-active="active">
                             <a ui-sref="app.company.details">
@@ -46,10 +46,24 @@
                             <a ui-sref="app.custom-groups.create-groups">
                                 <fa name="caret-right"></fa> {{ 'Menu.CREATEGROUPS' | translate }}</a>
                         </li>
-                        <li ui-sref-active="active">
+                        <!-- <li ui-sref-active="active">
                             <a ui-sref="app.custom-groups.groups-info">
                                 <fa name="caret-right"></fa> {{ 'Menu.GROUPSINFO' | translate }}</a>
+                        </li> -->
+                    </ul>
+                </li>
+                   <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}" ng-show="isAdmin">
+                    <a ui-sref="app.notifications">
+                        <fa name="bell" class="fa-bell"></fa> <span>{{ 'Menu.NOTIFICATIONS' | translate }}</span></a>
+                    <ul>
+                        <li ui-sref-active="active">
+                            <a ui-sref="app.notifications.notifications-all">
+                                <fa name="caret-right"></fa> {{ 'Menu.ALLNOTIFICATIONS' | translate }}</a>
                         </li>
+                        <!-- <li ui-sref-active="active">
+                            <a ui-sref="app.custom-groups.groups-info">
+                                <fa name="caret-right"></fa> {{ 'Menu.GROUPSINFO' | translate }}</a>
+                        </li> -->
                     </ul>
                 </li>
                 <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}" ng-show="isAdmin">

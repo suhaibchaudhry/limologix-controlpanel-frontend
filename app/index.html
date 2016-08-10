@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css" />
     <link rel="stylesheet" href="bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.css" />
     <link rel="stylesheet" href="bower_components/morrisjs/morris.css" />
-    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
+    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css" />
     <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.min.css" />
     <link rel="stylesheet" href="bower_components/ngImgCrop/compile/minified/ng-img-crop.css" />
     <link rel="stylesheet" href="bower_components/owl-carousel/owl-carousel/owl.carousel.css" />
@@ -160,6 +160,7 @@
     <script src="bower_components/jquery.easy-pie-chart/dist/angular.easypiechart.min.js"></script>
     <script src="bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js"></script>
     <script src="bower_components/jquery.slimscroll/jquery.slimscroll.js"></script>
+    <script src="bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
     <script src="bower_components/jquery.sparkline/index.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
@@ -186,9 +187,8 @@
     <script src="bower_components/raphael/raphael.min.js"></script>
     <script src="bower_components/mocha/mocha.js"></script>
     <script src="bower_components/morrisjs/morris.js"></script>
-    <script src="bower_components/momentjs/moment.js"></script>
     <script src="bower_components/ng-bs-daterangepicker/src/ng-bs-daterangepicker.js"></script>
-    <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.js"></script>
     <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
     <script src="bower_components/ngImgCrop/compile/minified/ng-img-crop.js"></script>
     <script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
@@ -204,6 +204,7 @@
     <script src="bower_components/vs-google-autocomplete/dist/vs-google-autocomplete.js"></script>
     <script src="bower_components/vs-google-autocomplete/dist/vs-autocomplete-validator.js"></script>
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="bower_components/myforce-angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/app.js -->
@@ -214,22 +215,20 @@
     <script src="scripts/controllers/super_admin/login/login.js"></script>
     <script src="scripts/controllers/super_admin/drivers.js"></script>
     <script src="scripts/controllers/super_admin/single-driver.js"></script>
-
     <script src="scripts/controllers/signup/signup.js"></script>
     <script src="scripts/controllers/company/update_info.js"></script>
-
     <script src="scripts/controllers/dispatch/dispatch_ride_request.js"></script>
     <script src="scripts/controllers/dispatch/pending_dispatches.js"></script>
-     <script src="scripts/controllers/dispatch/active_dispatches.js"></script>
+    <script src="scripts/controllers/dispatch/active_dispatches.js"></script>
     <script src="scripts/controllers/dispatch/single_active_dispatches.js"></script>
-
     <script src="scripts/controllers/custom_group/create_groups/custom-group-create.js"></script>
-     <script src="scripts/controllers/custom_group/create_groups/custom-group-add-drivers.js"></script>
+    <script src="scripts/controllers/custom_group/create_groups/custom-group-view.js"></script>
+    <script src="scripts/controllers/custom_group/create_groups/custom-group-add-drivers.js"></script>
     <script src="scripts/controllers/custom_group/create_groups/custom-group-single-driver.js"></script>
-      <script src="scripts/controllers/custom_group/group_information/custom-group-info.js"></script>
-      <script src="scripts/controllers/custom_group/group_information/custom-group-info-drivers.js"></script>
-      <script src="scripts/controllers/custom_group/group_information/custom-group-single-driver-info.js"></script>
-
+    <script src="scripts/controllers/notifications/all-notifications.js"></script>
+    <!-- <script src="scripts/controllers/custom_group/group_information/custom-group-info.js"></script>
+    // <script src="scripts/controllers/custom_group/group_information/custom-group-info-drivers.js"></script>
+    // <script src="scripts/controllers/custom_group/group_information/custom-group-single-driver-info.js"></script> -->
     <script src="scripts/controllers/super_admin/ads_upload.js"></script>
     <script src="scripts/controllers/profile/my_account.js"></script>
     <script src="scripts/controllers/profile/reset_password.js"></script>
@@ -314,7 +313,7 @@
     <script src="scripts/controllers/pages-profile.js"></script>
     <script src="scripts/controllers/help.js"></script>
     <script src="scripts/directives/anchor-scroll.js"></script>
-<!--     // <script src="scripts/controllers/shop-orders.js"></script> -->
+    <!--     // <script src="scripts/controllers/shop-orders.js"></script> -->
     <script src="scripts/controllers/shop-products.js"></script>
     <script src="scripts/controllers/shop-invoices.js"></script>
     <script src="scripts/controllers/shop-single-order.js"></script>
@@ -363,7 +362,8 @@
     <script src="scripts/modules/service-provider.js"></script>
     <script src="scripts/modules/company-constant.js"></script>
     <script src="scripts/modules/dispatch-ride-request-provider.js"></script>
-    <script src="scripts/modules/toastr-notification-factory.js"></script>
+    <!--     <script src="scripts/modules/toastr-notification-factory.js"></script> -->
     <!-- End Providers -->
 </body>
+
 </html>

@@ -40,10 +40,11 @@ app
           $window.sessionStorage['Auth-Token'] = response.data['Auth-Token'];
           constants.user = response.data;
           constants.user.name = response.data.full_name;
+          constants.userRole = response.data.role;
           $window.sessionStorage['user'] = JSON.stringify(constants.user);
           $state.go('app.dashboard'); 
                   
-          notify({ classes: 'alert-success',message:response.message});
+          notify({ classes: 'alert-success',message:'You have registered succesfully.Please login'});
          },function(error){  
             if(error.message)    
                 notify({ classes: 'alert-danger', message: error.message });

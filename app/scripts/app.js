@@ -64,7 +64,8 @@ var app = angular
         'dragularModule',
         'cgNotify',
         'ngFileUpload',
-        'vsGoogleAutocomplete'
+        'vsGoogleAutocomplete',
+        'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
         server_address: 'http://172.16.90.111:9000', // 'http://limologix.softwaystaging.com',
@@ -75,6 +76,7 @@ var app = angular
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
+            companyChannel: 'users/companies/channel',
             //Company settings
             company_update: 'users/companies/update',
             company_info: 'users/companies/show',
@@ -86,10 +88,10 @@ var app = angular
             createTrip: 'users/trips/create',
             tripSummary: 'users/trips/show',
             tripUpdate: 'users/trips/update',
-            selectVehicleType: 'users/vehicles/types',
+            selectVehicleType: 'master_data/vehicles/types',
             tripPending: 'users/trips/index',
             my_profile: 'users/profile/show',
-            tripDispatch: 'users/trips/dispatch',
+            tripCreate: 'users/trips/create',
             profileupdate: 'users/profile/update',
             //Advertisements
             createAdvertisements: 'users/advertisements/create',
@@ -100,9 +102,12 @@ var app = angular
             addDriversToGroup: 'users/groups/add_drivers',
             getCustomGroups: 'users/groups/index',
             getDriversNotInGroup: 'users/groups/get_drivers_not_in_group',
-            getDrivers: '/users/groups/get_drivers',
-            deleteGroup: '/users/groups/delete',
-            RemoveDrivers: '/users/groups/remove_drivers',
+            getDrivers: 'users/groups/get_drivers',
+            deleteGroup: 'users/groups/delete',
+            RemoveDrivers: 'users/groups/remove_drivers',
+            //notifications
+            getNotifications:'users/notifications/index',
+            updateNotifications : 'users/notifications/update_status',
             //my-account
             reset_auth_details: 'users/profile/reset_authentication_details',
             restpasswrdfromemail: 'users/reset_password',
@@ -632,8 +637,24 @@ var app = angular
                 }]
             }
         })
-
-        //create groups/custom-group-drivers
+        
+         //create groups/custom-group-view
+        .state('app.custom-groups.groups-view', {
+            url: '/groups_view/:group_id',
+            controller: 'CustomGroupInfoDriversCtrl',
+            templateUrl: 'views/tmpl/custom_group/create_groups/custom-group-view.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/Pagination/input.js',
+                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                    ]);
+                }]
+            }
+        })
+        
+        //create groups/custom-group-add-drivers
         .state('app.custom-groups.create-groups-drivers', {
             url: '/create_groups_drivers/:group_id',
             controller: 'CustomGroupDriversCtrl',
@@ -665,51 +686,35 @@ var app = angular
             }
         })
 
-        //create groups/custom-group-info
-        .state('app.custom-groups.groups-info', {
-            url: '/groups_info',
-            controller: 'CustomGroupInfoCtrl',
-            templateUrl: 'views/tmpl/custom_group/group_information/custom-group-info.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
+        .state('app.notifications', {
+                url: '/notifications',
+                template: '<div ui-view></div>'
+            })
+            
+
+        //notifications/view
+        .state('app.notifications.notifications-all', {
+            url: '/all_notifications',
+            controller: 'AllNotificationsCtrl',
+            templateUrl: 'views/tmpl/notifications/all_notifications.html'
+         
         })
-        //create groups/custom-group-info
-        .state('app.custom-groups.groups-info-drivers', {
-            url: '/groups_info_drivers/:group_id',
-            controller: 'CustomGroupInfoDriversCtrl',
-            templateUrl: 'views/tmpl/custom_group/group_information/custom-group-info-drivers.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+       
          //create groups/custom-group-info
-        .state('app.custom-groups.groups-info-single-drivers', {
-            url: '/groups_info_single_drivers/:group_id/:driver_id',
-            controller: 'CustomGroupSingleDriverInfoCtrl',
-            templateUrl: 'views/tmpl/custom_group/group_information/custom-group-single-driver-info.html',
-            resolve: {
-                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                        'scripts/vendor/datatables/Pagination/input.js',
-                        'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                    ]);
-                }]
-            }
-        })
+        // .state('app.custom-groups.groups-info-single-drivers', {
+        //     url: '/groups_info_single_drivers/:group_id/:driver_id',
+        //     controller: 'CustomGroupSingleDriverInfoCtrl',
+        //     templateUrl: 'views/tmpl/custom_group/group_information/custom-group-single-driver-info.html',
+        //     resolve: {
+        //         plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 'scripts/vendor/datatables/datatables.bootstrap.min.css',
+        //                 'scripts/vendor/datatables/Pagination/input.js',
+        //                 'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+        //             ]);
+        //         }]
+        //     }
+        // })
 
 
 

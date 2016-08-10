@@ -1,0 +1,88 @@
+<div class="page page-form-wizard">
+    <!-- page header -->
+    <div class="pageheader">
+        <h2>{{page.title}} <span> {{page.subtitle}}</span></h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Notifications</a>
+                </li>
+                <li>
+                    <a ui-sref="app.dispatch.dispatch_ride_request">{{page.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header -->
+    <!-- page content -->
+    <div class="pagecontent">
+    <ul class="list-group message_list">
+
+                       <li class="list-group-item" ng-show="!notificationList.length">
+                        <a href="javascript:;" class="media">
+                             <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">No Notifications</span>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-group-item" ng-show="notificationList.length" ng-repeat="notification in notificationList" ng-click="viewNotification(notification.id)">
+                        <a href="javascript:;" class="media">
+                             <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">                           
+                                <span class="block">{{notification.id}}</span>
+                                <span class="block">{{notification.message.title}}</span>
+                                <span class="block">{{notification.message.body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    
+<!--                      <li class="list-group-item" ng-show="!message1.length">
+                        <a href="javascript:;" class="media">
+                             <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">No Notifications</span>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    
+                    <li class="list-group-item" ng-repeat="message in message1" ng-click="getNotificationId(message1.title)">
+                        <a href="javascript:;" class="media">
+                             <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message.title}}</span>
+                                <span class="block">{{message.body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                            </div>
+                        </a>
+                    </li> -->
+                        
+                                       
+                </ul> 
+           
+    </div>
+    <!-- /page content -->
+</div>

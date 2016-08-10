@@ -36,7 +36,15 @@ app
             //Model which handles selected country and state update
             $scope.selected = {};
             $scope.isAdmin = false;
-            $scope.loggedUser = countriesConstant.user.name;
+//             $scope.loggedUser = countriesConstant.user.name;
+           
+//            $scope.message1 = localStorage.getItem('notification') ? JSON.parse(localStorage.getItem('notification')) : '';
+//            $scope.notification_count = localStorage.getItem('notification_count') ? JSON.parse(localStorage.getItem('notification_count')) : '';
+//            $scope.$watch('notification_count', function () {alert('hi')});
+//            $scope.count_exceed = localStorage.getItem('notification_count_exceed')
+//            $scope.getNotificationId = function(msgId){
+//                  console.log(msgId)
+//            }
             if(countriesConstant.userRole == 'admin'){
                 $scope.isAdmin = true;
                 getCountries();

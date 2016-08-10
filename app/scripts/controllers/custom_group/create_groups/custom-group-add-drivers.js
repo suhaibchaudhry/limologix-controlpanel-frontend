@@ -166,9 +166,12 @@ app
                 }
             var url = appSettings.serverPath + appSettings.serviceApis.getDriversNotInGroup;
             services.funcPostRequest(url, vm.data).then(function(response) {
-                $scope.driversList = response.data.drivers;
-                vm.orders = $scope.driversList;
-                console.log('vm.orders',vm.orders);
+                if(response.data){
+                     $scope.driversList = response.data.drivers;
+                     vm.orders = $scope.driversList;
+                     console.log('vm.orders',vm.orders);   
+                }
+                
             }, function(error) {
                 notify({ classes: 'alert-danger', message: error });
             });

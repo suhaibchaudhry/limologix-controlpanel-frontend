@@ -9,12 +9,12 @@
  */
 app
     .controller('SingleActiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
-        'notification',
-        function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams,notification) {
+       
+        function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
             console.log("ssss", $stateParams.driver_id);
-            var msg = 'Gnome & Growl type non-blocking notifications';
-        var title ='This is toaster notification';
-            notification.opentoast(msg,title);
+            //var msg = 'Gnome & Growl type non-blocking notifications';
+            // var title ='This is toaster notification';
+            //   notification.opentoast(msg,title);
             //var vm = this;
             //vm.activeDispatches = [];
             $scope.page = {
@@ -40,7 +40,7 @@ app
                     $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
                     $scope.tripList = response.data.trips;
                     // $scope.channelName = response.data.trips[0].driver.channel;
-                    subscribeToChannel();
+                    //subscribeToChannel();
                     //  console.log("channel", $scope.channelName);
 
                     //vm.activeDispatches = $scope.tripList;
@@ -66,22 +66,59 @@ app
                     }
                 }
 
-                var FayeServerURL = appSettings.FayeServerUrl
-                var client = new Faye.Client(FayeServerURL);
-                client.addExtension(Logger);
-               // toast_notification();
-                var subscription = client.subscribe('/publish/company_145', function(message) {
-                    alert(message.data)
-                    console.log("message", message.data)
-                    //toast_notification();
-                        //$("#container").append("<p>"+ message.data+"</p>")
-                });
-                subscription.then(function() {
-                    alert('Subscription is now active!');
-                });
-
-
+//                 var FayeServerURL = appSettings.FayeServerUrl
+//                 var client = new Faye.Client(FayeServerURL);
+//                 $scope.notification_count_exceed = false;
+//                 client.addExtension(Logger);
+//                 // toast_notification();
+//                 //////
+//                 $scope.message = [];
+//                 var i = 0;
+                 
+//                //   loaStorage.setItem('notification_count')
                 
+//                 var subscription = client.subscribe('/publish/company_145', function(message) {
+//                    // alert(JSON.stringify(message))
+//                   //  console.log("message", message)
+//                    // alert("hii" + message.title);
+//                     console.log("got a message", message);
+//                     i++;
+
+//                     var message = {
+//                         "count": i,
+//                         "title": message.title,
+//                         "body": message.body
+//                     }
+//                     $scope.message.push(message);  
+//                     $scope.notification_count = $scope.message.length;
+
+//                      $scope.notificaton_size = JSON.parse(localStorage.getItem('notification')).length
+
+                     
+//                 if($scope.notificaton_size > 3){
+//                     $scope.notification_count_exceed = true;
+//                 }
+
+
+//                     localStorage.setItem('notification',JSON.stringify($scope.message))
+//                     localStorage.setItem('notification_count',$scope.notificaton_size)
+//                     localStorage.setItem('notification_count_exceed',$scope.notification_count_exceed)
+//                     //localStorage['notification'] = JSON.stringify($scope.message);
+//                     //localStorage['notification_count'] = $scope.notification_count ;              
+//                     //$window.sessionStorage['noti_msg'] = 
+//                     //$scope.message1 =  JSON.parse($window.sessionStorage['notification']);
+//                      //$window.sessionStorage['notification'].
+//                 });
+//                 subscription.then(function() {
+//                     alert('Subscription is now active!');
+//                 });
+
+//                 var notificaton_size = parseInt(localStorage.getItem('notification_count'))
+//                 if(notification_size > 3){
+//                     $scope.notification_count_exceed = true;
+//                 }
+                
+
 
 
                 //  var FayeServerURL = appSettings.FayeServerUrl;

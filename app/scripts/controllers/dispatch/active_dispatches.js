@@ -48,7 +48,7 @@
  * Controller of the minovateApp
  */
 app
-   .controller('ActiveDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
+   .controller('ActiveDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
         $scope.page = {
             title: 'Active Dispatches',
             subtitle: '',//'Place subtitle here...'
@@ -98,17 +98,19 @@ app
                 order.selected = $scope.selectedAll;
             });
         };
-
+        if (countriesConstant.userRole == 'admin') {
          getActiveList();
+        }
 
             function getActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
                 services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
-                    $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
-                    $scope.tripList = response.data.trips;
-                    vm.activeDispatches = $scope.tripList;
-                    console.log('response',response.data.trips);
-                    console.log("status",vm.activeDispatches.status);
+                    if(response.data){
+                        $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
+                        $scope.tripList = response.data.trips;
+                        vm.activeDispatches = $scope.tripList;    
+                    }                  
+                
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: error });
                 });

@@ -180,9 +180,46 @@ app
             });
        }
 
+        vm.getIndividualGroupDetails = function(group_id) {
+                $state.go('app.custom-groups.groups-view', { "group_id": group_id });
+                //countriesConstant.groupId = group_id;
+            }
+
         vm.AddDrivers = function(group_id){
             $state.go('app.custom-groups.create-groups-drivers',{"group_id" : group_id});
-        }      
+        }   
+
+        
+         //function to delete groups
+            vm.funcDeleteGroup = function(del_gId) {
+                swal({
+                    title: "Are you sure?",
+                    text: "You want to remove this group?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, remove it!",
+                    closeOnConfirm: false
+                }, function(isConfirm) {
+                    if (!isConfirm) return;
+                    
+
+                    vm.group = {
+                        "id": del_gId,
+                    }
+                    var url = appSettings.serverPath + appSettings.serviceApis.deleteGroup;
+                    services.funcPostRequest(url, { "group": vm.group }).then(function(response) {
+                        //notify({ classes: 'alert-success', message: response.message });
+                        swal("Done!", "It was succesfully deleted!", "success");
+                        $state.go('app.custom-groups.create-groups');
+                    }, function(error) {
+                        swal("Error deleting!", "Please try again", "error");
+                        //notify({ classes: 'alert-danger', message: error });
+                    });
+                });
+            }
+
+          
 
     })
 
