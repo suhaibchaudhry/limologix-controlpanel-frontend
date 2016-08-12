@@ -22,64 +22,111 @@
          <li class="dropdown notifications" uib-dropdown>
             <a href class="dropdown-toggle" uib-dropdown-toggle>
                 <fa name="bell"></fa>
-                <span class="badge bg-lightred notifications_badge">{{notificaton_size}}</span>
+                <span class="badge bg-lightred notifications_badge">{{notificaton_count}}</span>
             </a>
            
             <div class="dropdown-menu pull-right with-arrow panel panel-default animated littleFadeInLeft" role="menu">
                 <div class="panel-heading">
-                    You have <strong>{{notificaton_size}}</strong> notifications
+                    You have <strong>{{notificaton_count}}</strong> notifications
                 </div>
                 <ul class="list-group message_list">
-<!--                   {{message1}} -->
-                    <li class="list-group-item" ng-show="message1[0]" ng-click="getNotificationId(message1.title)">
+                        <li class="list-group-item" ng-show="notificationList[0]" ng-click="getNotificationId(notificationList.id)">
                         <a href="javascript:;" class="media">
- <div class="media-left">
+                            <div class="media-left">
                                 <span class="media-object media-icon bg-danger">
                                     <fa name="car"></fa>
                                 </span>
                             </div>
                             <div class="media-body">
-                                <span class="block">{{message1[0].title}}</span>
-                                <span class="block">{{message1[0].body}}</span>
-                                <small class="text-muted">6 minutes ago</small>
+                                <span class="block">{{notificationList[0].id}}</span>
+                                <span class="block">{{notificationList[0].message.title}}</span>
+                                <span class="block">{{notificationList[0].message.body}}</span>
+                                <small class="text-muted">{{notificationList[0].created_at | date:'dd/MM/yyyy' }} {{notificationList[0].created_at | date:'hh:mm a' }}</small>
                             </div>
                         </a>
                     </li>
-                        <li class="list-group-item" ng-show="message1[1]" ng-click="getNotificationId(message1.title)">
+                        <li class="list-group-item" ng-show="notificationList[1]" ng-click="getNotificationId(notificationList.id)">
                         <a href="javascript:;" class="media">
- <div class="media-left">
+                            <div class="media-left">
                                 <span class="media-object media-icon bg-danger">
                                     <fa name="car"></fa>
                                 </span>
                             </div>
                             <div class="media-body">
-                                <span class="block">{{message1[1].title}}</span>
-                                <span class="block">{{message1[1].body}}</span>
-                                <small class="text-muted">6 minutes ago</small>
+                                <span class="block">{{notificationList[1].id}}</span>
+                                <span class="block">{{notificationList[1].message.title}}</span>
+                                <span class="block">{{notificationList[1].message.body}}</span>
+                                <small class="text-muted">{{notificationList[1].created_at | date:'dd/MM/yyyy' }} {{notificationList[0].created_at | date:'hh:mm a' }}</small>
                             </div>
                         </a>
                     </li>
-                        <li class="list-group-item" ng-show="message1[2]" ng-click="getNotificationId(message1.title)">
+                        <li class="list-group-item" ng-show="notificationList[2]" ng-click="getNotificationId(notificationList.id)">
                         <a href="javascript:;" class="media">
- <div class="media-left">
+                            <div class="media-left">
                                 <span class="media-object media-icon bg-danger">
                                     <fa name="car"></fa>
                                 </span>
                             </div>
                             <div class="media-body">
-                                <span class="block">{{message1[2].title}}</span>
-                                <span class="block">{{message1[2].body}}</span>
+                                <span class="block">{{notificationList[2].id}}</span>
+                                <span class="block">{{notificationList[2].message.title}}</span>
+                                <span class="block">{{notificationList[2].message.body}}</span>
+                                <small class="text-muted">{{notificationList[2].created_at | date:'dd/MM/yyyy' }} {{notificationList[0].created_at | date:'hh:mm a' }}</small>
+                            </div>
+                        </a>
+                    </li>                    
+               
+                
+<!--                     <li class="list-group-item" ng-show="message[0]" ng-click="getNotificationId(message.id)">
+                        <a href="javascript:;" class="media">
+                            <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message[0].id}}</span>
+                                <span class="block">{{message[0].title}}</span>
+                                <span class="block">{{message[0].body}}</span>
+                                <small class="text-muted">0 minutes ago</small>
+                            </div>
+                        </a>
+                    </li> -->
+<!--                         <li class="list-group-item" ng-show="message[1]" ng-click="getNotificationId(message.id)">
+                        <a href="javascript:;" class="media">
+                            <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message[1].id}}</span>
+                                <span class="block">{{message[1].title}}</span>
+                                <span class="block">{{message[1].body}}</span>
                                 <small class="text-muted">6 minutes ago</small>
                             </div>
                         </a>
-                    </li>
-
-                    
+                    </li> -->
+<!--                         <li class="list-group-item" ng-show="message[2]" ng-click="getNotificationId(message.id)">
+                        <a href="javascript:;" class="media">
+                            <div class="media-left">
+                                <span class="media-object media-icon bg-danger">
+                                    <fa name="car"></fa>
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <span class="block">{{message[2].id}}</span>
+                                <span class="block">{{message[2].title}}</span>
+                                <span class="block">{{message[2].body}}</span>
+                                <small class="text-muted">6 minutes ago</small>
+                            </div>
+                        </a>
+                    </li>                     -->
                 </ul>
-                 <div class="panel-footer" ng-show="!message1.length">
+                 <div class="panel-footer" ng-show="!notificationList.length">
                     <a href="javascript:;">No notifications <fa name="angle-right" class="pull-right"></fa></a>
                 </div>
-                <div class="panel-footer" ng-show="message1.length">
+                <div class="panel-footer" ng-show="notificationList.length">
                     <a ui-sref="app.notifications.notifications-all">Show all notifications <fa name="angle-right" class="pull-right"></fa></a>
                 </div>
             </div>

@@ -50,6 +50,7 @@ app
             $scope.selected = '';
             $scope.noresults = false;
             $scope.loadingcustomers = false;
+            $scope.emptyCustomGroup = false;
             // $scope.isChoosedAirports = false;
             // $scope.isChoosedAirports1 = false;
             // $scope.pickupOptionSelected = true;
@@ -198,12 +199,18 @@ app
             function getCustomGroupsList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
                 services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
-                    $scope.groupList = response.data.groups;
-                    for (var i = 0; i < $scope.groupList.length; i++) {
-                        $scope.groupList[i].label = $scope.groupList[i].name
+                    if(response.data){
+                        $scope.groupList = response.data.groups;
+                        for (var i = 0; i < $scope.groupList.length; i++) {
+                            $scope.groupList[i].label = $scope.groupList[i].name
+                        }
+                        //$scope.emptyCustomGroup = false;
+                        $scope.customgroupdata = $scope.groupList;
+                        $scope.customgroupModel = $scope.customgroupdata.length ? [{ id: $scope.customgroupdata[0].id }] : [];
+                    }else{
+                         //$scope.emptyCustomGroup = true;
                     }
-                    $scope.customgroupdata = $scope.groupList;
-                    $scope.customgroupModel = $scope.customgroupdata.length ? [{ id: $scope.customgroupdata[0].id }] : [];
+                    
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: error });
                 });

@@ -21,7 +21,7 @@
     <div class="pagecontent">
         <div class="add-nav">
             <div class="nav-heading">
-                <h3>Active Customer Details :<strong class="text-greensea">{{driversList.first_name}}</strong></h3>
+                <h3>Active Dispatch Details :</h3>
                 <span class="controls pull-right">
             <a ui-sref="app.dispatch.activedispatches" class="btn btn-ef btn-ef-1 btn-ef-1-default btn-ef-1a btn-rounded-20 mr-5" uib-tooltip="Back"><i class="fa fa-arrow-circle-left"></i></a>
             <!-- <a href="javascript:window.print()" class="btn btn-ef btn-ef-1 btn-ef-1-default btn-ef-1a btn-rounded-20" uib-tooltip="Print"><i class="fa fa-print"></i></a> -->
@@ -43,16 +43,40 @@
                                         <!-- <div class="col-md-9">
                                            <h3><strong>Status:&nbsp;&nbsp;</strong><span style="font-size:15px;" class="label" ng-class="{'bg-success' : tripList.status == 'active','bg-warning' : tripList.status == 'disapproved','bg-primary' : tripList.status == 'pending','bg-danger' : tripList.status == 'blocked'}">{{ tripList.status }}</span></h3>
                                         </div> -->
-                                        <div class="col-md-12">
-                                            <p class="text-uppercase text-strong mb-10 custom-font">Dispatch Info</p>
+                                         <div class="col-md-12">
+                                            <p class="text-uppercase text-strong mb-10 custom-font">Customer Info</p>
                                             <ul class="wordBreak list-unstyled text-default lt-20">
-                                                <li><strong class="inline-block w-xs">Pick Up Point:</strong>{{driversList.id}}</li>
-                                                <br/>
-                                                <br/>
-                                                <li><strong class="inline-block w-xs">Drop Off Point:</strong> {{driversList.first_name}}</li>
+                                                <li><strong class="inline-block">Name:</strong>&nbsp;&nbsp;{{dispatch_customer.full_name}}</li>
+                                               <li><strong class="inline-block">Mobile Number:</strong>&nbsp;&nbsp;{{dispatch_customer.mobile_number}}</li>
+                                                <li><strong class="inline-block">Organisation:</strong>&nbsp;&nbsp;{{dispatch_customer.organisation}}</li>
+                                                
                                             </ul>
                                         </div>
-                                        <!-- /col -->
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="text-uppercase text-strong mb-10 custom-font">Trip Info</p>
+                                            <ul class="wordBreak list-unstyled text-default lt-20">
+                                                <li><strong class="inline-block">Pick up location:</strong>&nbsp;&nbsp;{{dispatch_source.place}}</li>
+                                               <li><strong class="inline-block"> Drop off location:</strong>&nbsp;&nbsp;{{dispatch_destination.place}}</li>
+                                                <li><strong class="inline-block">Pickup At:</strong>&nbsp;&nbsp;{{dispatch_data.pick_up_at | date:'dd/MM/yyyy'}} &nbsp;&nbsp;{{dispatch_data.pick_up_at | date:'hh:mm a'}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row" ng-show="isDispatchActive">
+                                        <div class="col-md-12">
+                                            <p class="text-uppercase text-strong mb-10 custom-font">Driver Info</p>
+                                            <ul class="wordBreak list-unstyled text-default lt-20">
+                                                <li><strong class="inline-block">Name:</strong>&nbsp;&nbsp;{{dispatch_driver.first_name}}&nbsp;&nbsp;{{dispatch_driver.last_name}}</li>
+                                               <li><strong class="inline-block"> Email Id:</strong>&nbsp;&nbsp;{{dispatch_driver.email}}</li>
+                                                <li><strong class="inline-block">Company:</strong>&nbsp;&nbsp;{{dispatch_driver.company}}</li>
+                                                 <li><strong class="inline-block">Vehicle Type:</strong>&nbsp;&nbsp;{{dispatch_driver.vehicle.vehicle_type.name}}</li>
+                                                <li><strong class="inline-block">Toll credit:</strong>&nbsp;&nbsp;${{dispatch_driver.toll_credit}}</li>
+                                               
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -81,94 +105,4 @@
     <!-- /page content -->
 </div>
 
-
-<!--           <div class="tile-body" ng-controller="ToasterDemoCtrl">
-
-            <form role="form">
-              <div class="row">
-                <div class="col-md-4">
-
-                  <div class="form-group">
-                    <label for="toastTitle" class="control-label">Toast Title:</label>
-                    <input ng-model="toast.title" type="text" class="form-control" id="toastTitle" placeholder="Enter toaster title...">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="toastMsg" class="control-label">Toast Message:</label>
-                    <input ng-model="toast.msg" type="text" class="form-control" id="toastMsg" placeholder="Enter toaster message...">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="toastButton">Close button html:</label>
-                    <input type="text" ng-model="options.closeHtml" class="form-control" id="toastbutton" ng-disabled="!options.closeButton">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="checkbox checkbox-custom checkbox-custom-sm">
-                      <input type="checkbox" ng-model="options.tapToDismiss"><i></i> Tap to dismiss?
-                    </label>
-                    <label class="checkbox checkbox-custom checkbox-custom-sm">
-                      <input type="checkbox" ng-model="options.closeButton"><i></i> Close button?
-                    </label>
-                    <label class="checkbox checkbox-custom checkbox-custom-sm">
-                      <input type="checkbox" ng-model="options.html"><i></i> Allow html?
-                    </label>
-                  </div>
-
-                </div>
-                <div class="col-md-4">
-
-                  <div class="form-group">
-                    <label class="control-label" for="toastType">Toast Type:</label>
-                    <select ng-model="options.iconClass" id="toastType" ng-options="color.name for color in toast.colors" class="form-control"></select>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Toast position</label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-top-right"><i></i> Top Right
-                    </label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-bottom-right"><i></i> Bottom Right
-                    </label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-bottom-left"><i></i> Bottom Left
-                    </label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-top-left"><i></i> Top Left
-                    </label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-top-full-width"><i></i> Top Full Width
-                    </label>
-                    <label class="radio checkbox-custom checkbox-custom-sm">
-                      <input type="radio" ng-model="options.position" value="toast-bottom-full-width"><i></i> Bottom Full Width
-                    </label>
-                  </div>
-
-                </div>
-
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="toastTimeout">Timeout:</label>
-                    <input type="text" ng-model="options.timeout" class="form-control" id="toastTimeout">
-                    <em>If you set it to 0, it will stick</em>
-                  </div>
-                  <div class="form-group">
-                    <label for="toastExtendedTimeout">Extended timeout:</label>
-                    <input type="text" ng-model="options.extendedTimeout" class="form-control" id="toastExtendedTimeout">
-                  </div>
-                </div>
-
-
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <button ng-click="openToast()" class="btn btn-primary">Open Toast</button>
-                  <button ng-click="clearToasts()" class="btn btn-danger">Clear Toasts</button>
-                  <button ng-click="clearLastToast()" class="btn btn-danger">Clear Last Toast</button>
-                </div>
-              </div>
-            </form>
-
-          </div> -->
       

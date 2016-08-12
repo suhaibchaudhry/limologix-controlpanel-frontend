@@ -17,24 +17,36 @@ app
         'services',
         'countriesConstant',
         'notify',
-        function($scope, $http, $rootScope, $window, appSettings, services, constant,notify) {
-            $scope.notificaton_size = 0;
-            $scope.page = {
+        '$filter',
+        '$state',
+        function($scope, $http, $rootScope, $window, appSettings, services, constant,notify,$filter,$state) {
+                $scope.notificaton_size = 0;
+                $scope.notificaton_count = 0;
+                $scope.page = {
                 title: 'Unread notifications',
                 subtitle: '' //'Place subtitle here...'
-            };
-             $scope.isAdmin = false;
-            if (constant.userRole == 'admin') {
-                $scope.isAdmin = true;
-                getCompanyChannel();
-                getAllNotifications();
-            }
+                };
+                $scope.isAdmin = false;
+                if (constant.userRole == 'admin') {
+                        $scope.isAdmin = true;
+                        getCompanyChannel();
+                        getAllNotifications();
+                }
 
-            $scope.loggedUser = constant.user.name;
-            $window.sessionStorage.setItem('notification','')
-           $scope.message1 = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : '';
-           $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : '';
-            
+                $scope.loggedUser = constant.user.name;
+                //$window.sessionStorage.setItem('notification','')
+                // $scope.message = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : '';
+                // $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : '';
+             
+                setInterval(function(){ 
+                if (constant.userRole == 'admin') {
+                        //code goes here that will be run every 5 seconds.   
+                       // getAllNotifications(); 
+                }
+                }, 5000);
+
+
+
              function getCompanyChannel(){        
                 var url = appSettings.serverPath + appSettings.serviceApis.companyChannel;
                         services.funcGetRequest(url).then(function(response) {                            
@@ -47,12 +59,26 @@ app
 
             function getAllNotifications(){        
                 var url = appSettings.serverPath + appSettings.serviceApis.getNotifications;
-                        services.funcPostRequest(url, { "read_status": false }).then(function(response) {
-                            $scope.notificationList = response.data.groups;
-                          }, function(error) {
-                            notify({ classes: 'alert-danger', message: error });
-                        });
+                services.funcPostRequest(url, { "read_status": false }).then(function(response) {
+                    
+                    $scope.notificationList = response.data.groups;
+                    $scope.notificaton_count =  $scope.notificationList.length;
+                    console.log('notification count', $scope.notificaton_count)
+                    //$scope.pickup_date = $filter('date')(new Date($scope.notificationList[0].created_at), 'dd/MM/yyyy');
+                    //$scope.pickup_time = $filter('date')(new Date($scope.notificationList[0].created_at), 'hh:mm a');
+
+                  }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                });
              }
+
+              $scope.$watch('notificaton_count', function (newVal,oldVal) {
+                    $scope.notificaton_count = newVal;
+              },true);
+
+//             $scope.getNotificationId = function(notificationId){
+//                  // $state.go('app.notifications.notifications-all');
+//             }
              
 
                 
@@ -61,14 +87,11 @@ app
                  $scope.sessionNotifications = [];
                  
                   
-                  setInterval(function(){ 
-                    //code goes here that will be run every 5 seconds.   
-                    subscribeToChannel($scope.companyChannel); 
-                  }, 5000);
+                 
+                 
 
-                 function subscribeToChannel(channel){
-                        var FayeServerURL = appSettings.FayeServerUrl;
-                        var client = new Faye.Client(FayeServerURL);
+                 var FayeServerURL = appSettings.FayeServerUrl;
+                        $scope.client = new Faye.Client(FayeServerURL);
                        // $scope.notification_count_exceed = false;
                            var Logger = {
                             incoming: function(message, callback) {
@@ -85,19 +108,25 @@ app
                             }
                         }
 
-                        client.addExtension(Logger);                                    
+                        $scope.client.addExtension(Logger);    
+
+
+                        
+                 function subscribeToChannel(channel){                                                       
                     
-                    var subscription = client.subscribe(channel, function(msg) {
-                            alert("got a message", msg);
+                    var subscription = $scope.client.subscribe('/'+channel, function(msg) {
+                            console.log("got a message", msg);
                             i++;
                             //getTimeDifference(msg.time);
                             $scope.singleMsg = {
+                                "id":msg.id,
                                 "count": i,
                                 "title": msg.title,
                                 "body": msg.body,
                                 "time":msg.time
                             }   
-
+                             
+                            getAllNotifications();
                             $scope.message.push($scope.singleMsg);                   
 
 
@@ -105,9 +134,9 @@ app
                             $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : ''
                             console.log('msg count',$scope.notificaton_size);
                             $window.sessionStorage.setItem('notification_count',$scope.notificaton_size)
-                            $('.notifications_badge').trigger('click');
+                             $('.notifications_badge').trigger('click');
                             //$('.littleFadeInLeft').hide();
-                            //$('.message_list').trigger('click');
+                            $('.message_list').trigger('click');
 
 
                      $scope.$watch('notificaton_size', function (newVal,oldVal) {
@@ -124,7 +153,7 @@ app
 
                 });
                  subscription.then(function() {
-                    alert('Subscription is now active!');
+                    //alert('Subscription is now active!');
                 });
                 
                  }
@@ -137,7 +166,7 @@ app
                           }
                         services.funcPostRequest(url, { "notification": $scope.data }).then(function(response) {
                                 getAllNotifications();
-                            //$scope.notificationList = response.data.groups;
+                               // $state.go('app.dispatch.activedispatches');
                           }, function(error) {
                             //notify({ classes: 'alert-danger', message: error });
                         });

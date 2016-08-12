@@ -11,60 +11,64 @@ app
     .controller('SingleActiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
        
         function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
-            console.log("ssss", $stateParams.driver_id);
-            //var msg = 'Gnome & Growl type non-blocking notifications';
-            // var title ='This is toaster notification';
-            //   notification.opentoast(msg,title);
-            //var vm = this;
-            //vm.activeDispatches = [];
             $scope.page = {
                 title: 'Single Driver',
                 subtitle: '', //'Place subtitle here...'
             };
             $scope.imagePath = appSettings.server_address;
-
+            $scope.isDispatchActive = false;
             getActiveList();
-            $scope.tripsummary = {
-                pickupAt: 'Marathahalli, Bengaluru, Karnataka 560037, India',
-                dropoffAt: 'Hebbal, Bengaluru, Karnataka 560024, India'
-            }
+//             $scope.tripsummary = {
+//                 pickupAt: 'Marathahalli, Bengaluru, Karnataka 560037, India',
+//                 dropoffAt: 'Hebbal, Bengaluru, Karnataka 560024, India'
+//             }
 
-            setTimeout(function() {
-                dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
-            }, 5000)
+            
 
             function getActiveList() {
-                //dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
-                var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
-                    $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
-                    $scope.tripList = response.data.trips;
+                var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
+                services.funcPostRequest(url, { 'trip_id': parseInt($stateParams.active_customer_id)}).then(function(response) {
+                    //$scope.pending_dispatch_count = Object.keys(response.data.trip).length;
+                    $scope.dispatch_data = response.data.trip;
+                    $scope.dispatch_customer = response.data.trip.customer;
+                    $scope.dispatch_source = response.data.trip.start_destination;
+                    $scope.dispatch_destination = response.data.trip.end_destination;
+                   // $scope.dispatch_driver = response.data.trip.driver;
+                    //get driver info only when dispatch status is active
+                    if(response.data.trip.driver){
+                        $scope.isDispatchActive = true;
+                        $scope.dispatch_driver = response.data.trip.driver;
+                    }else{
+                        $scope.isDispatchActive = false;
+                    }
+                       
+
                     // $scope.channelName = response.data.trips[0].driver.channel;
                     //subscribeToChannel();
-                    //  console.log("channel", $scope.channelName);
-
-                    //vm.activeDispatches = $scope.tripList;
-                    console.log('hey', $scope.tripList);
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: error });
                 });
             }
 
-            function subscribeToChannel() {
-                var Logger = {
-                    incoming: function(message, callback) {
-                        console.log('incoming', message);
-                        callback(message);
-                    },
-                    outgoing: function(message, callback) {
-                        message.ext = message.ext || {};
-                        // message.ext.auth_token = $window.sessionStorage['Auth-Token'];
-                        // message.ext.auth_token = "8e70d74ca671fc2afa7c7bd0aaf3a39e";
-                        //message.ext.user_type = "user";
-                        console.log('outgoing', message);
-                        callback(message);
-                    }
-                }
+            setTimeout(function() {
+                dispatchRideProvider.getRoutes($scope.dispatch_source.place,$scope.dispatch_destination.place, notify);
+            }, 5000)
+
+//             function subscribeToChannel() {
+//                 var Logger = {
+//                     incoming: function(message, callback) {
+//                         console.log('incoming', message);
+//                         callback(message);
+//                     },
+//                     outgoing: function(message, callback) {
+//                         message.ext = message.ext || {};
+//                         // message.ext.auth_token = $window.sessionStorage['Auth-Token'];
+//                         // message.ext.auth_token = "8e70d74ca671fc2afa7c7bd0aaf3a39e";
+//                         //message.ext.user_type = "user";
+//                         console.log('outgoing', message);
+//                         callback(message);
+//                     }
+//                 }
 
 //                 var FayeServerURL = appSettings.FayeServerUrl
 //                 var client = new Faye.Client(FayeServerURL);
@@ -142,7 +146,7 @@ app
                 //  subscription.then(function() {
                 //    alert('Subscription is now active!');
                 //  });
-            }
+            //}
             // $scope.driver_id = $state.get('driver_id') || undefined;
 
             // funcGetDetails();
@@ -197,84 +201,84 @@ app
 //     }
 // })
 
-.controller('ToasterDemoCtrl', ['$scope', 'toastr', 'toastrConfig', function($scope, toastr, toastrConfig) {
-    //openToast();
-    var openedToasts = [];
+// .controller('ToasterDemoCtrl', ['$scope', 'toastr', 'toastrConfig', function($scope, toastr, toastrConfig) {
+//     //openToast();
+//     var openedToasts = [];
 
-    $scope.toast = {
-        colors: [
-            { name: 'primary' },
-            { name: 'success' },
-            { name: 'warning' },
-            { name: 'error' },
-            { name: 'info' },
-            { name: 'default' },
-            { name: 'cyan' },
-            { name: 'amethyst' },
-            { name: 'green' },
-            { name: 'orange' },
-            { name: 'red' },
-            { name: 'greensea' },
-            { name: 'dutch' },
-            { name: 'hotpink' },
-            { name: 'drank' },
-            { name: 'blue' },
-            { name: 'lightred' },
-            { name: 'slategray' },
-            { name: 'darkgray' }
-        ],
-        msg: 'Gnome & Growl type non-blocking notifications',
-        title: 'This is toaster notification'
-    };
+//     $scope.toast = {
+//         colors: [
+//             { name: 'primary' },
+//             { name: 'success' },
+//             { name: 'warning' },
+//             { name: 'error' },
+//             { name: 'info' },
+//             { name: 'default' },
+//             { name: 'cyan' },
+//             { name: 'amethyst' },
+//             { name: 'green' },
+//             { name: 'orange' },
+//             { name: 'red' },
+//             { name: 'greensea' },
+//             { name: 'dutch' },
+//             { name: 'hotpink' },
+//             { name: 'drank' },
+//             { name: 'blue' },
+//             { name: 'lightred' },
+//             { name: 'slategray' },
+//             { name: 'darkgray' }
+//         ],
+//         msg: 'Gnome & Growl type non-blocking notifications',
+//         title: 'This is toaster notification'
+//     };
 
-    $scope.options = {
-        position: 'toast-top-right',
-        type: 'success',
-        iconClass: $scope.toast.colors[1],
-        timeout: '5000',
-        extendedTimeout: '1000',
-        html: false,
-        closeButton: true,
-        tapToDismiss: true,
-        closeHtml: '<i class="fa fa-times"></i>'
-    };
+//     $scope.options = {
+//         position: 'toast-top-right',
+//         type: 'success',
+//         iconClass: $scope.toast.colors[1],
+//         timeout: '5000',
+//         extendedTimeout: '1000',
+//         html: false,
+//         closeButton: true,
+//         tapToDismiss: true,
+//         closeHtml: '<i class="fa fa-times"></i>'
+//     };
 
-    $scope.$watchCollection('options', function(newValue) {
-        toastrConfig.allowHtml = newValue.html;
-        toastrConfig.extendedTimeOut = parseInt(newValue.extendedTimeout, 10);
-        toastrConfig.positionClass = newValue.position;
-        toastrConfig.timeOut = parseInt(newValue.timeout, 10);
-        toastrConfig.closeButton = newValue.closeButton;
-        toastrConfig.tapToDismiss = newValue.tapToDismiss;
-        toastrConfig.closeHtml = newValue.closeHtml;
-    });
+//     $scope.$watchCollection('options', function(newValue) {
+//         toastrConfig.allowHtml = newValue.html;
+//         toastrConfig.extendedTimeOut = parseInt(newValue.extendedTimeout, 10);
+//         toastrConfig.positionClass = newValue.position;
+//         toastrConfig.timeOut = parseInt(newValue.timeout, 10);
+//         toastrConfig.closeButton = newValue.closeButton;
+//         toastrConfig.tapToDismiss = newValue.tapToDismiss;
+//         toastrConfig.closeHtml = newValue.closeHtml;
+//     });
 
-    $scope.clearLastToast = function() {
-        var toast = openedToasts.pop();
-        toastr.clear(toast);
-    };
+//     $scope.clearLastToast = function() {
+//         var toast = openedToasts.pop();
+//         toastr.clear(toast);
+//     };
 
-    $scope.clearToasts = function() {
-        toastr.clear();
-    };
+//     $scope.clearToasts = function() {
+//         toastr.clear();
+//     };
 
-    //     $scope.openToast = function() {
+//     //     $scope.openToast = function() {
 
-    //       var toast = toastr[$scope.options.type]($scope.toast.msg, $scope.toast.title, {
-    //                     iconClass: 'toast-'+$scope.options.iconClass.name + ' ' + 'bg-'+$scope.options.iconClass.name
-    //                   });
+//     //       var toast = toastr[$scope.options.type]($scope.toast.msg, $scope.toast.title, {
+//     //                     iconClass: 'toast-'+$scope.options.iconClass.name + ' ' + 'bg-'+$scope.options.iconClass.name
+//     //                   });
 
-    //       openedToasts.push(toast);
+//     //       openedToasts.push(toast);
 
-    //     };
-    function openToast() {
+//     //     };
+//     function openToast() {
 
-        var toast = toastr[$scope.options.type]($scope.toast.msg, $scope.toast.title, {
-            iconClass: 'toast-' + $scope.options.iconClass.name + ' ' + 'bg-' + $scope.options.iconClass.name
-        });
+//         var toast = toastr[$scope.options.type]($scope.toast.msg, $scope.toast.title, {
+//             iconClass: 'toast-' + $scope.options.iconClass.name + ' ' + 'bg-' + $scope.options.iconClass.name
+//         });
 
-        openedToasts.push(toast);
+//         openedToasts.push(toast);
 
-    };
+//     };
 
-}]);
+// }]);

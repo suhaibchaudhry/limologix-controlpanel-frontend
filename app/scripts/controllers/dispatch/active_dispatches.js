@@ -2,50 +2,10 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:PendingDispatchesCtrl
- * @description
- * # PendingDispatchesCtrl
- * Controller of the minovateApp
- */
-/*app
-    .controller('ActiveDispatchesCtrl', [
-        '$scope',
-        '$http',
-        'appSettings',
-        'services',
-        'notify',
-        '$rootScope',
-        function($scope, $http, appSettings, services, notify, $rootScope) {
-            $scope.page = {
-                title: 'Active Dispatches',
-                subtitle: ''
-            }
-
-            getActiveList();
-
-            function getActiveList() {
-                var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
-                    $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
-                    $scope.tripList = response.data.trips;
-                    console.log('response',response.data);
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: error });
-                });
-            }
-
-        }
-    ]);
-*/
-
-'use strict';
-
-/**
- * @ngdoc function
- * @name minovateApp.controller:DriversCtrl
+ * @name limoLogixApp.controller:DriversCtrl
  * @description
  * # DriversCtrl
- * Controller of the minovateApp
+ * Controller of the limoLogixApp
  */
 app
    .controller('ActiveDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
@@ -80,7 +40,7 @@ app
 
         vm.dtColumnDefs = [
             DTColumnDefBuilder.newColumnDef(0).notSortable(),
-            DTColumnDefBuilder.newColumnDef(8).notSortable()
+            DTColumnDefBuilder.newColumnDef(6).notSortable()
         ];
 
         vm.selectedAll = false;
@@ -101,7 +61,6 @@ app
         if (countriesConstant.userRole == 'admin') {
          getActiveList();
         }
-
             function getActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
                 services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
@@ -115,20 +74,8 @@ app
                     notify({ classes: 'alert-danger', message: error });
                 });
             }
-
-        /*function getDriversList() {
-            var url = appSettings.serverPath + appSettings.serviceApis.getDriverList;
-            services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
-                $scope.driversList = response.data.drivers;
-                vm.orders = $scope.driversList;
-                console.log('vm.orders',vm.orders);
-            }, function(error) {
-                notify({ classes: 'alert-danger', message: error });
-            });
-        }
-*/ 
-
-        vm.getIndividualCustomersDetails = function(active_customer_id){
+       
+        vm.getIndividualDispatchDetails = function(active_customer_id){
             console.log('id',active_customer_id);
             $state.go('app.dispatch.single-activedispatches', {"active_customer_id":active_customer_id});
         }     

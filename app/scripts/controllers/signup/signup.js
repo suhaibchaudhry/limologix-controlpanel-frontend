@@ -44,7 +44,7 @@ app
           $window.sessionStorage['user'] = JSON.stringify(constants.user);
           $state.go('app.dashboard'); 
                   
-          notify({ classes: 'alert-success',message:'You have registered succesfully.Please login'});
+          notify({ classes: 'alert-success',message:'You have registered succesfully.'});
          },function(error){  
             if(error.message)    
                 notify({ classes: 'alert-danger', message: error.message });

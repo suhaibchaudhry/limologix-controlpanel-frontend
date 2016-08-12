@@ -206,7 +206,7 @@ var app = angular
             },
             outgoing: function(message, callback) {
                 message.ext = message.ext || {};
-                message.ext.auth_token = $window.sessionStorage['Auth-Token'] ? $window.sessionStorage['Auth-Token'] : '';
+               // message.ext.auth_token = $window.sessionStorage['Auth-Token'] ? $window.sessionStorage['Auth-Token'] : '';
                 message.ext.user_type = "driver";
                 //console.log('outgoing', message);
                 callback(message);
