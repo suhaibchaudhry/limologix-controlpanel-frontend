@@ -11,7 +11,7 @@
                     <a href="javascript:;">Custom Groups</a>
                 </li>
                 <li>
-                    <a ui-sref="app.custom-groups.create-groups">{{page.title}}</a>
+                    <a ui-sref="app.custom-groups.groups-view">{{page.title}}</a>
                 </li>
             </ul>
         </div>
@@ -23,16 +23,18 @@
     <section class="tile" fullscreen="isFullscreen01">
         <!-- tile header -->
         <div class="tile-header dvd dvd-btm">
-            <h1 class="custom-font"><strong>Drivers List</strong> </h1>
+            <h1 class="custom-font"><strong>Drivers</strong> List</h1>
             <div class="nav-heading">
                 <span class="controls pull-right" style="margin-right: 20px;margin-top: 9px;">
-            <a ui-sref="app.custom-groups.create-groups" class="btn btn-ef btn-ef-1 btn-ef-1-default btn-ef-1a btn-rounded-20 mr-5" uib-tooltip="Back" href="#/app/custom-groups/create_groups"><i class="fa fa-arrow-circle-left"></i></a>
+            <a ui-sref="app.custom-groups.create-groups" class="btn btn-ef btn-ef-1 btn-ef-1-default btn-ef-1a btn-rounded-20 mr-5" uib-tooltip="Back"><i class="fa fa-arrow-circle-left"></i></a>
+
+            <!-- <a ui-sref="app.dispatch.activedispatches" class="btn btn-ef btn-ef-1 btn-ef-1-default btn-ef-1a btn-rounded-20 mr-5" uib-tooltip="Back"><i class="fa fa-arrow-circle-left"></i></a> -->
         </span>
             </div>
         </div>
         <!-- /tile header -->
         <!-- tile body -->
-        <div class="tile-body" ng-controller="CustomGroupAddDriversCtrl as showCase">
+        <div class="tile-body" ng-controller="TableCustomGroupInfoDriversCtrl as showCase">
             <div class="table-responsive-wide">
                 <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
                     <thead>
@@ -45,10 +47,10 @@
                             <th style="width:80px;">Driver ID</th>
                             <th style="width:80px;">First Name</th>
                             <th style="width:90px;">Last Name</th>
-                            <th style="width:120px;">email</th>
+                            <th style="width:120px;">Email</th>
                             <th style="width:180px;">Mobile No</th>
-                            <th style="width:80px;">Status</th>
-                            <th style="width:100px;">Vehicle</th>
+                            <th style="width:80px;">Company</th>
+                            <th style="width:100px;">Status</th>
                             <th style="width:150px;">Actions</th>
                         </tr>
                     </thead>
@@ -60,36 +62,37 @@
                             <th>lName</th>
                             <th>email</th>
                             <th>Mobile no</th>
+                            <th>Company</th>
                             <th>Status</th>
-                            <th>Vehicle</th>
                             <th></th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr ng-repeat="order in showCase.orders">
+                        <tr ng-repeat="driver in showCase.drivers">
                             <td>
                                 <label class="checkbox checkbox-custom checkbox-custom-sm m-0">
-                                    <input type="checkbox" ng-model="order.selected" ng-click="showCase.selectedDriver(order)"><i></i></label>
+                                    <input type="checkbox" ng-model="driver.selected" ng-click="showCase.selectedDriver(driver)"><i></i></label>
                             </td>
-                            <td>{{ order.id }}</td>
-                            <td>{{order.first_name}}</td>
-                            <td>{{ order.last_name }}</td>
-                            <td>{{ order.email}}</td>
-                            <td>{{ order.mobile_number }}</td>
-                            <td><span class="label" ng-class="{'bg-success' : order.status == 'approved','bg-warning' : order.status == 'disapproved','bg-danger' : order.status == 'blocked','bg-primary' : order.status == 'pending'}">{{ order.status }}</span></td>
-                            <td>{{ order.vehicle.vehicle_type.name }}</td>
+                            <td>{{driver.id}}</td>
+                            <td>{{driver.first_name}}</td>
+                            <td>{{driver.last_name}}</td>
+                            <td>{{driver.email}}</td>
+                            <td>{{driver.mobile_number}}</td>                            
+                            <td>{{driver.company}}</td>
+                            <td><span class="label" ng-class="{'bg-success' : driver.status == 'approved','bg-warning' : driver.status == 'disapproved','bg-danger' : driver.status == 'blocked','bg-primary' : driver.status == 'pending'}">{{ driver.status }}</span></td>
                             <td>
-                                <a ng-click="showCase.getIndividualDriverDetails(order.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
+                                <a ng-click="showCase.getIndividualDriverDetails(driver.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
+                               <!--  <button type="button" class="btn btn-red mb-10 btn-sm">Remove Driver</button> -->
+                                <!-- &nbsp;&nbsp;<button type="button" class="btn btn-red mb-10 btn-xs" ng-click = 'showCase.funcRemoveDriver(order.id)'>Remove driver</button> -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 </br>
                 <div class='row'>
-                     <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-disabled="!showCase.addDriversToGroupBtn" ng-click="showCase.funcAddDriversToGroup()">Add drivers to custom group</button>
-                    
+                {{driver.id}}
+                     <button type="button" class="btn btn-danger mb-10 btn-rounded" style="margin-left:15px;" ng-disabled="!showCase.addDriversToGroupBtn" ng-click="showCase.funcRmoveDriversFromCusGroup()"> Remove drivers from custom group</button>
                 </div>
-                <div class="row"> <strong class="tripnote" style="margin-left:20px">Note: Make sure to add drivers to a custom groups with same vehicle type.(Ex:SedanDrivers(custom group) with only drivers with Sedan vehicle type)</strong></div>
             </div>
         </div>
         <!-- /tile body -->
