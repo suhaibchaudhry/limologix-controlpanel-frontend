@@ -14,6 +14,9 @@ app
                 title: 'Group Information',
                 subtitle: '', //'Place subtitle here...'
             };
+//             if (constant.userRole == 'admin') {
+//                 $scope.isAdmin = true;   
+//             }
         }
     ])
     .controller('TableCustomGroupInfoDriversCtrl', function($scope, $rootScope, DTOptionsBuilder,

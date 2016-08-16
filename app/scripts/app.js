@@ -68,11 +68,11 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address: 'http://172.16.90.111:9000', // 'http://limologix.softwaystaging.com',
-        server_images_path: 'http://172.16.90.111:9000', // "http://limologix.api.softwaystaging.com/",
+        server_address:  'http://limologix.softwaystaging.com', //'http://172.16.90.111:9000', 
+        server_images_path: "http://limologix.api.softwaystaging.com/",// 'http://172.16.90.111:9000', 
         version: 'v1',
-        serverPath: 'http://172.16.90.111:9000/api/v1/', //"http://limologix.api.softwaystaging.com/api/v1/", 
-        FayeServerUrl: 'http://172.16.90.111:9292/faye',
+        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", //'http://172.16.90.111:9000/api/v1/', 
+        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye',//'http://172.16.90.111:9292/faye', //http://limologix.softwaystaging.com:9292/faye
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -126,7 +126,7 @@ var app = angular
     //If user logged in  - Admin or Super Admin
 
     var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
-    var userrole = $window.sessionStorage['UserRole'];
+    var userrole = user['role'];
     if (userrole) {
         constant.userRole = userrole;
     }
@@ -602,11 +602,39 @@ var app = angular
                     }]
                 }
             })
+            .state('app.dispatch.inactivedispatches', {
+                url: '/inactive_dispatches',
+                controller: 'InactiveDispatchesCtrl',
+                templateUrl: 'views/tmpl/dispatch/inactive_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
             //shop/single-order
             .state('app.dispatch.single-activedispatches', {
-                url: '/single-active_dispatches/:active_customer_id',
+                url: '/single-active-dispatches/:active_customer_id',
                 controller: 'SingleActiveDispatchCtrl',
                 templateUrl: 'views/tmpl/dispatch/single_active-dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            .state('app.dispatch.single-inactivedispatches', {
+                url: '/single-inactive-dispatches/:inactive_customer_id',
+                controller: 'SingleInactiveDispatchCtrl',
+                templateUrl: 'views/tmpl/dispatch/single_inactive_dispatches.html',
                 resolve: {
                     plugins: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load([

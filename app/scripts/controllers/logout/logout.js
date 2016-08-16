@@ -14,8 +14,8 @@ app
   	  var url = appSettings.serverPath + appSettings.serviceApis.logout;
       var token = $window.sessionStorage['Auth-Token'];
       services.funcGetRequest(url).then(function(response,status) {
-          $state.go('core.login');   
-          constants.user = {};      
+        constants.user = {}; 
+          $state.go('core.login');                
           notify({ classes: 'alert-success',message:response.message});
          // delete $window.sessionStorage['Auth-Token'];
       },function(error){

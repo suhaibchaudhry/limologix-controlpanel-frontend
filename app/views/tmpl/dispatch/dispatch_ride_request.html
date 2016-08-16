@@ -35,7 +35,7 @@
                                 <form name="step0" class="form-horizontal" role="form" novalidate class="form-validation" ng-submit="submitForm(step0.$valid);">
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <label for="customer_search">Search Existing Customers: </label>
+                                            <label for="customer_search">Search Existing Customers:<sup class="mandatory">*</sup> </label>
                                             <input class="form-control" typeahead-editable="true" uib-typeahead="item.full_name for item in getExistingCustomers($viewValue)| limitTo:10" typeahead-on-select="onSelectCustomer($item, $model, $label)" type="text" class="searchInput" ng-model="search.full_name" required>
                                             <span ng-show="noresults" id="nocustomer" style="color:red"></span>
                                         </div>
@@ -91,9 +91,9 @@
                                         <div class="form-group col-md-6 mb-0">
                                             <label for="organisation">Organisation: </label>
                                             <input type="text" placeholder="Organisation" name="organisation" id="organisation" class="form-control" ng-model="customerInfo.organisation">
-                                            <p class="help-block">
+<!--                                             <p class="help-block">
                                                 <span ng-show="step1.organisation.$invalid && !step1.organisation.$pristine">Organization is required.</span>
-                                            </p>
+                                            </p> -->
                                         </div>
                                     </div>
                                     <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default" ng-click="steps.step2=true">Add a new Customer</button>
@@ -117,8 +117,9 @@
                 <form name="step2" role="form" novalidate ng-submit="funcMakeTrip(step2.$valid);">
 
                    <div class="row">
-                     <div class="form-group col-md-6 mb-0">
-                            <strong>Select custom groups <sup class="mandatory">*</sup> <b class="tripnote">Select custom groups which has single vehicle type.</b> </strong>
+                     <div class="form-group col-md-12 mb-0">
+                            <strong>Select custom groups</strong>
+                            <sup class="mandatory">*</sup> <div class="tripnote">Note:Make sure you have a custom group to make a trip.If not click here <a ui-sref="app.custom-groups.create-groups">custom group</a> to create a group and make a trip and select custom groups which has single vehicle type.</div> 
                             <br/>
                             <div ng-dropdown-multiselect="" options="customgroupdata" selected-model="customgroupModel" extra-settings="customgroupsettings" required ></div>
 <!--                             <pre>Selected Model: {{customgroupModel}} | json</pre> -->
@@ -126,9 +127,8 @@
                         </div>
                     </div>
                      <hr>       
-
-
-                    <div class="row">
+                <div class="tripContainer" ng-show="!emptyCustomGroup">
+                     <div class="row">
                         <div class="form-group col-md-4 mb-0">
                             <label for="name"><strong>Passenger Count:</strong><sup class="mandatory">*</sup></label>
                             <br/>
@@ -230,6 +230,10 @@
                     </div> -->
                     <hr>
                     <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default">Make a Trip</button>
+                </div>
+
+
+                    
                 </form>
             </uib-tab>
             <uib-tab active="steps.step3" disable="step2.$invalid || !isTripFormValid">

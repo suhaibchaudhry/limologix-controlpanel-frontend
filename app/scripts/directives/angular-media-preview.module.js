@@ -131,7 +131,7 @@ function mediaPreview($log,$document,$rootScope) {
             //get uploded image preview path in base64.
             $rootScope.logo_image = e.target.result;
             
-            console.log(scope.logo_image);
+            //console.log(scope.logo_image);
             return media_element.attr('src', e.target.result)
           }
 

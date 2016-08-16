@@ -20,12 +20,14 @@
     <!-- page content -->
     <div class="pagecontent">
         <!-- row -->
-        <div class="row">
+        <div class="row" ng-controller="GroupsTableCustomGroupCtrl as showCase">
             <!-- col -->
             <div class="col-md-12">
                 <div class="tile-body">
                     <div class='row'>
                         <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-click='toggle = !toggle'>Create custom group</button>
+<!--                         <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-click='showCase.getGroupslist()'>Refresh</button> -->
+                       
                     </div>
                 </div>
                 <section class="tile tile-simple" ng-show='toggle' ng-animate="'box'">
@@ -47,7 +49,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-disabled="groupcreateform.$invalid" ng-click="CreateBucket();">Create</button>
+                                    <button type="button" class="btn btn-primary mb-10 btn-rounded" style="margin-left:15px;" ng-disabled="groupcreateform.$invalid" ng-click="showCase.CreateBucket();">Create</button>
                                 </div>
                             </div>
                         </form>

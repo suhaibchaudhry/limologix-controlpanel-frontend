@@ -60,8 +60,8 @@ app
                 services.funcPostRequest(url, { "user": user }).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
                 }, function(error, status) {
-                    if (response)
-                        notify({ classes: 'alert-danger', message: response.message });
+                   // if (response)
+                        notify({ classes: 'alert-danger', message: error.message });
                 })
 
             };

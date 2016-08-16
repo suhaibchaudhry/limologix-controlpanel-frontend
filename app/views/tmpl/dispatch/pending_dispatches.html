@@ -25,7 +25,8 @@
     <!-- /page header -->
   <h3>Pending Dispatches</h3>
     <!-- page content -->
-    <div class="pagecontent" >
+    <div class="pagecontent">
+    <div ng-show="isEmptyPendingTrips">No pending dispatches</div>
            <div ng-repeat="list in tripList">
                 <div class="row pendingList" style="float:left" >
                     <div class="col-lg-12">

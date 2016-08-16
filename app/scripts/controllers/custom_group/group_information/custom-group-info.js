@@ -14,6 +14,9 @@ app
                 title: 'Groups Information',
                 subtitle: '', //'Place subtitle here...'
             };
+//             if (constant.userRole == 'admin') {
+//                 $scope.isAdmin = true;   
+//             }
         }
     ])
     .controller('customGroupTableFormatCtrl',

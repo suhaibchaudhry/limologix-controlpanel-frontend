@@ -66,12 +66,12 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'us' }
+                componentRestrictions: { country: 'in' }
             };
 
             $scope.trip_options = {
                 types: ['(cities)'],
-                componentRestrictions: { country: 'us' }
+                componentRestrictions: { country: 'in' }
             };
             $scope.customerId = "";
             // Google place autocomplete location Object of pick up and drop off
@@ -204,11 +204,11 @@ app
                         for (var i = 0; i < $scope.groupList.length; i++) {
                             $scope.groupList[i].label = $scope.groupList[i].name
                         }
-                        //$scope.emptyCustomGroup = false;
+                        $scope.emptyCustomGroup = false;
                         $scope.customgroupdata = $scope.groupList;
                         $scope.customgroupModel = $scope.customgroupdata.length ? [{ id: $scope.customgroupdata[0].id }] : [];
                     }else{
-                         //$scope.emptyCustomGroup = true;
+                         $scope.emptyCustomGroup = true;
                     }
                     
                 }, function(error) {

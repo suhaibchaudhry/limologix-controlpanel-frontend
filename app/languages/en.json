@@ -6,6 +6,7 @@
     "DISPATCH_RIDE_REQUEST": "Dispatch Ride Request",
     "PENDING_DISPATCHES": "Pending Dispatches",
     "ACTIVE_DISPATCHES":"Active Dispatches",
+    "INACTIVE_DISPATCHES":"Inactive Dispatches",
     "GROUPS":"Custom Groups",
     "CREATEGROUPS": "Create Groups",
     "NOTIFICATIONS":"Notifications",

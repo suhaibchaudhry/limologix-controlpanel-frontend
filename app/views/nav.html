@@ -35,6 +35,10 @@
                             <a ui-sref="app.dispatch.activedispatches">
                                 <fa name="caret-right"></fa> {{ 'Menu.ACTIVE_DISPATCHES' | translate }}<span class="badge badge-danger">{{active_dispatch_count}}</span></a>
                         </li>
+                        <li ui-sref-active="active" ng-controller="InactiveDispatchesCtrl">
+                            <a ui-sref="app.dispatch.inactivedispatches">
+                                <fa name="caret-right"></fa> {{ 'Menu.INACTIVE_DISPATCHES' | translate }}<span class="badge badge-danger">{{inactive_dispatch_count}}</span></a>
+                        </li>
                     </ul>
                 </li>
                

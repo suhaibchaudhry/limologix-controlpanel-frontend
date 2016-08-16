@@ -16,43 +16,33 @@ app
         };
         $scope.toggle = false;
        
-        $scope.CreateBucket = function(){
-            $scope.group = {
-                "name": $scope.title,
-                "description":  $scope.Description
-            }
-            var url = appSettings.serverPath + appSettings.serviceApis.createCustomGroup;
-                services.funcPostRequest(url, { 'group': $scope.group }).then(function(response) {
-                   notify({ classes: 'alert-success', message: response.message });
-                  $scope.toggle = false;
-                  funcGetCustomGroupsList();
-                  //location.reload();
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: error });
-                });
-        }
-        funcGetCustomGroupsList();
-        function funcGetCustomGroupsList(){
-            var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
-                services.funcPostRequest(url, {"page": 0,"per_page": 0}).then(function(response) {
-                   $scope.groupslist = response.data.groups;
-                   //notify({ classes: 'alert-success', message: response.message });
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: error });
-                });
-        }
+       
+       
+//         funcGetCustomGroupsList();
+//         function funcGetCustomGroupsList(){
+//             var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
+//                 services.funcPostRequest(url, {"page": 0,"per_page": 0}).then(function(response) {
+//                    if(response.data)
+//                      $scope.groupslist = response.data.groups;
+                      
+//                    //notify({ classes: 'alert-success', message: response.message });
+//                 }, function(error) {
+//                     notify({ classes: 'alert-danger', message: error });
+//                 });
+//                 //funcGetCustomGroupsList();
+//         }
 
-        $scope.AddDriversToGroup = function(groupId){
-             $rootScope.selectedGroupId = groupId;
-             $state.go('app.custom-groups.create-groups-drivers');
-        }
+//         $scope.AddDriversToGroup = function(groupId){
+//              $rootScope.selectedGroupId = groupId;
+//              $state.go('app.custom-groups.create-groups-drivers');
+//         }
     }])
     .controller('GroupsTableCustomGroupCtrl', function($scope, $rootScope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
        
         var vm = this;
         vm.orders = [];
         vm.addDriversToGroupBtn = false;
-        getDriversList();
+        getGroupslist();
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
@@ -99,7 +89,27 @@ app
        
         vm.selectedDriversArr = [];
         vm.uncheckeddriversIdArr = [];
-       
+        
+
+         vm.CreateBucket = function(){
+            $scope.group = {
+                "name": $scope.title,
+                "description":  $scope.Description
+            }
+            var url = appSettings.serverPath + appSettings.serviceApis.createCustomGroup;
+                services.funcPostRequest(url, { 'group': $scope.group }).then(function(response) {
+                   notify({ classes: 'alert-success', message: response.message });
+                  $scope.toggle = false;
+                  getGroupslist();
+                  //location.reload();
+                 // funcGetCustomGroupsList();
+                 
+                }, function(error) {
+                    notify({ classes: 'alert-danger', message: error });
+                });
+        }
+
+
         //$scope.addDriversToGroupBtn = false;
         vm.selectedDriver = function(order){
 
@@ -154,16 +164,36 @@ app
             return result;
         }
 
-        function getDriversList() {
+        function getGroupslist() {
             var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
             services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
-                $scope.driversList = response.data.groups;
-                vm.groups = $scope.driversList;
-                console.log('vm.groups',vm.groups);
+                if( response.data){
+                 $scope.driversList = response.data.groups;
+                 vm.groups = $scope.driversList;
+                 console.log('vm.groups',vm.groups);       
+                }
+                
             }, function(error) {
                 notify({ classes: 'alert-danger', message: error });
             });
         }
+        
+         vm.getGroupslist = function() {
+            var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
+            services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
+                if( response.data){
+                 $scope.driversList = response.data.groups;
+                 vm.groups = $scope.driversList;
+                // location.reload();
+                 console.log('vm.groups',vm.groups);       
+                }
+                
+            }, function(error) {
+                notify({ classes: 'alert-danger', message: error });
+            });
+        }
+
+
        vm.funcAddDriversToGroup = function(){
          console.log($rootScope.selectedGroupId,vm.arrayOfDriverIds);
          vm.data =  {
@@ -211,6 +241,7 @@ app
                     services.funcPostRequest(url, { "group": vm.group }).then(function(response) {
                         //notify({ classes: 'alert-success', message: response.message });
                         swal("Done!", "It was succesfully deleted!", "success");
+                       // location.reload();
                         $state.go('app.custom-groups.create-groups');
                     }, function(error) {
                         swal("Error deleting!", "Please try again", "error");

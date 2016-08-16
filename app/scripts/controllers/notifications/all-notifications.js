@@ -27,7 +27,7 @@ app
                 subtitle: '' //'Place subtitle here...'
                 };
                 $scope.isAdmin = false;
-                if (constant.userRole == 'admin') {
+                if (constant.user.role == 'admin') {
                         $scope.isAdmin = true;
                         getCompanyChannel();
                         getAllNotifications();
@@ -39,13 +39,14 @@ app
                 // $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : '';
              
                 setInterval(function(){ 
-                if (constant.userRole == 'admin') {
+                if (constant.user.role == 'admin') {
+                        console.log(constant.user);
                         //code goes here that will be run every 5 seconds.   
-                       // getAllNotifications(); 
+                      // getAllNotifications(); 
                 }
                 }, 5000);
 
-
+                console.log(constant.user);
 
              function getCompanyChannel(){        
                 var url = appSettings.serverPath + appSettings.serviceApis.companyChannel;
@@ -60,10 +61,15 @@ app
             function getAllNotifications(){        
                 var url = appSettings.serverPath + appSettings.serviceApis.getNotifications;
                 services.funcPostRequest(url, { "read_status": false }).then(function(response) {
-                    
-                    $scope.notificationList = response.data.groups;
-                    $scope.notificaton_count =  $scope.notificationList.length;
-                    console.log('notification count', $scope.notificaton_count)
+                    if(response.data){
+                        $scope.notificationList = response.data.notifications;
+                        if($scope.notificationList){
+                                 $scope.notificaton_count = $scope.notificationList.length;
+                        console.log('notification count', $scope.notificaton_count)
+                        }
+                       
+                
+                    }
                     //$scope.pickup_date = $filter('date')(new Date($scope.notificationList[0].created_at), 'dd/MM/yyyy');
                     //$scope.pickup_time = $filter('date')(new Date($scope.notificationList[0].created_at), 'hh:mm a');
 

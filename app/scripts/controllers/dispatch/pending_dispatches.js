@@ -21,6 +21,7 @@ app
             title:'Pending Dispatches',
             subtitle :''
           }
+           $scope.isEmptyPendingTrips = false;
            if (constant.userRole == 'admin') {
                getPendingList();
            }
@@ -36,6 +37,9 @@ app
                   if(response.data){
                       $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
                       $scope.tripList = response.data.trips;
+                      $scope.isEmptyPendingTrips = false;
+                  }else{
+                       $scope.isEmptyPendingTrips = true;
                   }
                   
               }, function(error) {
