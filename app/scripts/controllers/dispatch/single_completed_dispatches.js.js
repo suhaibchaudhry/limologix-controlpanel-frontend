@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-    .controller('SingleActiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
+    .controller('SingleCompletedDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
        
         function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
             $scope.page = {

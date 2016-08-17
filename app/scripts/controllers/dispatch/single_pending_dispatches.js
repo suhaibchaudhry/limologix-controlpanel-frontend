@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:SingleDriverCtrl
+ * @name minovateApp.controller:SinglePendingDispatchCtrl
  * @description
- * # SingleDriverCtrl
+ * # SinglePendingDispatchCtrl
  * Controller of the minovateApp
  */
 app
-    .controller('SingleInactiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
+    .controller('SinglePendingDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
        
         function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
             $scope.page = {

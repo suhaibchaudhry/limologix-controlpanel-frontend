@@ -6,8 +6,8 @@
     <section class = 'tile tile-simple'>
         <div class="row tile-body">
             <div class="form-group">
-                <div class="col-md-2">
-                    <label for="InputFileM" style="font-size:20px;">Browse Advertisements:</label>
+                <div class="col-md-4">
+                    <label for="InputFileM" style="font-size:20px;margin-left:15%;">Browse Advertisements:</label>
                 </div>
                 <div class="col-md-8">
                     <button type="file" class=" text-light text-white btn btn-success form-group col-md-2 btn-rounded" ng-click="uploadAds()" required>Browse &nbsp;</button>
@@ -17,18 +17,18 @@
             </div>
         </div>
         <div class="row">
-            <label ng-repeat="img in formImages" ng-if="formImages.length>0" style="margin-left:30px;">
-                <img src="{{img}}" alt="" />
+            <label ng-repeat="img in formImages" ng-if="formImages.length>0" style="margin-left:50px;">
+                <img src="{{img}}" alt="" style="margin-left:50px;"/>
             </label>
         </div>
-        <input type="submit" ng-show="formImages.length>0" class="btn btn-success btn-group-sm btn-submit btn-rounded" ng-click="submitImg(myform)" />
+        <input type="submit" ng-show="formImages.length>0" style="margin-left:3%" class="btn btn-success btn-group-sm btn-submit btn-rounded" ng-click="submitImg(myform)" />
     </section>
 </form>
 <form name="form">
     <section class="tile tile-simple">
         <div class="tile-body">
             <div class="row">
-                <h3><strong style="margin-left:40px;">Uploaded Ads:</strong></h3> </label>
+                <h3><strong style="margin-left:40px;margin-left:6%">Uploaded Ads:</strong></h3> </label>
             </div>
         </div>
     </section>

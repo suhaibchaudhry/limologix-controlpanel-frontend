@@ -23,7 +23,7 @@ app
         'dispatchRideProvider',
         function($scope, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
-                title: 'Dispatch Ride Request',
+                title: 'Create a trip',
                 subtitle: '' //'Place subtitle here...'
             };
 
@@ -184,7 +184,7 @@ app
                 }
 
             };
-            console.log('dfsf', $scope.groupIdArr);
+            //console.log('dfsf', $scope.groupIdArr);
             //remove duplicates from array
             function unique(list) {
                 var result = [];

@@ -2,23 +2,22 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:SingleDriverCtrl
+ * @name minovateApp.controller:SingleCompletedDispatchCtrl
  * @description
- * # SingleDriverCtrl
+ * # SingleCompletedDispatchCtrl
  * Controller of the minovateApp
  */
 app
-    .controller('SingleInactiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
+    .controller('SingleCompletedDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
        
         function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
             $scope.page = {
-                title: 'Trip Details',
+                title: 'Dispatch Details',
                 subtitle: '', //'Place subtitle here...'
             };
             $scope.imagePath = appSettings.server_address;
             $scope.isDispatchActive = false;
             getActiveList();
-            
 
             function getActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripSummary;
@@ -47,12 +46,9 @@ app
 
 //             setTimeout(function() {
 //                 dispatchRideProvider.getRoutes($scope.dispatch_source.place,$scope.dispatch_destination.place, notify);
-//             }, 5000)     
-
-
-
+//             }, 5000)
 
 
         }
     ])
-   
+    

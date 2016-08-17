@@ -170,7 +170,7 @@ app
                 if( response.data){
                  $scope.driversList = response.data.groups;
                  vm.groups = $scope.driversList;
-                 console.log('vm.groups',vm.groups);       
+                 //console.log('vm.groups',vm.groups);       
                 }
                 
             }, function(error) {
@@ -185,7 +185,7 @@ app
                  $scope.driversList = response.data.groups;
                  vm.groups = $scope.driversList;
                 // location.reload();
-                 console.log('vm.groups',vm.groups);       
+                // console.log('vm.groups',vm.groups);       
                 }
                 
             }, function(error) {
@@ -241,8 +241,8 @@ app
                     services.funcPostRequest(url, { "group": vm.group }).then(function(response) {
                         //notify({ classes: 'alert-success', message: response.message });
                         swal("Done!", "It was succesfully deleted!", "success");
-                       // location.reload();
                         $state.go('app.custom-groups.create-groups');
+                        //location.reload();
                     }, function(error) {
                         swal("Error deleting!", "Please try again", "error");
                         //notify({ classes: 'alert-danger', message: error });

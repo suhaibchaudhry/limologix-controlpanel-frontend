@@ -27,17 +27,25 @@
                             <a ui-sref="app.dispatch.dispatch_ride_request">
                                 <fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a>
                         </li>
+                        <li ui-sref-active="active" ng-controller="AvailableDispatchesCtrl">
+                            <a ui-sref="app.dispatch.availabledispatches">
+                                <fa name="caret-right"></fa> {{ 'Menu.AVAILABLE_TRIPS' | translate }}<span class="badge badge-danger">{{available_dispatch_count}}</span></a>
+                        </li>
                         <li ui-sref-active="active" ng-controller="PendingDispatchesCtrl">
                             <a ui-sref="app.dispatch.pendingdispatches">
-                                <fa name="caret-right"></fa> {{ 'Menu.PENDING_DISPATCHES' | translate }}<span class="badge badge-danger">{{pending_dispatch_count}}</span></a>
+                                <fa name="caret-right"></fa> {{ 'Menu.PENDING_TRIPS' | translate }}<span class="badge badge-danger">{{pending_dispatch_count}}</span></a>
                         </li>
                          <li ui-sref-active="active" ng-controller="ActiveDispatchesCtrl">
                             <a ui-sref="app.dispatch.activedispatches">
-                                <fa name="caret-right"></fa> {{ 'Menu.ACTIVE_DISPATCHES' | translate }}<span class="badge badge-danger">{{active_dispatch_count}}</span></a>
+                                <fa name="caret-right"></fa> {{ 'Menu.ACTIVE_TRIPS' | translate }}<span class="badge badge-danger">{{active_dispatch_count}}</span></a>
                         </li>
                         <li ui-sref-active="active" ng-controller="InactiveDispatchesCtrl">
                             <a ui-sref="app.dispatch.inactivedispatches">
-                                <fa name="caret-right"></fa> {{ 'Menu.INACTIVE_DISPATCHES' | translate }}<span class="badge badge-danger">{{inactive_dispatch_count}}</span></a>
+                                <fa name="caret-right"></fa> {{ 'Menu.INACTIVE_TRIPS' | translate }}<span class="badge badge-danger">{{inactive_dispatch_count}}</span></a>
+                        </li>
+                        <li ui-sref-active="active" ng-controller="CompletedDispatchesCtrl">
+                            <a ui-sref="app.dispatch.completeddispatches">
+                                <fa name="caret-right"></fa> {{ 'Menu.COMPLETED_TRIPS' | translate }}<span class="badge badge-danger">{{completed_dispatch_count}}</span></a>
                         </li>
                     </ul>
                 </li>
@@ -60,9 +68,9 @@
                     <a ui-sref="app.notifications">
                         <fa name="bell" class="fa-bell"></fa> <span>{{ 'Menu.NOTIFICATIONS' | translate }}</span></a>
                     <ul>
-                        <li ui-sref-active="active">
+                        <li ui-sref-active="active" ng-controller="AllNotificationsCtrl">
                             <a ui-sref="app.notifications.notifications-all">
-                                <fa name="caret-right"></fa> {{ 'Menu.ALLNOTIFICATIONS' | translate }}</a>
+                                <fa name="caret-right"></fa> {{ 'Menu.ALLNOTIFICATIONS' | translate }}<span class="badge badge-danger">{{notificaton_count}}</span></a>
                         </li>
                         <!-- <li ui-sref-active="active">
                             <a ui-sref="app.custom-groups.groups-info">

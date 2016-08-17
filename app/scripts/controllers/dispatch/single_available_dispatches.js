@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:SingleDriverCtrl
+ * @name minovateApp.controller:SingleAvailableDispatchCtrl
  * @description
- * # SingleDriverCtrl
+ * # SingleAvailableDispatchCtrl
  * Controller of the minovateApp
  */
 app
-    .controller('SingleActiveDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
+    .controller('SingleAvailableDispatchCtrl', ['$scope', '$window', '$state', '$http', 'dispatchRideProvider', 'notify', 'appSettings', 'services', '$stateParams',
        
         function($scope, $state, $window, $http, dispatchRideProvider, notify, appSettings, services, $stateParams) {
             $scope.page = {
@@ -33,7 +33,6 @@ app
                     $scope.dispatch_customer = response.data.trip.customer;
                     $scope.dispatch_source = response.data.trip.start_destination;
                     $scope.dispatch_destination = response.data.trip.end_destination;
-                   // $scope.dispatch_driver = response.data.trip.driver;
                     //get driver info only when dispatch status is active
                     if(response.data.trip.driver){
                         $scope.isDispatchActive = true;
@@ -50,9 +49,9 @@ app
                 });
             }
 
-            setTimeout(function() {
-                dispatchRideProvider.getRoutes($scope.dispatch_source.place,$scope.dispatch_destination.place, notify);
-            }, 5000)
+//             setTimeout(function() {
+//                 dispatchRideProvider.getRoutes($scope.dispatch_source.place,$scope.dispatch_destination.place, notify);
+//             }, 5000)
 
 //             function subscribeToChannel() {
 //                 var Logger = {

@@ -68,11 +68,11 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address:  'http://limologix.softwaystaging.com', //'http://172.16.90.111:9000', 
-        server_images_path: "http://limologix.api.softwaystaging.com/",// 'http://172.16.90.111:9000', 
+        server_address:  "http://limologix.api.softwaystaging.com/",//'http://172.16.90.111:9000', //,
+        server_images_path: "http://limologix.api.softwaystaging.com/",//'http://172.16.90.111:9000',  
         version: 'v1',
-        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", //'http://172.16.90.111:9000/api/v1/', 
-        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye',//'http://172.16.90.111:9292/faye', //http://limologix.softwaystaging.com:9292/faye
+        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", //'http://172.16.90.111:9000/api/v1/', //
+        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye',//'http://172.16.90.111:9292/faye', //
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -568,26 +568,84 @@ var app = angular
             template: '<div ui-view></div>'
         })
 
-        .state('app.dispatch', {
-                url: '/dispatch',
-                template: '<div ui-view></div>'
-            })
-            //forms/wizard
+        //forms/wizard
             .state('app.company.details', {
                 url: '/details',
                 controller: 'UpdateInfoCtrl',
                 templateUrl: 'views/tmpl/company/update_company_info.html'
             })
+
+            .state('app.dispatch', {
+                url: '/dispatches',
+                template: '<div ui-view></div>'
+            })
+            //create trip
             .state('app.dispatch.dispatch_ride_request', {
                 url: '/dispatch_ride_request',
                 controller: 'DispatchRideRequestCtrl',
                 templateUrl: 'views/tmpl/dispatch/dispatch_ride_request.html'
             })
+            // Dispatches/Available dispatches
+             .state('app.dispatch.availabledispatches', {
+                url: '/available_trips',
+                controller: 'AvailableDispatchesCtrl',
+                templateUrl: 'views/tmpl/dispatch/available_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            // Dispatches/single-avaliable-dispatches
+            .state('app.dispatch.single-availabledispatches', {
+                url: '/single-avaliable-dispatches/:trip_id',
+                controller: 'SingleAvailableDispatchCtrl',
+                templateUrl: 'views/tmpl/dispatch/single_available_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            // Dispatches/Pending dispatches
             .state('app.dispatch.pendingdispatches', {
                 url: '/pending_dispatches',
                 controller: 'PendingDispatchesCtrl',
-                templateUrl: 'views/tmpl/dispatch/pending_dispatches.html'
+                templateUrl: 'views/tmpl/dispatch/pending_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
             })
+            // Dispatches/single_pending_dispatches
+            .state('app.dispatch.single-pendingdispatches', {
+                url: '/single-pending-dispatches/:trip_id',
+                controller: 'SinglePendingDispatchCtrl',
+                templateUrl: 'views/tmpl/dispatch/single_pending_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            //Dispatches/active dispatches
             .state('app.dispatch.activedispatches', {
                 url: '/active_dispatches',
                 controller: 'ActiveDispatchesCtrl',
@@ -602,6 +660,22 @@ var app = angular
                     }]
                 }
             })
+            //dispatches/single-activedispatches
+            .state('app.dispatch.single-activedispatches', {
+                url: '/single-active-dispatches/:trip_id',
+                controller: 'SingleActiveDispatchCtrl',
+                templateUrl: 'views/tmpl/dispatch/single_active_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            //dispatches/inactivedispatches
             .state('app.dispatch.inactivedispatches', {
                 url: '/inactive_dispatches',
                 controller: 'InactiveDispatchesCtrl',
@@ -616,23 +690,9 @@ var app = angular
                     }]
                 }
             })
-            //shop/single-order
-            .state('app.dispatch.single-activedispatches', {
-                url: '/single-active-dispatches/:active_customer_id',
-                controller: 'SingleActiveDispatchCtrl',
-                templateUrl: 'views/tmpl/dispatch/single_active-dispatches.html',
-                resolve: {
-                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load([
-                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
-                            'scripts/vendor/datatables/Pagination/input.js',
-                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
-                        ]);
-                    }]
-                }
-            })
+            //dispatches/single_inactive_dispatches
             .state('app.dispatch.single-inactivedispatches', {
-                url: '/single-inactive-dispatches/:inactive_customer_id',
+                url: '/single-inactive-dispatches/:trip_id',
                 controller: 'SingleInactiveDispatchCtrl',
                 templateUrl: 'views/tmpl/dispatch/single_inactive_dispatches.html',
                 resolve: {
@@ -645,6 +705,37 @@ var app = angular
                     }]
                 }
             })
+
+            .state('app.dispatch.completeddispatches', {
+                url: '/completed_dispatches',
+                controller: 'CompletedDispatchesCtrl',
+                templateUrl: 'views/tmpl/dispatch/completed_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+            .state('app.dispatch.single-completeddispatches', {
+                url: '/single-completed-dispatches/:trip_id',
+                controller: 'SingleCompletedDispatchCtrl',
+                templateUrl: 'views/tmpl/dispatch/single_completed_dispatches.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
+
+
             .state('app.custom-groups', {
                 url: '/custom-groups',
                 template: '<div ui-view></div>'

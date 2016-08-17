@@ -30,22 +30,25 @@ app
 
             function displayAds() {
                 var eachImgArr = [];
+                $scope.imgsArr = [];
                 var url = appSettings.serverPath + appSettings.serviceApis.displayAdvertisements;
                 services.funcPostRequest(url, { "page": 0, "per_page": 0 }).then(function(response) {
-                    console.log(response);
                     $scope.adsJSON = response.data.advertisements;
-                    for (var i = 0; i < Object.keys($scope.adsJSON).length; i++) {
-                        var imgs = $scope.adsJSON[i].poster.image;
-                        var imgName = $scope.adsJSON[i].poster.name;
-                        var ids = $scope.adsJSON[i].id;
-                        var singleAd = {
-                            name: imgName,
-                            image: imgs,
-                            id:ids
+                    if( $scope.adsJSON){
+                        for (var i = 0; i < Object.keys($scope.adsJSON).length; i++) {
+                            var imgs = $scope.adsJSON[i].poster.image;
+                            var imgName = $scope.adsJSON[i].poster.name;
+                            var ids = $scope.adsJSON[i].id;
+                            var singleAd = {
+                                name: imgName,
+                                image: imgs,
+                                id:ids
+                            }
+                            eachImgArr.push(singleAd);
+                            $scope.imgsArr[i] = eachImgArr[i];
                         }
-                        eachImgArr.push(singleAd);
-                        $scope.imgsArr[i] = eachImgArr[i];
                     }
+                    
                     //notify({ classes: 'alert-success', message: response.message });
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: error });
@@ -80,13 +83,11 @@ app
                 });
             };
              $scope.removeAd = function(id_num) {
-
                 $scope.advertisement = {
                     "id": id_num
                 }
                 var url = appSettings.serverPath + appSettings.serviceApis.deleteAdvertisements;
                 services.funcPostRequest(url, { "advertisement":{"id": $scope.advertisement.id }}).then(function(response) {
-                    console.log(response);
                     notify({ classes: 'alert-success', message: response.message });
                     displayAds();
                 }, function(error) {

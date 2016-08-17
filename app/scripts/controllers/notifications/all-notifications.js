@@ -40,13 +40,15 @@ app
              
                 setInterval(function(){ 
                 if (constant.user.role == 'admin') {
-                        console.log(constant.user);
                         //code goes here that will be run every 5 seconds.   
-                      // getAllNotifications(); 
+                        getAllNotifications(); 
                 }
                 }, 5000);
-
-                console.log(constant.user);
+                
+                 $scope.$watch('notificaton_count', function (newVal,oldVal) {
+                            $scope.notificaton_count = newVal;
+                      },true);
+                
 
              function getCompanyChannel(){        
                 var url = appSettings.serverPath + appSettings.serviceApis.companyChannel;
@@ -65,9 +67,9 @@ app
                         $scope.notificationList = response.data.notifications;
                         if($scope.notificationList){
                                  $scope.notificaton_count = $scope.notificationList.length;
-                        console.log('notification count', $scope.notificaton_count)
-                        }
-                       
+                                 //$('.notifications_badge').trigger('click');
+                                 console.log('notification count', $scope.notificaton_count)
+                        }                     
                 
                     }
                     //$scope.pickup_date = $filter('date')(new Date($scope.notificationList[0].created_at), 'dd/MM/yyyy');
@@ -78,20 +80,15 @@ app
                 });
              }
 
+            
               $scope.$watch('notificaton_count', function (newVal,oldVal) {
                     $scope.notificaton_count = newVal;
               },true);
 
-//             $scope.getNotificationId = function(notificationId){
-//                  // $state.go('app.notifications.notifications-all');
-//             }
-             
-
-                
+//                            
                 $scope.message = [];
                 var i = 0;
-                 $scope.sessionNotifications = [];
-                 
+                 $scope.sessionNotifications = [];       
                   
                  
                  
@@ -148,6 +145,8 @@ app
                      $scope.$watch('notificaton_size', function (newVal,oldVal) {
                             $scope.notificaton_size = newVal;
                       },true);
+
+
                      
 //                      $scope.$apply(function() { 
 //                       $rootScope.message1 = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : ''; 
@@ -164,28 +163,45 @@ app
                 
                  }
                  
-                 $scope.viewNotification = function(notificationId){
+                 $scope.viewNotification = function(notificationId,notificationType){
                          var url = appSettings.serverPath + appSettings.serviceApis.updateNotifications;
                          $scope.data = {
                              "id": notificationId,
                              "read_status": true
                           }
                         services.funcPostRequest(url, { "notification": $scope.data }).then(function(response) {
-                                getAllNotifications();
-                               // $state.go('app.dispatch.activedispatches');
+                                if(notificationType === "trip_dispatch"){
+                                  $state.go('app.dispatch.availabledispatches');      
+                                }else if(notificationType === "trip_inactive"){
+                                  $state.go('app.dispatch.inactivedispatches');       
+                                }else if(notificationType === "trip_accept" || notificationType === "trip_start" || notificationType === "trip_stop"){
+                                  $state.go('app.dispatch.activedispatches');       
+                                }else{
+                                  $state.go('app.notifications.notifications-all');        
+                                }                              
+                                //getAllNotifications();
                           }, function(error) {
+                                if(notificationType === "trip_dispatch"){
+                                  $state.go('app.dispatch.availabledispatches');      
+                                }else if(notificationType === "trip_inactive"){
+                                  $state.go('app.dispatch.inactivedispatches');       
+                                }else if(notificationType === "trip_accept" || notificationType === "trip_start" || notificationType === "trip_stop"){
+                                  $state.go('app.dispatch.activedispatches');       
+                                }else{
+                                  $state.go('app.notifications.notifications-all');        
+                                }    
                             //notify({ classes: 'alert-danger', message: error });
                         });
                  }     
                 
 
-                 if($window.sessionStorage.getItem('notification')){
-                        $scope.sessionNotifications = JSON.parse($window.sessionStorage.getItem('notification'))     
-                        for(var j =0; j< $scope.sessionNotifications.length; j++){
-                               $scope.message.push($scope.sessionNotifications[j]);
-                        }
+//                  if($window.sessionStorage.getItem('notification')){
+//                         $scope.sessionNotifications = JSON.parse($window.sessionStorage.getItem('notification'))     
+//                         for(var j =0; j< $scope.sessionNotifications.length; j++){
+//                                $scope.message.push($scope.sessionNotifications[j]);
+//                         }
 
-                 }
+//                  }
 
                  
             function getTimeDifference(time) {

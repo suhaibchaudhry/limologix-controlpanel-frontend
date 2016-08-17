@@ -2,20 +2,20 @@
 
 /**
  * @ngdoc function
- * @name limoLogixApp.controller:DriversCtrl
+ * @name limoLogixApp.controller:AvailableDispatchesCtrl
  * @description
- * # DriversCtrl
+ * # AvailableDispatchesCtrl
  * Controller of the limoLogixApp
  */
 app
-   .controller('ActiveDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
+   .controller('AvailableDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
         $scope.page = {
-            title: 'Active Dispatches',
+            title: 'Available Dispatches',
             subtitle: '',//'Place subtitle here...'
         };
         
         var vm = this;
-        vm.activeDispatches = [];
+        vm.availableDispatches = [];
         
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
@@ -59,15 +59,15 @@ app
             });
         };
         if (countriesConstant.userRole == 'admin') {
-         getActiveList();
+         getAvailableTrips();
         }
-            function getActiveList() {
+            function getAvailableTrips() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
+                services.funcPostRequest(url, { 'trip_status': 'dispatched' }).then(function(response) {
                     if(response.data){
-                        $scope.active_dispatch_count = Object.keys(response.data.trips).length;
+                        $scope.available_dispatch_count = Object.keys(response.data.trips).length;
                         $scope.tripList = response.data.trips;
-                        vm.activeDispatches = $scope.tripList;    
+                        vm.availableDispatches = $scope.tripList;    
                     }                  
                 
                 }, function(error) {
@@ -76,8 +76,7 @@ app
             }
        
         vm.getIndividualDispatchDetails = function(trip_id){
-            console.log('id',trip_id);
-            $state.go('app.dispatch.single-activedispatches', {"trip_id":trip_id});
+            $state.go('app.dispatch.single-availabledispatches', {"trip_id":trip_id});
         }     
 
     })

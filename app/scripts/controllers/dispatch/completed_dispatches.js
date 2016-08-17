@@ -2,20 +2,20 @@
 
 /**
  * @ngdoc function
- * @name limoLogixApp.controller:DriversCtrl
+ * @name limoLogixApp.controller:CompletedDispatchesCtrl
  * @description
- * # DriversCtrl
+ * # CompletedDispatchesCtrl
  * Controller of the limoLogixApp
  */
 app
-   .controller('ActiveDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
+   .controller('CompletedDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
         $scope.page = {
-            title: 'Active Dispatches',
+            title: 'Completed Dispatches',
             subtitle: '',//'Place subtitle here...'
         };
         
         var vm = this;
-        vm.activeDispatches = [];
+        vm.completedDispatches = [];
         
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
@@ -63,11 +63,11 @@ app
         }
             function getActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
+                services.funcPostRequest(url, { 'trip_status': 'closed' }).then(function(response) {
                     if(response.data){
-                        $scope.active_dispatch_count = Object.keys(response.data.trips).length;
+                        $scope.inactive_dispatch_count = Object.keys(response.data.trips).length;
                         $scope.tripList = response.data.trips;
-                        vm.activeDispatches = $scope.tripList;    
+                        vm.completedDispatches = $scope.tripList;    
                     }                  
                 
                 }, function(error) {
@@ -76,8 +76,8 @@ app
             }
        
         vm.getIndividualDispatchDetails = function(trip_id){
-            console.log('id',trip_id);
-            $state.go('app.dispatch.single-activedispatches', {"trip_id":trip_id});
+           // console.log('id',trip_id);
+            $state.go('app.dispatch.single-completeddispatches', {"trip_id":trip_id});
         }     
 
     })

@@ -15,7 +15,7 @@ app
         };
         
         var vm = this;
-        vm.activeDispatches = [];
+        vm.inactiveDispatches = [];
         
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
@@ -63,11 +63,11 @@ app
         }
             function getActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'active' }).then(function(response) {
+                services.funcPostRequest(url, { 'trip_status': 'inactive' }).then(function(response) {
                     if(response.data){
-                        $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
+                        $scope.inactive_dispatch_count = Object.keys(response.data.trips).length;
                         $scope.tripList = response.data.trips;
-                        vm.activeDispatches = $scope.tripList;    
+                        vm.inactiveDispatches = $scope.tripList;    
                     }                  
                 
                 }, function(error) {
@@ -75,9 +75,9 @@ app
                 });
             }
        
-        vm.getIndividualDispatchDetails = function(active_customer_id){
-            console.log('id',active_customer_id);
-            $state.go('app.dispatch.single-activedispatches', {"active_customer_id":active_customer_id});
+        vm.getIndividualDispatchDetails = function(trip_id){
+           // console.log('id',trip_id);
+            $state.go('app.dispatch.single-inactivedispatches', {"trip_id":trip_id});
         }     
 
     })
