@@ -51,12 +51,6 @@ app
             $scope.noresults = false;
             $scope.loadingcustomers = false;
             $scope.emptyCustomGroup = false;
-            // $scope.isChoosedAirports = false;
-            // $scope.isChoosedAirports1 = false;
-            // $scope.pickupOptionSelected = true;
-            // $scope.dropoffOptionSelected = true;
-            // $scope.isPickupBy = true;
-            // $scope.isDropOffBy = true;
             $scope.lat = undefined;
             $scope.lng = undefined;
             $scope.trip = {
@@ -66,13 +60,10 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'in' }
+                componentRestrictions: { country: 'us' }
             };
 
-            $scope.trip_options = {
-                types: ['(cities)'],
-                componentRestrictions: { country: 'in' }
-            };
+            
             $scope.customerId = "";
             // Google place autocomplete location Object of pick up and drop off
             $scope.pickup = {

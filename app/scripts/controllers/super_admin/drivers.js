@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:DriversCtrl
+ * @name limoLogixApp.controller:DriversCtrl
  * @description
  * # DriversCtrl
- * Controller of the minovateApp
+ * Controller of the limoLogixApp
  */
 app
     .controller('DriversCtrl', function($scope) {
@@ -22,7 +22,7 @@ app
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
-                [1, 'asc']
+                [0, 'asc']
             ])
             .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
             .withLanguage({
@@ -42,7 +42,7 @@ app
 
         vm.dtColumnDefs = [
             DTColumnDefBuilder.newColumnDef(0).notSortable(),
-            DTColumnDefBuilder.newColumnDef(8).notSortable()
+            DTColumnDefBuilder.newColumnDef(7).notSortable()
         ];
 
         vm.selectedAll = false;

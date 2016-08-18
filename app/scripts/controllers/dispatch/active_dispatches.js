@@ -20,7 +20,7 @@ app
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
-                [1, 'asc']
+                [0, 'asc']
             ])
             .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
             .withLanguage({

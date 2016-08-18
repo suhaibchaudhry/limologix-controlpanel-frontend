@@ -7,47 +7,6 @@
  * # PendingDispatchesCtrl
  * Controller of the minovateApp
  */
-// app
-//     .controller('PendingDispatchesCtrl',[
-//         '$scope',
-//         '$http',
-//         'appSettings',
-//         'services',
-//         'notify',
-//         '$rootScope',
-//         'countriesConstant',
-//          function($scope, $http, appSettings,services,notify,$rootScope,constant) {
-//           $scope.page = {
-//             title:'Pending Dispatches',
-//             subtitle :''
-//           }
-//            $scope.isEmptyPendingTrips = false;
-//            if (constant.userRole == 'admin') {
-//                getPendingList();
-//            }
-
-//           function getPendingList() {
-//               var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-//               $scope.data = {
-//                     "page": 0,
-//                     "per_page": 0,
-//                     'trip_status': 'pending'
-//               }
-//               services.funcPostRequest(url,$scope.data).then(function(response) {
-//                   if(response.data){
-//                       $scope.pending_dispatch_count = Object.keys(response.data.trips).length;
-//                       $scope.tripList = response.data.trips;
-//                       $scope.isEmptyPendingTrips = false;
-//                   }else{
-//                        $scope.isEmptyPendingTrips = true;
-//                   }
-                  
-//               }, function(error) {
-//                   notify({ classes: 'alert-danger', message: error });
-//               });
-//           }
-
-//     }]);
     
 app
    .controller('PendingDispatchesCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
@@ -62,7 +21,7 @@ app
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
-                [1, 'asc']
+                [0, 'asc']
             ])
             .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
             .withLanguage({
@@ -118,7 +77,6 @@ app
             }
        
         vm.getIndividualDispatchDetails = function(trip_id){
-            console.log('id',trip_id);
             $state.go('app.dispatch.single-pendingdispatches', {"trip_id":trip_id});
         }     
 

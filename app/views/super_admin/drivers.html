@@ -36,11 +36,6 @@
                             <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
                                 <thead>
                                     <tr>
-                                        <th style="width:40px;">
-                                            <!-- <label class="checkbox checkbox-custom checkbox-custom-sm m-0">
-                        <input type="checkbox" ng-model="showCase.selectedAll" ng-click="showCase.selectAll()"><i></i>
-                      </label> -->
-                                        </th>
                                         <th style="width:80px;">Driver ID</th>
                                         <th style="width:80px;">First Name</th>
                                         <th style="width:90px;">Last Name</th>
@@ -53,7 +48,7 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th></th>
+                                     
                                         <th>ID</th>
                                         <th>fName</th>
                                         <th>lName</th>
@@ -66,9 +61,6 @@
                                 </tfoot>
                                 <tbody>
                                     <tr ng-repeat="order in showCase.orders">
-                                        <td>
-                                            <!-- <label class="checkbox checkbox-custom checkbox-custom-sm m-0"><input type="checkbox" ng-model="order.selected"><i></i></label> -->
-                                        </td>
                                         <td>{{ order.id }}</td>
                                         <td>{{order.first_name}}</td>
                                         <td>{{ order.last_name }}</td>

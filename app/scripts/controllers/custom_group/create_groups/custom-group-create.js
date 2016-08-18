@@ -15,27 +15,6 @@ app
             subtitle: '',//'Place subtitle here...'
         };
         $scope.toggle = false;
-       
-       
-       
-//         funcGetCustomGroupsList();
-//         function funcGetCustomGroupsList(){
-//             var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
-//                 services.funcPostRequest(url, {"page": 0,"per_page": 0}).then(function(response) {
-//                    if(response.data)
-//                      $scope.groupslist = response.data.groups;
-                      
-//                    //notify({ classes: 'alert-success', message: response.message });
-//                 }, function(error) {
-//                     notify({ classes: 'alert-danger', message: error });
-//                 });
-//                 //funcGetCustomGroupsList();
-//         }
-
-//         $scope.AddDriversToGroup = function(groupId){
-//              $rootScope.selectedGroupId = groupId;
-//              $state.go('app.custom-groups.create-groups-drivers');
-//         }
     }])
     .controller('GroupsTableCustomGroupCtrl', function($scope, $rootScope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services) {
        
@@ -46,7 +25,7 @@ app
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
-                [1, 'asc']
+                [0, 'asc'] // 0th column in asc
             ])
             .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
             .withLanguage({
@@ -84,7 +63,6 @@ app
                    vm.arrayOfDriverIds.push(order.id);
 
             });
-             console.log('saaaaa',vm.arrayOfDriverIds)
         };
        
         vm.selectedDriversArr = [];
@@ -100,31 +78,16 @@ app
                 services.funcPostRequest(url, { 'group': $scope.group }).then(function(response) {
                    notify({ classes: 'alert-success', message: response.message });
                   $scope.toggle = false;
-                  getGroupslist();
-                  //location.reload();
-                 // funcGetCustomGroupsList();
-                 
+                  getGroupslist();                                   
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: error });
                 });
+             $scope.title = '';
+             $scope.Description = '';
         }
 
 
-        //$scope.addDriversToGroupBtn = false;
         vm.selectedDriver = function(order){
-
-//                 var listToDelete = [1, 2];
-//                 var arrayOfObjects = [{id:1,name:'dummy'}, // delete me
-//                                       {id:2,name:'shilpa'}, // delete me
-//                                       {id:3,name:'avinash'}] // all that should remain
-//                 for(var i = 0; i < arrayOfObjects.length; i++) {
-//                     vm.obj = arrayOfObjects[i];
-
-//                     if(listToDelete.indexOf(vm.obj.id) !== -1) {
-//                         arrayOfObjects.splice(i, 1);
-//                     }
-//                 }
-
             if(order.selected){
                 vm.selectedDriversArr.push(order);
                 vm.obj = vm.selectedDriversArr;
@@ -137,13 +100,10 @@ app
                         vm.selectedDriversArr.splice(i, 1);
                         break;
                     }
-                    //vm.selectedDriversArr.splice(i);
-                    //vm.obj = vm.selectedDriversArr[i];
-                }
+               }
             }
            vm.arrayOfDriverIds = [];
-          //console.log('selected drivers',vm.selectedDriversArr,vm.obj); 
-          for(var i=0; i < vm.selectedDriversArr.length; i++){
+         for(var i=0; i < vm.selectedDriversArr.length; i++){
                vm.arrayOfDriverIds.push(vm.selectedDriversArr[i].id);
                vm.arrayOfDriverIds = unique(vm.arrayOfDriverIds);
           }         
@@ -168,9 +128,8 @@ app
             var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
             services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
                 if( response.data){
-                 $scope.driversList = response.data.groups;
-                 vm.groups = $scope.driversList;
-                 //console.log('vm.groups',vm.groups);       
+                 $scope.groupsList = response.data.groups;
+                 vm.groups = $scope.groupsList;      
                 }
                 
             }, function(error) {
@@ -178,24 +137,7 @@ app
             });
         }
         
-         vm.getGroupslist = function() {
-            var url = appSettings.serverPath + appSettings.serviceApis.getCustomGroups;
-            services.funcPostRequest(url, { "page": '0', "per_page": '0' }).then(function(response) {
-                if( response.data){
-                 $scope.driversList = response.data.groups;
-                 vm.groups = $scope.driversList;
-                // location.reload();
-                // console.log('vm.groups',vm.groups);       
-                }
-                
-            }, function(error) {
-                notify({ classes: 'alert-danger', message: error });
-            });
-        }
-
-
        vm.funcAddDriversToGroup = function(){
-         console.log($rootScope.selectedGroupId,vm.arrayOfDriverIds);
          vm.data =  {
             id: $rootScope.selectedGroupId,
             driver_ids: vm.arrayOfDriverIds
@@ -212,8 +154,7 @@ app
 
         vm.getIndividualGroupDetails = function(group_id) {
                 $state.go('app.custom-groups.groups-view', { "group_id": group_id });
-                //countriesConstant.groupId = group_id;
-            }
+        }
 
         vm.AddDrivers = function(group_id){
             $state.go('app.custom-groups.create-groups-drivers',{"group_id" : group_id});
@@ -239,13 +180,10 @@ app
                     }
                     var url = appSettings.serverPath + appSettings.serviceApis.deleteGroup;
                     services.funcPostRequest(url, { "group": vm.group }).then(function(response) {
-                        //notify({ classes: 'alert-success', message: response.message });
-                        swal("Done!", "It was succesfully deleted!", "success");
-                        $state.go('app.custom-groups.create-groups');
-                        //location.reload();
+                       swal("Done!", "It was succesfully deleted!", "success");
+                        getGroupslist();
                     }, function(error) {
                         swal("Error deleting!", "Please try again", "error");
-                        //notify({ classes: 'alert-danger', message: error });
                     });
                 });
             }

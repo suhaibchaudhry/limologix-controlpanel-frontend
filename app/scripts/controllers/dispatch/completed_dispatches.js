@@ -20,7 +20,7 @@ app
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withBootstrap()
             .withOption('order', [
-                [1, 'asc']
+                [0, 'asc']
             ])
             .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
             .withLanguage({
@@ -59,13 +59,13 @@ app
             });
         };
         if (countriesConstant.userRole == 'admin') {
-         getActiveList();
+         getCompletedList();
         }
-            function getActiveList() {
+            function getCompletedList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
                 services.funcPostRequest(url, { 'trip_status': 'closed' }).then(function(response) {
                     if(response.data){
-                        $scope.inactive_dispatch_count = Object.keys(response.data.trips).length;
+                        $scope.completed_dispatch_count = Object.keys(response.data.trips).length;
                         $scope.tripList = response.data.trips;
                         vm.completedDispatches = $scope.tripList;    
                     }                  
