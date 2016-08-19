@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name minovateApp.controller:AllNotificationsCtrl
+ * @name limoLogixApp.controller:AllNotificationsCtrl
  * @description
  * # AllNotificationsCtrl
- * Controller of the minovateApp
+ * Controller of the limoLogixApp
  */
 app
     .controller('AllNotificationsCtrl', [
@@ -68,7 +68,7 @@ app
                         if($scope.notificationList){
                                  $scope.notificaton_count = $scope.notificationList.length;
                                  //$('.notifications_badge').trigger('click');
-                                 console.log('notification count', $scope.notificaton_count)
+                                
                         }                     
                 
                     }
@@ -118,7 +118,7 @@ app
                  function subscribeToChannel(channel){                                                       
                     
                     var subscription = $scope.client.subscribe('/'+channel, function(msg) {
-                            console.log("got a message", msg);
+                           // console.log("got a message", msg);
                             i++;
                             //getTimeDifference(msg.time);
                             $scope.singleMsg = {

@@ -60,7 +60,7 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'in' }
+                componentRestrictions: { country: 'us' }
             };
 
             
