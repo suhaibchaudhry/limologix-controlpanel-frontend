@@ -82,7 +82,7 @@ app
 
         vm.dtColumnDefs = [
             DTColumnDefBuilder.newColumnDef(0).notSortable(),
-            DTColumnDefBuilder.newColumnDef(8).notSortable()
+            DTColumnDefBuilder.newColumnDef(6).notSortable()
         ];
 
         vm.selectedAll = false;
@@ -100,7 +100,7 @@ app
                     vm.arrayOfDriverIds.push(order.id);
 
             });
-            console.log('saaaaa', vm.arrayOfDriverIds)
+     
         };
 
         vm.selectedDriversArr = [];
@@ -173,7 +173,7 @@ app
                 if (response.data) {
                     $scope.driversList = response.data.drivers;
                     vm.orders = $scope.driversList;
-                    console.log('vm.orders', vm.orders);
+                   // console.log('vm.orders', vm.orders);
                 }
 
             }, function(error) {

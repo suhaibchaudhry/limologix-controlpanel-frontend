@@ -45,8 +45,8 @@
                             <th style="width:80px;">Driver ID</th>
                             <th style="width:80px;">First Name</th>
                             <th style="width:90px;">Last Name</th>
-                            <th style="width:120px;">email</th>
-                            <th style="width:180px;">Mobile No</th>
+<!--                             <th style="width:120px;">email</th>
+                            <th style="width:180px;">Mobile No</th> -->
                             <th style="width:80px;">Status</th>
                             <th style="width:100px;">Vehicle</th>
                             <th style="width:150px;">Actions</th>
@@ -58,8 +58,8 @@
                             <th>ID</th>
                             <th>fName</th>
                             <th>lName</th>
-                            <th>email</th>
-                            <th>Mobile no</th>
+<!--                             <th>email</th>
+                            <th>Mobile no</th> -->
                             <th>Status</th>
                             <th>Vehicle</th>
                             <th></th>
@@ -74,10 +74,10 @@
                             <td>{{ order.id }}</td>
                             <td>{{order.first_name}}</td>
                             <td>{{ order.last_name }}</td>
-                            <td>{{ order.email}}</td>
-                            <td>{{ order.mobile_number }}</td>
+<!--                             <td>{{ order.email}}</td>
+                            <td>{{ order.mobile_number }}</td> -->
                             <td><span class="label" ng-class="{'bg-success' : order.status == 'approved','bg-warning' : order.status == 'disapproved','bg-danger' : order.status == 'blocked','bg-primary' : order.status == 'pending'}">{{ order.status }}</span></td>
-                            <td>{{ order.vehicle.vehicle_type.name }}</td>
+                            <td>{{ order.vehicle_type }}</td>
                             <td>
                                 <a ng-click="showCase.getIndividualDriverDetails(order.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
                             </td>

@@ -40,7 +40,13 @@
                                             <span ng-show="noresults" id="nocustomer" style="color:red"></span>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-default" ng-click='search.full_name = null' ng-disabled='search.full_name.length == 0 || step0.$invalid'>Clear</button>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                                <button type="button" class="btn btn-default" ng-click='search.full_name = null' ng-disabled='search.full_name.length == 0 || step0.$invalid'>Clear</button>
+                                                <button type="submit"  class="btn btn-default" ng-click="steps.step2=true" ng-disabled="step0.$invalid || !isChoosed">Next</button>
+                                        </div>
+                                     </div>
+                                  
                                 </form>
                             </div>
                         </section>
