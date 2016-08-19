@@ -311,8 +311,7 @@ app
                             holdTripInfo();
                         }
                     } else {
-                        alert(address + " is invalid address:");
-                        console.log(address, " is invalid address:");
+                        
                         swal({
                             title: "Invalid Address",
                             text: "The address you have entered " + address + " is invalid",
