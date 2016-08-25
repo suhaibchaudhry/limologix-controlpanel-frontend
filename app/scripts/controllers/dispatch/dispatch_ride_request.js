@@ -60,7 +60,7 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'us' }
+                componentRestrictions: { country: 'in' }
             };
 
             
@@ -344,7 +344,7 @@ app
             function holdTripInfo() {
                 if ($scope.isTripFormValid) {
                     $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                    $scope.trip.pickup_time = $filter('date')(($scope.trip.pickuptime).toUTCString(), 'hh:mm a');
+                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
                     //console.log($scope.pickup.name, $scope.pickup.components.location.lat, $scope.pickup.components.location.long);
 
                     $scope.tripInfo = {
@@ -473,8 +473,8 @@ app
     if ($scope.trip)
     //$scope.trip.pickuptime = new Date();
         var date = new Date();
-    $scope.trip.pickuptime = date.toUTCString();
-    console.log("utc Time", $scope.trip.pickuptime);
+    //$scope.trip.pickuptime = date.toUTCString();
+    //console.log("utc Time", $scope.trip.pickuptime);
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
 
