@@ -68,11 +68,11 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address:  'http://172.16.90.111:9000', //"http://limologix.api.softwaystaging.com/",
-        server_images_path: 'http://172.16.90.111:9000',  //"http://limologix.api.softwaystaging.com/",
+        server_address:  "http://limologix.api.softwaystaging.com/", //'http://172.16.90.111:9000',
+        server_images_path: "http://limologix.api.softwaystaging.com/", //'http://172.16.90.111:9000',
         version: 'v1',
-        serverPath: 'http://172.16.90.111:9000/api/v1/', //"http://limologix.api.softwaystaging.com/api/v1/", 
-        FayeServerUrl: 'http://172.16.90.111:9292/faye', //'http://limologix.softwaystaging.com:9292/faye',
+        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", // 'http://172.16.90.111:9000/api/v1/', 
+        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye',// 'http://172.16.90.111:9292/faye',
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
