@@ -13,6 +13,41 @@ app
             title: 'Available Dispatches',
             subtitle: '',//'Place subtitle here...'
         };
+
+//         var
+//             closeInSeconds = 5,
+//             displayText = "It will close in #1 seconds.Click OK to accept the trip",
+//             timer;
+       
+//             swal({
+//             title: "LimoLogix - You've got ride request!", 
+//             body:'hello',  
+//             text: displayText.replace(/#1/, closeInSeconds),   
+//             timer: closeInSeconds * 1000,   
+//             showConfirmButton: true 
+//         },function(){
+//             $state.go('app.dashboard');
+//         });   
+      
+        
+//          timer = setInterval(function() {
+//             if(closeInSeconds >= 0)
+//                closeInSeconds--;
+
+//             if (closeInSeconds < 0) {
+//                 clearInterval(timer);
+//             }
+//             if(closeInSeconds >= 0){
+//               $('.sweet-alert > p').text(displayText.replace(/#1/, closeInSeconds));     
+//             }else{
+//               $('.sweet-alert').hide()
+//             }      
+
+//         }, 1000);
+
+
+
+
         
         var vm = this;
         vm.availableDispatches = [];

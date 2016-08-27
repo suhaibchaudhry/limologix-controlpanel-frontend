@@ -59,9 +59,22 @@ app
             });
         };
         if (countriesConstant.userRole == 'admin') {
-         getActiveList();
+         getInActiveList();
         }
-            function getActiveList() {
+
+        //to update notifications and notification count 
+//         $rootScope.activeNotificationTimer = setInterval(function(){ 
+//           Timer_getInActiveList();
+//         }, 5000);
+
+//         function Timer_getInActiveList(){
+//                     if (constant.user.role == 'admin') {
+//                         //code goes here that will be run every 5 seconds.   
+//                         getInActiveList(); 
+//                      }    
+//                 }
+
+            function getInActiveList() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
                 services.funcPostRequest(url, { 'trip_status': 'inactive' }).then(function(response) {
                     if(response.data){

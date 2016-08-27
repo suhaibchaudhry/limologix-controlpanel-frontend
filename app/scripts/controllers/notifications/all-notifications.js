@@ -34,20 +34,22 @@ app
                 }
 
                 $scope.loggedUser = constant.user.name;
-                //$window.sessionStorage.setItem('notification','')
-                // $scope.message = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : '';
-                // $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : '';
-             
-                setInterval(function(){ 
-                if (constant.user.role == 'admin') {
+                              
+                //to update notifications and notification count 
+                $rootScope.notificationTimer = setInterval(function(){ 
+                  Timer_getAllNotifications();
+                }, 5000);
+
+                function Timer_getAllNotifications(){
+                    if (constant.user.role == 'admin') {
                         //code goes here that will be run every 5 seconds.   
                         getAllNotifications(); 
+                     }    
                 }
-                }, 5000);
                 
-                 $scope.$watch('notificaton_count', function (newVal,oldVal) {
-                            $scope.notificaton_count = newVal;
-                      },true);
+//                  $scope.$watch('notificaton_count', function (newVal,oldVal) {
+//                     $scope.notificaton_count = newVal;
+//                  },true);
                 
 
              function getCompanyChannel(){        
@@ -76,14 +78,14 @@ app
                     //$scope.pickup_time = $filter('date')(new Date($scope.notificationList[0].created_at), 'hh:mm a');
 
                   }, function(error) {
-                    notify({ classes: 'alert-danger', message: error });
+                    //notify({ classes: 'alert-danger', message: error });
                 });
              }
 
             
-              $scope.$watch('notificaton_count', function (newVal,oldVal) {
-                    $scope.notificaton_count = newVal;
-              },true);
+//               $scope.$watch('notificaton_count', function (newVal,oldVal) {
+//                     $scope.notificaton_count = newVal;
+//               },true);
 
 //                            
                 $scope.message = [];
@@ -135,7 +137,6 @@ app
 
                             $window.sessionStorage.setItem('notification',JSON.stringify($scope.message));
                             $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : ''
-                            console.log('msg count',$scope.notificaton_size);
                             $window.sessionStorage.setItem('notification_count',$scope.notificaton_size)
                              $('.notifications_badge').trigger('click');
                             //$('.littleFadeInLeft').hide();
@@ -146,11 +147,6 @@ app
                             $scope.notificaton_size = newVal;
                       },true);
 
-
-                     
-//                      $scope.$apply(function() { 
-//                       $rootScope.message1 = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : ''; 
-//                       });
 
                       $scope.$watch('message1', function (newVal,oldVal) {
                             $scope.message1 = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : '';

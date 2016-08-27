@@ -473,7 +473,7 @@ app
     if ($scope.trip)
     //$scope.trip.pickuptime = new Date();
         var date = new Date();
-    //$scope.trip.pickuptime = date.toUTCString();
+    $scope.trip.pickuptime = date.toUTCString();
     //console.log("utc Time", $scope.trip.pickuptime);
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
