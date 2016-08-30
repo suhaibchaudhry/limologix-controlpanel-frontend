@@ -1,0 +1,33 @@
+<div class="page page-form-wizard">
+    <!-- page header -->
+    <div class="pageheader">
+        <h2>{{page.title}} <span> {{page.subtitle}}</span></h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Dispatches</a>
+                </li>
+                <li>
+                    <a ui-sref="app.dispatch.cancel_ride_request">{{page.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header -->
+    <!-- page content -->
+    <div class="pagecontent">
+        <div class="col-md-4">
+                     
+                        
+                           <div class="row">
+                                <button type="submit" class="btn btn-primary" ng-click="tripcancel()">Cancel Trip</button>
+                           </div>
+                         
+                       
+                    </div>
+    </div>
+    <!-- /page content -->
+</div>

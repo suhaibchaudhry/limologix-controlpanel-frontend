@@ -68,11 +68,11 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address:  "http://limologix.api.softwaystaging.com/", //'http://172.16.90.111:9000',
-        server_images_path: "http://limologix.api.softwaystaging.com/", //'http://172.16.90.111:9000',
+        server_address: "http://limologix.api.softwaystaging.com/", //'http://172.16.140.116:9000', 
+        server_images_path: "http://limologix.api.softwaystaging.com/", //'http://172.16.140.116:9000',
         version: 'v1',
-        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", // 'http://172.16.90.111:9000/api/v1/', 
-        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye',// 'http://172.16.90.111:9292/faye',
+        serverPath: "http://limologix.api.softwaystaging.com/api/v1/", //'http://172.16.140.116:9000/api/v1/',
+        FayeServerUrl: 'http://limologix.softwaystaging.com:9292/faye', //'http://172.16.140.116:9292/faye',
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -115,6 +115,7 @@ var app = angular
             logout: 'users/logout',
             //super-admin
             getDriverList: 'users/drivers/index',
+            tripcancel:'users/trips/cancel',
             getIndividualDriverDetail: 'users/drivers/show',
             userApprove: 'users/drivers/approve',
             userBlock: 'users/drivers/block',
@@ -584,6 +585,12 @@ var app = angular
                 url: '/dispatch_ride_request',
                 controller: 'DispatchRideRequestCtrl',
                 templateUrl: 'views/tmpl/dispatch/dispatch_ride_request.html'
+            })
+             //cancel trip
+            .state('app.dispatch.cancel_ride_request', {
+                url: '/cancel_ride_request',
+                controller: 'CancelRideRequestCtrl',
+                templateUrl: 'views/tmpl/dispatch/cancel_ride_request.html'
             })
             // Dispatches/Available dispatches
              .state('app.dispatch.availabledispatches', {

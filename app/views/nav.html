@@ -27,6 +27,10 @@
                             <a ui-sref="app.dispatch.dispatch_ride_request">
                                 <fa name="caret-right"></fa> {{ 'Menu.DISPATCH_RIDE_REQUEST' | translate }}</a>
                         </li>
+<!--                          <li ui-sref-active="active">
+                            <a ui-sref="app.dispatch.cancel_ride_request">
+                                <fa name="caret-right"></fa> {{ 'Menu.CANCEL_RIDE_REQUEST' | translate }}</a>
+                        </li> -->
                         <li ui-sref-active="active" ng-controller="AvailableDispatchesCtrl">
                             <a ui-sref="app.dispatch.availabledispatches">
                                 <fa name="caret-right"></fa> {{ 'Menu.AVAILABLE_TRIPS' | translate }}<span class="badge badge-danger">{{available_dispatch_count}}</span></a>

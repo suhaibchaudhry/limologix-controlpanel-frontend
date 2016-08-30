@@ -8,7 +8,7 @@
  * Controller of the limoLogixApp
  */
 app
-    .controller('DispatchRideRequestCtrl', [
+    .controller('CancelRideRequestCtrl', [
         '$scope',
         '$rootScope',
         '$http',
@@ -23,7 +23,7 @@ app
         'dispatchRideProvider',
         function($scope, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
-                title: 'Create a trip',
+                title: 'Cancel the trip',
                 subtitle: '' //'Place subtitle here...'
             };
 
@@ -405,28 +405,23 @@ app
             }
             $scope.funcTripDispatch = function() {
                 var url = appSettings.serverPath + appSettings.serviceApis.tripCreate;
-                console.log($scope.tripInfo);
+               
                 $scope.tripInfo.vehicle_type_id = $scope.vehicleId;
                 var trip = $scope.tripInfo;
                 services.funcPostRequest(url, { 'trip': trip }).then(function(response) {
                     console.log('resp', response);
-                    $scope.tripId = response.data.trip.id;
                     notify({ classes: 'alert-success', message: response.message });
-//                     $scope.steps.step0 = true;
-//                     $scope.steps.step1 = true;
-//                     $scope.steps.step3 = false;
+                    $scope.steps.step0 = true;
+                    $scope.steps.step1 = true;
+                    $scope.steps.step3 = false;
                 }, function(error) {
                     notify({ classes: 'alert-danger', message: response.message });
                 })
             }
-            $scope.funcTripCancel = function(){
+
+            $scope.tripcancel = function(){
                 var url = appSettings.serverPath + appSettings.serviceApis.tripcancel;
-                var trip = {
-                    "trip":{
-                        'id': $scope.tripId
-                     }
-                    }
-                services.funcPostRequest(url,{"trip_id":$scope.tripId}).then(function(response) {
+                services.funcPostRequest(url).then(function(response) {
                     console.log(response);
                     notify({ classes: 'alert-success', message: response.message });
                 }, function(error) {

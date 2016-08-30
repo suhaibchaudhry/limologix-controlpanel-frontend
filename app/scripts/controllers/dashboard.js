@@ -25,14 +25,13 @@ app
             if (constant.userRole == 'admin') {
                 getCompanyInfo();
             }
-
+                          
            $scope.loggedUser = constant.user.name;
 //           $window.sessionStorage.setItem('notification','')
 //            $scope.message1 = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')) : '';
 //            $scope.notificaton_size = $window.sessionStorage.getItem('notification') ? JSON.parse($window.sessionStorage.getItem('notification')).length : '';
          
-
-                     
+                    
 
             function getCompanyInfo() {
                 var url = appSettings.serverPath + appSettings.serviceApis.company_info;

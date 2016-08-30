@@ -36,6 +36,10 @@ function funcservices() {
                     };
                     var map = new google.maps.Map(document.getElementById('dvMap'));
                     directionsDisplay.setMap(map);
+                    //fix to - map was not displaying always
+                    google.maps.event.addListenerOnce(map, 'idle', function() {
+                       google.maps.event.trigger(map, 'resize');
+                    });
                     //directionsDisplay.setPanel(document.getElementById('dvPanel'));
 
                     //*********DIRECTIONS AND ROUTE**********************//
