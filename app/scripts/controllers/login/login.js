@@ -34,7 +34,7 @@ app
                 $scope.isAdmin = true;
                 $window.sessionStorage['UserRole'] = constants.userRole;
                 $window.sessionStorage['user'] = JSON.stringify(constants.user);
-                $state.go('app.dashboard');
+                $state.go('app.dispatch.dispatch_ride_request');
             }else{
                 $scope.isAdmin = false;
                 $window.sessionStorage['UserRole'] = constants.userRole;

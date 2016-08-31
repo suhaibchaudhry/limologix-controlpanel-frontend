@@ -26,6 +26,7 @@ app
                 title: 'Create a trip',
                 subtitle: '' //'Place subtitle here...'
             };
+             $scope.myDecimal = 0;
 
             $scope.steps = { step0: true, step1: true, step2: false, step3: false, step4: false, step5: false }
 
@@ -89,8 +90,7 @@ app
             //Boolean which check user has selected customer from typeahead list
             $scope.isChoosed = false;
             $scope.BookNow = false;
-
-            // Get existing customers in typeahead
+           // Get existing customers in typeahead
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
                 $scope.loadingcustomers = true;
@@ -125,7 +125,50 @@ app
                 $scope.customerId = $item.id;
                 $scope.isChoosed = true;
             };
+            
+             if(navigator.geolocation){
+              navigator.geolocation.getCurrentPosition(function(position) { 
+              console.log(position); 
+               var map = new google.maps.Map(document.getElementById('dvMap'), {
+                  center: {lat: position.coords.latitude, lng: position.coords.longitude},
+                  zoom: 13
+                });
+                 google.maps.event.addListenerOnce(map, 'idle', function() {
+                       google.maps.event.trigger(map, 'resize');
+                 });
+              });
+            }
 
+
+
+            $scope.loadmapTimer = setInterval(function(){
+                loadMap();
+            },3000);
+            loadMap();
+            function loadMap(){
+              if($scope.steps.step2){
+                  navigator.geolocation.getCurrentPosition(function(position) { 
+                  console.log(position); 
+                   var map = new google.maps.Map(document.getElementById('dvMap'), {
+                      center: {lat: position.coords.latitude, lng: position.coords.longitude},
+                      zoom: 13
+                    });
+                     google.maps.event.addListenerOnce(map, 'idle', function() {
+                           google.maps.event.trigger(map, 'resize');
+                     });
+                  });
+                  clearInterval($scope.loadmapTimer);
+                }
+            }
+            
+            
+            function onSuccess(position){
+                console.log(position.coords)
+            }
+            function onError(error){
+                console.log(error)
+            }
+                    
 
             // Add customer to make a trip
             $scope.funcAddCustomer = function(isValid) {
@@ -233,6 +276,9 @@ app
                             $scope.pickup_latitude = results[0].geometry.location.lat();
                             $scope.pickup_longitude = results[0].geometry.location.lng();
                             //console.log('pickup',$scope.address,latitude,longitude);
+                           if($scope.pickup_place && $scope.dropoff_place)
+                             dispatchRideProvider.getRoutes($scope.pickup_place, $scope.dropoff_place, notify);
+                            
                         } else {
                             alert('invalid pickup address');
                             // $scope.pickup_place_invalid_msg = true;
@@ -257,6 +303,9 @@ app
                             $scope.dropoff_place = $scope.address;
                             $scope.dropoff_latitude = results[0].geometry.location.lat();
                             $scope.dropoff_longitude = results[0].geometry.location.lng();
+                            if($scope.pickup_place && $scope.dropoff_place)
+                               dispatchRideProvider.getRoutes($scope.pickup_place,$scope.dropoff_place, notify);
+
                             //console.log('pickup',$scope.address,latitude,longitude);
                         } else {
                             alert('invalid dropoff address');
@@ -340,6 +389,13 @@ app
                 $scope.dropoffId = jQuery('#dropoff').val();
                 validateAddressGeoCoder();
             }
+            
+            
+           
+     
+
+
+          funcSelectVehicleType();
 
             function holdTripInfo() {
                 if ($scope.isTripFormValid) {
@@ -378,7 +434,7 @@ app
                         dropoffAt: $scope.tripInfo.end_destination.place
                     }
                     dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
-                    $scope.funcSelectVehicleType();
+                  //  $scope.funcSelectVehicleType();
 
 
                 } else {
@@ -386,7 +442,7 @@ app
                 }
             }
 
-            $scope.funcSelectVehicleType = function() {
+            function funcSelectVehicleType(){
                 var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
                 services.funcGetRequest(url).then(function(response) {
                     $scope.vehicleType = response.data.vehicle_types;
@@ -397,6 +453,7 @@ app
             };
             $scope.bookVehicle = function(element) {
                 $scope.vehicleId = element.id;
+                $scope.vehicle_Price = parseFloat($('#price_'+$scope.vehicleId).val()).toFixed(2);
                 angular.forEach($scope.vehicleType, function(elem) {
                     elem.active = false;
                 });
@@ -404,6 +461,32 @@ app
                 element.active = !element.active;
             }
             $scope.funcTripDispatch = function() {
+
+                 $scope.pickupId = jQuery('#pickup').val();
+                $scope.dropoffId = jQuery('#dropoff').val();
+                validateAddressGeoCoder();
+                
+                 $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
+                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
+                  $scope.vehicle_Price = parseFloat($('#price_'+$scope.vehicleId).val()).toFixed(2);
+                $scope.tripInfo = {
+                        start_destination: {
+                            place: $scope.pickup_place,
+                            latitude: $scope.pickup_latitude,
+                            longitude: $scope.pickup_longitude
+                        },
+                        end_destination: {
+                            place: $scope.dropoff_place,
+                            latitude: $scope.dropoff_latitude,
+                            longitude: $scope.dropoff_longitude
+                        },
+                        pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickup_time,
+                        passengers_count: $scope.trip.passenger_count ? $scope.trip.passenger_count : '',
+                        price : $('#price_'+$scope.vehicleId).val() ? parseFloat($('#price_'+$scope.vehicleId).val()).toFixed(2) : '', 
+                        customer_id: $scope.customerId,
+                        group_ids: $scope.groupIdArr
+                    };
+
                 var url = appSettings.serverPath + appSettings.serviceApis.tripCreate;
                 console.log($scope.tripInfo);
                 $scope.tripInfo.vehicle_type_id = $scope.vehicleId;
@@ -416,7 +499,7 @@ app
 //                     $scope.steps.step1 = true;
 //                     $scope.steps.step3 = false;
                 }, function(error) {
-                    notify({ classes: 'alert-danger', message: response.message });
+                    notify({ classes: 'alert-danger', message: error.message });
                 })
             }
             $scope.funcTripCancel = function(){
@@ -524,16 +607,3 @@ app
 }])
 
 
-// function getTimeDifference() {
-//     var notifiedDate = '2016-07-27T15:13:45.754+05:30';
-//     var currentDate = new Date();
-//     var utcDate = new Date(notifiedDate)
-//     var hourDifference = utcDate.getHours() - currentDate.getHours();
-//     var minuteDifference = utcDate.getMinutes() - currentDate.getMinutes();
-
-//     console.log("hours", hourDifference);
-//     console.log("Minutes", minuteDifference);
-//     if (((hourDifference == 0) && (minuteDifference <= 5)) || ((hourDifference == 1) && (minuteDifference < 5))) {
-
-//     }
-// }
