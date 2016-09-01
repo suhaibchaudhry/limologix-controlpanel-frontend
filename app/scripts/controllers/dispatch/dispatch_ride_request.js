@@ -61,7 +61,7 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'us' }
+                componentRestrictions: { country: 'in' }
             };
 
             
@@ -90,6 +90,8 @@ app
             //Boolean which check user has selected customer from typeahead list
             $scope.isChoosed = false;
             $scope.BookNow = false;
+
+                      
            // Get existing customers in typeahead
             $scope.getExistingCustomers = function(search_string) {
                 var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
@@ -126,20 +128,18 @@ app
                 $scope.isChoosed = true;
             };
             
-             if(navigator.geolocation){
-              navigator.geolocation.getCurrentPosition(function(position) { 
-              console.log(position); 
-               var map = new google.maps.Map(document.getElementById('dvMap'), {
-                  center: {lat: position.coords.latitude, lng: position.coords.longitude},
-                  zoom: 13
-                });
-                 google.maps.event.addListenerOnce(map, 'idle', function() {
-                       google.maps.event.trigger(map, 'resize');
-                 });
-              });
-            }
-
-
+//              if(navigator.geolocation){
+//               navigator.geolocation.getCurrentPosition(function(position) { 
+//               console.log(position); 
+//                var map = new google.maps.Map(document.getElementById('dvMap'), {
+//                   center: {lat: position.coords.latitude, lng: position.coords.longitude},
+//                   zoom: 13
+//                 });
+//                  google.maps.event.addListenerOnce(map, 'idle', function() {
+//                        google.maps.event.trigger(map, 'resize');
+//                  });
+//               });
+//             }
 
             $scope.loadmapTimer = setInterval(function(){
                 loadMap();
@@ -160,15 +160,6 @@ app
                   clearInterval($scope.loadmapTimer);
                 }
             }
-            
-            
-            function onSuccess(position){
-                console.log(position.coords)
-            }
-            function onError(error){
-                console.log(error)
-            }
-                    
 
             // Add customer to make a trip
             $scope.funcAddCustomer = function(isValid) {
@@ -305,17 +296,14 @@ app
                             $scope.dropoff_longitude = results[0].geometry.location.lng();
                             if($scope.pickup_place && $scope.dropoff_place)
                                dispatchRideProvider.getRoutes($scope.pickup_place,$scope.dropoff_place, notify);
-
-                            //console.log('pickup',$scope.address,latitude,longitude);
                         } else {
-                            alert('invalid dropoff address');
+                            alert('invalid dropoff address');                           
                             $scope.dropoff_place_valid = false;
                             $scope.dropoff_place_invalid_msg = true;
                         }
                     });
                 });
             }
-
 
 
             var locations = [];
@@ -359,8 +347,7 @@ app
                             $scope.steps.step3 = true;
                             holdTripInfo();
                         }
-                    } else {
-                        
+                    } else {                        
                         swal({
                             title: "Invalid Address",
                             text: "The address you have entered " + address + " is invalid",
@@ -384,12 +371,11 @@ app
             }
 
 
-            $scope.funcMakeTrip = function(isValid) {
-                $scope.pickupId = jQuery('#pickup').val();
-                $scope.dropoffId = jQuery('#dropoff').val();
-                validateAddressGeoCoder();
-            }
-            
+//             $scope.funcMakeTrip = function(isValid) {
+//                 $scope.pickupId = jQuery('#pickup').val();
+//                 $scope.dropoffId = jQuery('#dropoff').val();
+//                 validateAddressGeoCoder();
+//             }        
             
            
      
@@ -420,9 +406,7 @@ app
                         group_ids: $scope.groupIdArr
                     };
                     console.log($scope.tripInfo.pick_up_at);
-                    // constants.tripdata = $scope.tripInfo;
-                    // constants.tripdata.pickup_date = $scope.trip.pickupdate;
-                    // constants.tripdata.pickup_time = $scope.trip.pickuptime;
+                    
                     var customerDetails = {
                         "trip": $scope.tripInfo
                     }
@@ -433,15 +417,15 @@ app
                         pickupAt: $scope.tripInfo.start_destination.place,
                         dropoffAt: $scope.tripInfo.end_destination.place
                     }
-                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
-                  //  $scope.funcSelectVehicleType();
+                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);               
 
 
                 } else {
 
                 }
             }
-
+            
+            //Get all vehicle types
             function funcSelectVehicleType(){
                 var url = appSettings.serverPath + appSettings.serviceApis.selectVehicleType;
                 services.funcGetRequest(url).then(function(response) {
@@ -451,6 +435,8 @@ app
                         notify({ classes: 'alert-danger', message: response.message });
                 })
             };
+
+            //Get booked vehicle info
             $scope.bookVehicle = function(element) {
                 $scope.vehicleId = element.id;
                 $scope.vehicle_Price = parseFloat($('#price_'+$scope.vehicleId).val()).toFixed(2);
@@ -460,14 +446,17 @@ app
                 $scope.BookNow = true;
                 element.active = !element.active;
             }
+
+            
+            //Trip dispatch
             $scope.funcTripDispatch = function() {
 
-                 $scope.pickupId = jQuery('#pickup').val();
+                $scope.pickupId = jQuery('#pickup').val();
                 $scope.dropoffId = jQuery('#dropoff').val();
                 validateAddressGeoCoder();
                 
                  $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
+                   $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
                   $scope.vehicle_Price = parseFloat($('#price_'+$scope.vehicleId).val()).toFixed(2);
                 $scope.tripInfo = {
                         start_destination: {
@@ -502,6 +491,8 @@ app
                     notify({ classes: 'alert-danger', message: error.message });
                 })
             }
+
+            //Trip cancellation
             $scope.funcTripCancel = function(){
                 var url = appSettings.serverPath + appSettings.serviceApis.tripcancel;
                 var trip = {
@@ -562,7 +553,7 @@ app
         $scope.format = $scope.formats[0];
     }])
 
-.controller('TimepickerCtrl', ['$scope', 'countriesConstant', function($scope, constants) {
+.controller('TimepickerCtrl1', ['$scope', 'countriesConstant', function($scope, constants) {
     if ($scope.trip)
     //$scope.trip.pickuptime = new Date();
         var date = new Date();
@@ -598,12 +589,12 @@ app
         //console.log('Time changed to: ' + $scope.tripinfo.pickup_time);
     };
 
-    $scope.clear = function() {
-        if ($scope.trip)
-            $scope.trip.pickuptime = null;
-        if ($scope.tripinfo)
-            $scope.tripinfo.pickup_time = null;
-    };
+//     $scope.clear1 = function() {
+//         if ($scope.trip)
+//             $scope.trip.pickuptime = null;
+//         if ($scope.tripinfo)
+//             $scope.tripinfo.pickup_time = null;
+//     };
 }])
 
 

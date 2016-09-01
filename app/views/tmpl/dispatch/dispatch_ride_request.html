@@ -147,7 +147,7 @@
                         <div class="form-group col-md-4 mb-0">
                             <strong>Pick-up Date <sup class="mandatory">*</sup></strong>
                             <br/>
-                            <div class="tile-body" ng-controller="DatepickerTripCtrl">
+                            <div class="tile-body" ng-controller="DatepickerTripCtrl" style="margin-top:35px">
                                 <!--                                 <pre class="alert alert-info mt-20">Selected date is: <em>{{trip.pickupdate | date:'dd-MM-yyyy' }}</em></pre> -->
                                 <p class="input-group">
                                     <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="trip.pickupdate" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
@@ -160,9 +160,9 @@
                          <div class="form-group col-md-8 mb-0">
                             <strong>Pick-up Time <sup class="mandatory">*</sup><span class="tripnote">Make sure pickup time must be 5-10m later from the current time.</span></strong>
                             <br/>
-                            <div class="tile-body" ng-controller="TimepickerCtrl">
+                            <div class="tile-body" ng-controller="TimepickerCtrl1">
                                 <uib-timepicker ng-model="trip.pickuptime" ng-change="changed()" hour-step="1" minute-step="1" show-meridian="ismeridian" required></uib-timepicker>
-                                <button class="btn btn-sm btn-default" ng-click="clear()">Clear</button>
+<!--                                 <button class="btn btn-sm btn-default" ng-click="clear1()">Clear</button> -->
                                 <hr>
                             </div>
                         </div>

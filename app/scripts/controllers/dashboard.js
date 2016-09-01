@@ -24,7 +24,7 @@ app
             };
             if (constant.userRole == 'admin') {
                 getCompanyInfo();
-            }
+            }   
                           
            $scope.loggedUser = constant.user.name;
 //           $window.sessionStorage.setItem('notification','')
