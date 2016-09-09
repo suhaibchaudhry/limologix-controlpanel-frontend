@@ -68,7 +68,7 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address:  "http://limologix.api.softwaystaging.com/", //'http://172.16.130.107:9000',
+        server_address:  "http://limologix.softwaystaging.com/", //'http://172.16.130.107:9000',
         server_images_path: "http://limologix.api.softwaystaging.com/", //'http://172.16.130.107:9000',
         version: 'v1',
         serverPath: "http://limologix.api.softwaystaging/api/v1/", //'http://172.16.130.107:9000/api/v1/',
