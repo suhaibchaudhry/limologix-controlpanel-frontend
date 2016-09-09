@@ -12,6 +12,7 @@ app
         function(notify, $scope, $http, appSettings, services, $state, constant, $location) {
             $scope.url = {};
             $scope.token = $location.search().token;
+            $scope.type = $location.search().type;
             $scope.resetPwd = {
                 password: '',
                 cnfpassword: ''
@@ -25,11 +26,13 @@ app
                 };
                 var user = {
                     password: $scope.resetPwd.password,
-                    reset_password_token:$scope.token
+                    reset_password_token:$scope.token,
+                    user_type: $scope.type
                 };
                 var url = appSettings.serverPath + appSettings.serviceApis.restpasswrdfromemail;
                 services.funcPostRequest(url,{"user": user}).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
+                    
                     $state.go('core.login');
                 }, function(error, status) {
                     if (error)

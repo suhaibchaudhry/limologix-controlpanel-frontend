@@ -428,7 +428,6 @@ app
             }
 
 
-
             //Trip dispatch
             $scope.funcTripDispatch = function() {
                 $scope.pickupId = jQuery('#pickup').val();
