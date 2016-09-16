@@ -3,7 +3,7 @@
     "DASHBOARD": "Dashboard",
     "COMPANY_SETTINGS": "Company Settings",
     "DISPATCHES": "Dispatches",
-    "DISPATCH_RIDE_REQUEST": "Create Trip",
+    "DISPATCH_RIDE_REQUEST": "Dispatch Trip",
     "CANCEL_RIDE_REQUEST": "Cancel Trip",
     "AVAILABLE_TRIPS" : "Available Trips",
     "PENDING_TRIPS": "Pending Trips",
