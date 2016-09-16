@@ -23,12 +23,12 @@ app
         'dispatchRideProvider',
         function($scope, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
-                title: 'Create a trip',
+                title: 'Dispatch trip',
                 subtitle: '' //'Place subtitle here...'
             };
             $scope.myDecimal = 0;
 
-            $scope.steps = { step0: true, step1: true, step2: false, step3: false, step4: false, step5: false }
+            $scope.steps = { step0: false, step1: false, step2: true, step3: false, step4: false, step5: false }
 
             $scope.items = ['item1', 'item2', 'item3'];
             $scope.phoneNumbr = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -128,12 +128,10 @@ app
                 $scope.isChoosed = true;
             };
 
-            $scope.loadmapTimer = setInterval(function() {
-                if ($scope.steps.step2) {
-                    loadMap();
-                }
-            }, 3000);
-
+            angular.element(document).ready(function () {
+                console.log('page loading completed');
+                loadMap();
+            });
 
             function loadMap() {
                 navigator.geolocation.getCurrentPosition(function(position) {
@@ -146,7 +144,7 @@ app
                         google.maps.event.trigger(map, 'resize');
                     });
                 });
-                clearInterval($scope.loadmapTimer);
+                
             }
 
             // Add customer to make a trip
@@ -361,6 +359,8 @@ app
                     $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
 
                     $scope.tripInfo = {
+                        first_name:$scope.customerInfo.first_name,
+                        last_name:$scope.customerInfo.last_name,
                         start_destination: {
                             place: $scope.pickup_place,
                             latitude: $scope.pickup_latitude,
@@ -373,9 +373,10 @@ app
                         },
                         pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickup_time,
                         passengers_count: $scope.trip.passenger_count,
-                        customer_id: $scope.customerId,
+                        //customer_id: $scope.customerId,
                         group_ids: $scope.groupIdArr
                     };
+
 
                     var customerDetails = {
                         "trip": $scope.tripInfo
@@ -438,6 +439,8 @@ app
                 $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
                 $scope.vehicle_Price = parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2);
                 $scope.tripInfo = {
+                    first_name:$scope.customerInfo.first_name,
+                    last_name:$scope.customerInfo.last_name,
                     start_destination: {
                         place: $scope.pickup_place,
                         latitude: $scope.pickup_latitude,
@@ -451,7 +454,7 @@ app
                     pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickup_time,
                     passengers_count: $scope.trip.passenger_count ? $scope.trip.passenger_count : '',
                     price: $('#price_' + $scope.vehicleId).val() ? parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2) : '',
-                    customer_id: $scope.customerId,
+                    //customer_id: $scope.customerId,
                     group_ids: $scope.groupIdArr
                 };
 

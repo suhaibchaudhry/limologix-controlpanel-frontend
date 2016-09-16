@@ -71,6 +71,7 @@
                                                 <li><strong class="inline-block w-xs">State:</strong>{{driversList.address.state.name}}</li>
                                                 <li><strong class="inline-block w-xs">City:</strong>{{driversList.address.city}}</li>
                                                 <li><strong class="inline-block w-xs">Street:</strong>{{driversList.address.street}}</li>
+                                                <li><strong class="inline-block">Secondary Address:</strong>{{driversList.address.secondary_address}}</li>
                                                 <li><strong class="inline-block w-xs">Zipcode:</strong>{{driversList.address.zipcode}}</li>
                                             </ul>
                                         </div>
@@ -91,14 +92,14 @@
                                                 <li><strong>Licenese Plate Number:&nbsp;&nbsp;</strong>{{driversList.vehicle.license_plate_number}}</li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-3">
+<!--                                         <div class="col-md-3">
                                             <p class="text-uppercase text-strong mb-10 custom-font">Insurance Details</p>
                                             <ul class="wordBreak list-unstyled text-default lt-20">
                                                 <li><strong>Company Name:&nbsp;&nbsp;</strong> {{driversList.insurance_company}}</li>
                                                 <li><strong>Exp Date:&nbsp;&nbsp;</strong>{{driversList.insurance_expiry_date}}</li>
                                                 <li><strong>Policy Number:&nbsp;&nbsp;</strong>{{driversList.insurance_policy_number}}</li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </section>
@@ -124,6 +125,15 @@
                                                 <li><strong class="inline-block w-sm">License Number:</strong> {{driversList.license_number}}</li>
                                                 <li><strong class="inline-block w-sm">Exp Date:</strong>{{driversList.license_expiry_date}}</li>
                                                 <li><strong>Image:</strong><img ng-src='{{imagePath}}{{driversList.license_image.image}}' style="width:100%;height:100%"></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6" style="border-left: 1px solid #eee;height:700px;">
+                                            <p class="text-uppercase text-strong mb-10 custom-font">Insurance Details</p>
+                                            <ul class="wordBreak list-unstyled text-default lt-20">
+                                                <li><strong class="inline-block w-sm">Company Name:</strong> {{driversList.insurance_company}}</li>
+                                                <li><strong class="inline-block w-sm">Exp Date:</strong>{{driversList.insurance_expiry_date}}</li>
+                                                <li><strong class="inline-block w-sm">Policy Number:</strong>{{driversList.insurance_policy_number}}</li>
+                                                <li><strong>Image:</strong><img ng-src='{{imagePath}}{{driversList.insurance_image.image}}' style="width:100%;height:100%"></li>
                                             </ul>
                                         </div>
                                     </div>

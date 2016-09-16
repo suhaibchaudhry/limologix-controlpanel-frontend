@@ -30,7 +30,7 @@ app
                 services.funcPostRequest(url, { 'trip_id': parseInt($stateParams.trip_id)}).then(function(response) {
                     //$scope.pending_dispatch_count = Object.keys(response.data.trip).length;
                     $scope.dispatch_data = response.data.trip;
-                    $scope.dispatch_customer = response.data.trip.customer;
+                    $scope.dispatch_customer = response.data.trip.first_name + " " + response.data.trip.last_name;
                     $scope.dispatch_source = response.data.trip.start_destination;
                     $scope.dispatch_destination = response.data.trip.end_destination;
                     //get driver info only when dispatch status is active

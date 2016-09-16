@@ -32,8 +32,14 @@ app
                 var url = appSettings.serverPath + appSettings.serviceApis.restpasswrdfromemail;
                 services.funcPostRequest(url,{"user": user}).then(function(response) {
                     notify({ classes: 'alert-success', message: response.message });
+                    if(response.type === "Driver"){
+                        $('.reset-form').hide();
+                        $('.reset_success').show();
+
+                    }else{
+                       $state.go('core.login');
+                    }
                     
-                    $state.go('core.login');
                 }, function(error, status) {
                     if (error)
                         notify({ classes: 'alert-danger', message: error.message });
