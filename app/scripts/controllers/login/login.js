@@ -16,20 +16,24 @@ app
             };
 
             $scope.isAdmin = false;
+            
 
+//             $('#remember_me').prop('checked', true);
 
            if (localStorage.chkbx && localStorage.chkbx != '') {
                     $('#remember_me').attr('checked', 'checked');
                     $scope.user.useremail = localStorage.usrname;
                     $scope.user.password = localStorage.password;
-                } else {
+           } else {
                     $('#remember_me').removeAttr('checked');
                     $scope.user.useremail = '';
                     $scope.user.password = '';
-                }
+           }
+
+          
+
  
-                $('#remember_me').click(function() {
- 
+                $('#remember_me').click(function() { 
                     if ($('#remember_me').is(':checked')) {
                         // save email and passwordword
                         localStorage.usrname = $scope.user.useremail;
@@ -45,6 +49,8 @@ app
 
 
             $scope.login = function() {
+            localStorage.usrname = $scope.user.useremail;
+            localStorage.password = $scope.user.password;
                 $scope.user = {
                     email: $scope.user.useremail,
                     password: $scope.user.password

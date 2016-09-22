@@ -34,11 +34,13 @@ app
                 }
 
                 $scope.loggedUser = constant.user.name;
-                              
-                //to update notifications and notification count 
-                $rootScope.notificationTimer = setInterval(function(){ 
-                  Timer_getAllNotifications();
-                }, 5000);
+                
+                 if (constant.user.role == 'admin') {
+                        //to update notifications and notification count 
+                        $rootScope.notificationTimer = setInterval(function(){ 
+                          Timer_getAllNotifications();
+                        }, 5000);
+                 }
 
                 function Timer_getAllNotifications(){
                     if (constant.user.role == 'admin') {

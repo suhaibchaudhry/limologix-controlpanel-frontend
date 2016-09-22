@@ -116,24 +116,30 @@
                                                 <li><strong class="inline-block w-sm">Badge Number:</strong>{{driversList.badge_number}}</li>
                                                 <li><strong class="inline-block w-sm">Badge Exp Date:</strong>{{driversList.badge_expiry_date}}</li>
                                                 <li><strong class="inline-block w-sm">ARA Exp Date:</strong> {{driversList.ara_expiry_date}}</li>
-                                                <li><strong>ARA Image:</strong><img ng-src="{{imagePath}}{{driversList.ara_image.image}}" style="width:100%;height:100%"></li>
+                                                <li><strong>ARA Image:</strong><br/><img ng-src="{{imagePath}}{{driversList.ara_image.image}}" style="width:60%;height:60%"></li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6" style="border-left: 1px solid #eee;height:700px;">
+                                      </div>
+                                      <hr>
+                                       <div class="row">
+                                        <div class="col-md-6" style="border-left: 1px solid #eee;">
                                             <p class="text-uppercase text-strong mb-10 custom-font">License Details</p>
                                             <ul class="wordBreak list-unstyled text-default lt-20">
                                                 <li><strong class="inline-block w-sm">License Number:</strong> {{driversList.license_number}}</li>
                                                 <li><strong class="inline-block w-sm">Exp Date:</strong>{{driversList.license_expiry_date}}</li>
-                                                <li><strong>Image:</strong><img ng-src='{{imagePath}}{{driversList.license_image.image}}' style="width:100%;height:100%"></li>
+                                                <li><strong>License Image:</strong><br/><img ng-src='{{imagePath}}{{driversList.license_image.image}}' style="width:60%;height:60%"></li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6" style="border-left: 1px solid #eee;height:700px;">
+                                       </div>
+                                       <hr>
+                                       <div class="row">
+                                        <div class="col-md-6" style="border-left: 1px solid #eee;">
                                             <p class="text-uppercase text-strong mb-10 custom-font">Insurance Details</p>
                                             <ul class="wordBreak list-unstyled text-default lt-20">
                                                 <li><strong class="inline-block w-sm">Company Name:</strong> {{driversList.insurance_company}}</li>
                                                 <li><strong class="inline-block w-sm">Exp Date:</strong>{{driversList.insurance_expiry_date}}</li>
                                                 <li><strong class="inline-block w-sm">Policy Number:</strong>{{driversList.insurance_policy_number}}</li>
-                                                <li><strong>Image:</strong><img ng-src='{{imagePath}}{{driversList.insurance_image.image}}' style="width:100%;height:100%"></li>
+                                                <li><strong>Insurance Image:</strong><br/><img ng-src='{{imagePath}}{{driversList.insurance_image.image}}' style="width:60%;height:60%"></li>
                                             </ul>
                                         </div>
                                     </div>

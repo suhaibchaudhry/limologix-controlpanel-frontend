@@ -41,7 +41,7 @@ app
 
         vm.dtColumnDefs = [
             DTColumnDefBuilder.newColumnDef(0).notSortable(),
-            DTColumnDefBuilder.newColumnDef(6).notSortable()
+            DTColumnDefBuilder.newColumnDef(3).notSortable()
         ];
 
         vm.selectedAll = false;

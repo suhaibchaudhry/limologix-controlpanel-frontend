@@ -6,15 +6,7 @@
         <!-- <h2 class="text-light text-greensea">Log In</h2> -->
         <span id="signin_error"></span>
         <form name="form" class="form-validation mt-20" novalidate>
-           <!--  <div>
-                <input type="radio" name="role" value="admin" ng-model='checked' ng-checked = 'true'>&nbsp;
-                <strong><label class="adminFont text-light text-greensea">As Admin</label></strong>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="role" value="superAdmin" ng-model='checked'>&nbsp;
-                <strong><label class="adminFont text-light text-greensea">As SuperAdmin</label></strong>
-                
-            </div> -->
-            <div class="form-group">
+             <div class="form-group">
                 <input type="email" id="username" class="form-control underline-input" placeholder="User Email" ng-model="user.useremail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
                 <p class="help-block">
                     <span style="color:red" ng-show="form.email.$error.pattern">Not valid Email.</span>
@@ -27,10 +19,7 @@
             <label class="checkbox">
                     <input type="checkbox" value="remember-me" id="remember_me"> Remember me
                 </label>
-            <!--  <label class="checkbox">
-                    <input type="checkbox" value="remember-me" id="remember_me"> Remember me
-                </label> -->
-
+           
             <div class="form-group text-left mt-20">
                 <button type="submit" class="btn btn-greensea b-0 br-2 mr-5" ng-click="login()" ng-disabled='form.$invalid'>Login</button>
                 

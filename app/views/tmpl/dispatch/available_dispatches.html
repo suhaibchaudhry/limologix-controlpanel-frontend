@@ -48,16 +48,7 @@
               <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
                 <thead>
                   <tr>
-<!--                     <th style="width:40px;">
-                      <label class="checkbox checkbox-custom checkbox-custom-sm m-0">
-                        <input type="checkbox" ng-model="showCase.selectedAll" ng-click="showCase.selectAll()"><i></i>
-                      </label>
-                    </th> -->
                     <th style="width:80px;">Dispatch ID</th>
-<!--                     <th style="width:80px;">Driver Name</th> -->
-                    <th style="width:90px;">Customer Name</th>
-                    <th style="width:120px;">Email</th>
-                    <th style="width:180px;">Mobile No</th>
                     <th style="width:80px;">Status</th>
                     <th style="width:100px;">Passenger count</th>
                     <th style="width:150px;">Actions</th>
@@ -65,12 +56,7 @@
                   </thead>
                   <tfoot>
                   <tr>
-<!--                     <th></th> -->
                     <th>id</th>
-<!--                     <th>DName</th> -->
-                    <th>cname</th>
-                    <th>email</th>
-                    <th>mobile no</th>
                     <th>status</th>
                     <th>passenger count</th>
                     <th></th>
@@ -78,12 +64,6 @@
                   </tfoot>
                   <tbody>
                   <tr ng-repeat="actives in showCase.availableDispatches">
-<!--                     <td><label class="checkbox checkbox-custom checkbox-custom-sm m-0"><input type="checkbox" ng-model="actives.selected"><i></i></label></td> -->
-                    <td>{{ actives.id }}</td>
-<!--                     <td>{{ actives.customer.full_name}}</td> -->
-                    <td>{{ actives.customer.full_name }}</td>
-                    <td>{{ actives.customer.email}}</td>
-                    <td>{{ actives.customer.mobile_number }}</td>
                     <td><span class="label" ng-class="{'bg-success' : actives.status == 'active','bg-warning' : actives.status == 'disapproved','bg-danger' : actives.status == 'blocked','bg-primary' : actives.status == 'dispatched'}">{{ actives.status }}</span></td>
                       
                     <td>{{ actives.passengers_count }}</td>

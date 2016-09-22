@@ -34,9 +34,6 @@
                                 <thead>
                                     <tr>
                                         <th style="width:80px;">Dispatch ID</th>
-                                        <th style="width:90px;">Customer Name</th>
-                                        <th style="width:120px;">Email</th>
-                                        <th style="width:180px;">Mobile No</th>
                                         <th style="width:80px;">Status</th>
                                         <th style="width:100px;">Passenger count</th>
                                         <th style="width:150px;">Actions</th>
@@ -45,9 +42,6 @@
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>CName</th>
-                                        <th>email</th>
-                                        <th>Mobile no</th>
                                         <th>Status</th>
                                         <th>passenger Count</th>
                                         <th></th>
@@ -56,9 +50,6 @@
                                 <tbody>
                                     <tr ng-repeat="actives in showCase.completedDispatches">
                                         <td>{{ actives.id }}</td>
-                                        <td>{{ actives.customer.full_name }}</td>
-                                        <td>{{ actives.customer.email}}</td>
-                                        <td>{{ actives.customer.mobile_number }}</td>
                                         <td><span class="label" ng-class="{'bg-success' : actives.status == 'closed','bg-warning' : actives.status == 'disapproved','bg-danger' : actives.status == 'inactive','bg-primary' : actives.status == 'pending'}">{{ actives.status }}</span></td>
                                         <td>{{ actives.passengers_count }}</td>
                                         <td>
