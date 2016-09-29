@@ -64,6 +64,7 @@
                   </tfoot>
                   <tbody>
                   <tr ng-repeat="actives in showCase.availableDispatches">
+                    <td>{{ actives.id }}</td>
                     <td><span class="label" ng-class="{'bg-success' : actives.status == 'active','bg-warning' : actives.status == 'disapproved','bg-danger' : actives.status == 'blocked','bg-primary' : actives.status == 'dispatched'}">{{ actives.status }}</span></td>
                       
                     <td>{{ actives.passengers_count }}</td>

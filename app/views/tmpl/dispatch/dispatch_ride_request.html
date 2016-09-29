@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-8 mb-0">
-                                <strong>Pick-up Time <sup class="mandatory">*</sup><span class="tripnote">Make sure pickup time must be 5-10m later from the current time.</span></strong>
+                                <strong>Pick-up Time <sup class="mandatory">*</sup><!--<span class="tripnote">Make sure pickup time must be 5-10m later from the current time.</span>--></strong>
                                 <br/>
                                 <div class="tile-body" ng-controller="DispatchTimepickerCtrl">
                                     <uib-timepicker ng-model="trip.pickuptime" ng-change="changed()" hour-step="1" minute-step="1" show-meridian="ismeridian" required></uib-timepicker>
