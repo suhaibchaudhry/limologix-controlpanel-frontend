@@ -7,7 +7,7 @@
         <!-- <h2 class="text-light text-greensea">Log In</h2> -->
         <span id="signin_error"></span>
         <form name="form" class="form-validation mt-20" novalidate>
-             <div class="form-group">
+            <div class="form-group">
                 <input type="email" id="username" class="form-control underline-input" placeholder="User Email" ng-model="user.useremail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
                 <p class="help-block">
                     <span style="color:red" ng-show="form.email.$error.pattern">Not valid Email.</span>
@@ -16,14 +16,11 @@
             <div class="form-group">
                 <input type="password" id="pass" placeholder="Password" class="form-control underline-input" ng-model="user.password" required>
             </div>
-
             <label class="checkbox">
-                    <input type="checkbox" value="remember-me" id="remember_me"> Remember me
-                </label>
-           
+                <input type="checkbox" value="remember-me" id="remember_me"> Remember me
+            </label>
             <div class="form-group text-left mt-20">
                 <button type="submit" class="btn btn-greensea b-0 br-2 mr-5" ng-click="login()" ng-disabled='form.$invalid'>Login</button>
-                
                 <a ui-sref="core.forgotpass" class="pull-right mt-10">Forgot Password?</a>
             </div>
         </form>

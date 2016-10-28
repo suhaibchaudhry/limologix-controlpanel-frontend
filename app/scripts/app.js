@@ -68,11 +68,11 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address:"http://limologix.softwaystaging.com/", //'http://172.16.130.107:9000',
-        server_images_path: "http://limologix.api.softwaystaging.com/", //'http://172.16.130.107:9000',
+        server_address: "http://limologix.softwaystaging.com/",//'http://172.16.10.212:9000',
+        server_images_path:"http://limologix.api.softwaystaging.com/",//'http://172.16.10.212:9000',
         version: 'v1',
-        serverPath: "http://limologix.api.softwaystaging.com/api/v1/",//'http://172.16.130.107:9000/api/v1/',
-        FayeServerUrl:'http://limologix.softwaystaging.com:9292/faye', //'http://172.16.130.107:9292/faye', 
+        serverPath: "http://limologix.api.softwaystaging.com/api/v1/",//'http://172.16.10.212:9000/api/v1/',
+        FayeServerUrl:'http://limologix.softwaystaging.com:9292/faye',//'http://172.16.10.212:9292/faye',
         serviceApis: {
             signin: 'users/sign_in',
             registration: 'users/registration',
@@ -125,7 +125,7 @@ var app = angular
 
 .run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant','notify',function($rootScope, $state, $http, $stateParams, $window, constant,notify) {
     //If user logged in  - Admin or Super Admin
-    
+   
     notify.config({duration:1000});
     
     var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
@@ -239,7 +239,14 @@ var app = angular
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
         // use the HTML5 History API
         //$locationProvider.html5Mode(true);
-        $urlRouterProvider.otherwise('/core/login');
+         //localStorage.getItem("prestate");
+         //if( localStorage.getItem("prestate")){
+            //    $urlRouterProvider.otherwise(localStorage.getItem("prestate"));
+         //}else{
+              $urlRouterProvider.otherwise('/core/login');
+        // }
+       
+
 
         $stateProvider
 

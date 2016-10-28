@@ -26,6 +26,7 @@ app
                 title: 'Unread notifications',
                 subtitle: '' //'Place subtitle here...'
                 };
+                //console.log($window.sessionStorage['Auth-Token']);
                 $scope.isAdmin = false;
                 if (constant.user.role == 'admin') {
                         $scope.isAdmin = true;

@@ -10,6 +10,7 @@
 app
     .controller('DispatchRideRequestCtrl', [
         '$scope',
+        '$state',
         '$rootScope',
         '$http',
         'appSettings',
@@ -21,12 +22,13 @@ app
         '$log',
         'countriesConstant',
         'dispatchRideProvider',
-        function($scope, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
+        function($scope, $state, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
                 title: 'Dispatch trip',
                 subtitle: '' //'Place subtitle here...'
             };
             $scope.myDecimal = 0;
+
 
             $scope.steps = { step0: false, step1: false, step2: true, step3: false, step4: false, step5: false }
 
@@ -39,7 +41,7 @@ app
                 mobile_number: '',
                 organisation: ''
             }
-
+           
             var arr = [];
             $scope.isTripFormValid = false;
             $scope.pickup_place_invalid_msg = false;
@@ -90,81 +92,191 @@ app
             //Boolean which check user has selected customer from typeahead list
             $scope.isChoosed = false;
             $scope.BookNow = false;
+            initMap();
+
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById('dvMap'), {
+                    center: { lat: 29.7630556, lng: -95.3630556 },
+                    zoom: 13
+                });
+                var directionsService = new google.maps.DirectionsService;
+                var directionsDisplay = new google.maps.DirectionsRenderer;
+                directionsDisplay.setMap(map);
+                var origin_place_id = null;
+                var destination_place_id = null;
+                var travel_mode = 'DRIVING';
+                var input = /** @type {!HTMLInputElement} */ (
+                    document.getElementById('pac-input'));
+                var input2 = /** @type {!HTMLInputElement} */ (
+                    document.getElementById('pac-input2'));
 
 
-            // Get existing customers in typeahead
-            $scope.getExistingCustomers = function(search_string) {
-                var url = appSettings.serverPath + appSettings.serviceApis.getExistingCustomers;
-                $scope.loadingcustomers = true;
-                return services.funcPostRequest(url, { 'search_string': search_string }).then(function(response) {
-                    if (response.data) {
-                        $scope.noresults = false;
-                        $scope.loadingcustomers = false;
-                        var customers = response.data.customers;
-                        var results = [];
-                        angular.forEach(customers, function(item) {
-                            item.full_name = item.first_name + " " + item.last_name;
-                            if (item.full_name.toLowerCase().indexOf(search_string.toLowerCase()) > -1) {
-                                results.push(item);
-                            }
-                        });
-                        return results;
-                    } else {
-                        $scope.noresults = true;
-                        $scope.loadingcustomers = false;
-                        $scope.isChoosed = false;
-                        jQuery('#nocustomer').text(response.message);
+
+                var autocomplete = new google.maps.places.Autocomplete(input, $scope.options);
+                autocomplete.bindTo('bounds', map);
+
+                var autocomplete2 = new google.maps.places.Autocomplete(input2);
+                autocomplete2.bindTo('bounds', map);
+
+                var infowindow = new google.maps.InfoWindow();
+                var marker = new google.maps.Marker({
+                    map: map,
+                    anchorPoint: new google.maps.Point(0, -29)
+                });
+
+                var infowindow2 = new google.maps.InfoWindow();
+                var marker2 = new google.maps.Marker({
+                    map: map,
+                    anchorPoint: new google.maps.Point(0, -29)
+                });
+
+
+                autocomplete.addListener('place_changed', function() {
+                    //infowindow.close();
+                    // marker.setVisible(false);
+                    var place = autocomplete.getPlace();
+                    $scope.source_place = {
+                        place_id: place.place_id
                     }
-                    //notify({ classes: 'alert-success', message: response.message });
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: response.message });
+                    if (!place.geometry) {
+                        window.alert("Autocomplete's returned place contains no geometry");
+                        return;
+                    }
+                    $scope.pickup_place = document.getElementById('pac-input').value;
+                    $scope.pickup_latitude = place.geometry.location.lat();
+                    $scope.pickup_longitude = place.geometry.location.lng();
+                    $scope.pickup_place_id = place.place_id;
+
+                    origin_place_id = place.place_id;
+                    route(origin_place_id, destination_place_id, travel_mode,
+                        directionsService, directionsDisplay);
+
+                    // If the place has a geometry, then present it on a map.
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17); // Why 17? Because it looks good.
+                    }
+                    marker.setIcon( /** @type {google.maps.Icon} */ ({
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(35, 35)
+                    }));
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+
+                    var address = '';
+                    if (place.address_components) {
+                        address = [
+                            (place.address_components[0] && place.address_components[0].short_name || ''),
+                            (place.address_components[1] && place.address_components[1].short_name || ''),
+                            (place.address_components[2] && place.address_components[2].short_name || '')
+                        ].join(' ');
+                    }
+
+                    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address + '</div>');
+                    infowindow.open(map, marker);
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                            address + '</div>');
+                        infowindow.open(map, marker);
+                    });
                 });
+
+                autocomplete2.addListener('place_changed', function() {
+                    //infowindow2.close();
+                    // marker2.setVisible(false);
+                    var place = autocomplete2.getPlace();
+                    $scope.destination_place = {
+                        place_id: place.place_id
+                    }
+                    if (!place.geometry) {
+                        window.alert("Autocomplete's returned place contains no geometry");
+                        return;
+                    }
+
+                    $scope.dropoff_place = document.getElementById('pac-input2').value;
+                    $scope.dropoff_latitude = place.geometry.location.lat();
+                    $scope.dropoff_longitude = place.geometry.location.lng();
+                    $scope.dropoff_place_id = place.place_id;
+
+
+                    destination_place_id = place.place_id;
+                    route(origin_place_id, destination_place_id, travel_mode,
+                        directionsService, directionsDisplay);
+
+                    // If the place has a geometry, then present it on a map.
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17); // Why 17? Because it looks good.
+                    }
+                    marker2.setIcon( /** @type {google.maps.Icon} */ ({
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(35, 35)
+                    }));
+                    marker2.setPosition(place.geometry.location);
+                    // marker2.setVisible(true);
+
+                    var address = '';
+                    if (place.address_components) {
+                        address = [
+                            (place.address_components[0] && place.address_components[0].short_name || ''),
+                            (place.address_components[1] && place.address_components[1].short_name || ''),
+                            (place.address_components[2] && place.address_components[2].short_name || '')
+                        ].join(' ');
+                    }
+
+                    infowindow2.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                    infowindow2.open(map, marker2);
+                    google.maps.event.addListener(marker2, 'click', function() {
+                        infowindow2.setContent('<div><strong>' + place.name + '</strong><br>' +
+                            address + '</div>');
+                        infowindow2.open(map, marker2);
+                    });
+
+                });
+
+                function route(origin_place_id, destination_place_id, travel_mode,
+                    directionsService, directionsDisplay) {
+                    if (!origin_place_id || !destination_place_id) {
+                        return;
+                    }
+                    directionsService.route({
+                        origin: { 'placeId': origin_place_id },
+                        destination: { 'placeId': destination_place_id },
+                        travelMode: travel_mode
+                    }, function(response, status) {
+                        var icons = {
+                            start: new google.maps.MarkerImage(
+                                'images/source_marker.png',
+                                new google.maps.Size(44, 32), //width,height
+                                new google.maps.Point(0, 0), // The origin point (x,y)
+                                new google.maps.Point(22, 32)),
+                            end: new google.maps.MarkerImage(
+                                'images/destination_marker.png',
+                                new google.maps.Size(44, 32),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(22, 32))
+                        };
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+                }
+
             }
 
-            //typeahead selected customer object info
-            $scope.onSelectCustomer = function($item, $model, $label) {
-                $scope.$item = $item;
-                $scope.customerId = $item.id;
-                $scope.isChoosed = true;
-            };
 
-            angular.element(document).ready(function () {
-                console.log('page loading completed');
-                loadMap();
-            });
-
-            function loadMap() {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    console.log(position);
-                    var map = new google.maps.Map(document.getElementById('dvMap'), {
-                        center: { lat: position.coords.latitude, lng: position.coords.longitude },
-                        zoom: 13
-                    });
-                    google.maps.event.addListenerOnce(map, 'idle', function() {
-                        google.maps.event.trigger(map, 'resize');
-                    });
-                });
-                
-            }
-
-            // Add customer to make a trip
-            $scope.funcAddCustomer = function(isValid) {
-                var customer = {
-                    first_name: $scope.customerInfo.first_name,
-                    last_name: $scope.customerInfo.last_name,
-                    email: $scope.customerInfo.email,
-                    mobile_number: $scope.customerInfo.mobile_number,
-                    organisation: $scope.customerInfo.organisation
-                };
-                var url = appSettings.serverPath + appSettings.serviceApis.addcustomer;
-                services.funcPostRequest(url, { "customer": customer }).then(function(response) {
-                    $scope.customerId = response.data.customer.id;
-                    notify({ classes: 'alert-success', message: response.message });
-                }, function(error, status) {
-                    if (response)
-                        notify({ classes: 'alert-danger', message: response.message });
-                })
-            };
 
             $scope.isChoosedCustomGroup = false;
             $scope.customgroupdata = [];
@@ -228,65 +340,6 @@ app
             }
 
 
-            //Google Autocomplete to pickup and dropoff inputs
-            setTimeout(function() {
-                var pickupId = document.getElementById('pickup');
-                var dropoffId = document.getElementById('dropoff');
-                GetPickUpCoordinates(pickupId);
-                GetDropoffCoordinates(dropoffId);
-            }, 5000);
-
-            //add google address autocomplete to pickup input on page load
-            function GetPickUpCoordinates(id) {
-                var places = new google.maps.places.Autocomplete(id, $scope.options);
-                google.maps.event.addListener(places, 'place_changed', function() {
-                    var place = places.getPlace();
-                    var address = place.formatted_address;
-                    var geocoder = new google.maps.Geocoder();
-                    $scope.address = address;
-
-                    geocoder.geocode({ 'address': $scope.address }, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            $scope.pickup_place_valid = true;
-                            $scope.pickup_place = $scope.address;
-                            $scope.pickup_latitude = results[0].geometry.location.lat();
-                            $scope.pickup_longitude = results[0].geometry.location.lng();
-                            if ($scope.pickup_place && $scope.dropoff_place)
-                                dispatchRideProvider.getRoutes($scope.pickup_place, $scope.dropoff_place, notify);
-
-                        } else {
-                            alert('invalid pickup address');
-                            $scope.pickup_place_valid = false;
-                        }
-                    });
-                });
-            }
-            //add google address autocomplete to drop-off input on page load
-            function GetDropoffCoordinates(id) {
-                var places = new google.maps.places.Autocomplete(id, $scope.options);
-                google.maps.event.addListener(places, 'place_changed', function() {
-                    var place = places.getPlace();
-                    var address = place.formatted_address;
-                    var geocoder = new google.maps.Geocoder();
-
-                    $scope.address = address;
-                    geocoder.geocode({ 'address': $scope.address }, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            $scope.dropoff_place_valid = true;
-                            $scope.dropoff_place_invalid_msg = false;
-                            $scope.dropoff_place = $scope.address;
-                            $scope.dropoff_latitude = results[0].geometry.location.lat();
-                            $scope.dropoff_longitude = results[0].geometry.location.lng();
-                            if ($scope.pickup_place && $scope.dropoff_place)
-                                dispatchRideProvider.getRoutes($scope.pickup_place, $scope.dropoff_place, notify);
-                        } else {
-                            alert('invalid dropoff address');
-                            $scope.dropoff_place_valid = false;
-                            $scope.dropoff_place_invalid_msg = true;
-                        }
-                    });
-                });
-            }
 
 
             var locations = [];
@@ -359,8 +412,8 @@ app
                     $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
 
                     $scope.tripInfo = {
-                        first_name:$scope.customerInfo.first_name,
-                        last_name:$scope.customerInfo.last_name,
+                        first_name: $scope.customerInfo.first_name,
+                        last_name: $scope.customerInfo.last_name,
                         start_destination: {
                             place: $scope.pickup_place,
                             latitude: $scope.pickup_latitude,
@@ -374,7 +427,9 @@ app
                         pick_up_at: $scope.trip.pickup_date + "," + $scope.trip.pickup_time,
                         passengers_count: $scope.trip.passenger_count,
                         //customer_id: $scope.customerId,
-                        group_ids: $scope.groupIdArr
+                        group_ids: $scope.groupIdArr,
+                        source_place: $scope.source_place,
+                        destination_place: $scope.destination_place
                     };
 
 
@@ -383,11 +438,11 @@ app
                     }
 
                     $scope.tripsummary = {
-                        pickupdatetime: $scope.tripInfo.pick_up_at,
-                        pickupAt: $scope.tripInfo.start_destination.place,
-                        dropoffAt: $scope.tripInfo.end_destination.place
-                    }
-                    dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
+                            pickupdatetime: $scope.tripInfo.pick_up_at,
+                            pickupAt: $scope.tripInfo.start_destination.place,
+                            dropoffAt: $scope.tripInfo.end_destination.place
+                        }
+                        //dispatchRideProvider.getRoutes($scope.tripsummary.pickupAt, $scope.tripsummary.dropoffAt, notify);
                 } else {
 
                 }
@@ -431,16 +486,16 @@ app
 
             //Trip dispatch
             $scope.funcTripDispatch = function() {
-                $scope.pickupId = jQuery('#pickup').val();
-                $scope.dropoffId = jQuery('#dropoff').val();
-                validateAddressGeoCoder();
+                $scope.pickupId = jQuery('#pac-input').val();
+                $scope.dropoffId = jQuery('#pac-input2').val();
+                //validateAddressGeoCoder();
 
                 $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
                 $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
                 $scope.vehicle_Price = parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2);
                 $scope.tripInfo = {
-                    first_name:$scope.customerInfo.first_name,
-                    last_name:$scope.customerInfo.last_name,
+                    first_name: $scope.customerInfo.first_name,
+                    last_name: $scope.customerInfo.last_name,
                     start_destination: {
                         place: $scope.pickup_place,
                         latitude: $scope.pickup_latitude,
@@ -455,7 +510,9 @@ app
                     passengers_count: $scope.trip.passenger_count ? $scope.trip.passenger_count : '',
                     price: $('#price_' + $scope.vehicleId).val() ? parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2) : '',
                     //customer_id: $scope.customerId,
-                    group_ids: $scope.groupIdArr
+                    group_ids: $scope.groupIdArr,
+                    source_place: $scope.source_place,
+                    destination_place: $scope.destination_place
                 };
 
                 if ($scope.tripInfo.start_destination.place && $scope.tripInfo.end_destination.place) {
