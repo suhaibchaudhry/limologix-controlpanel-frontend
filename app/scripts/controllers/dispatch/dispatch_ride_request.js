@@ -11,6 +11,7 @@ app
     .controller('DispatchRideRequestCtrl', [
         '$scope',
         '$state',
+        '$stateParams',
         '$rootScope',
         '$http',
         'appSettings',
@@ -22,13 +23,13 @@ app
         '$log',
         'countriesConstant',
         'dispatchRideProvider',
-        function($scope, $state, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
+        function($scope, $state,$stateParams, $rootScope, $http, appSettings, $window, notify, services, $filter, $uibModal, $log, constants, dispatchRideProvider) {
             $scope.page = {
                 title: 'Dispatch trip',
                 subtitle: '' //'Place subtitle here...'
             };
             $scope.myDecimal = 0;
-
+            
 
             $scope.steps = { step0: false, step1: false, step2: true, step3: false, step4: false, step5: false }
 
@@ -63,7 +64,7 @@ app
             };
             $scope.options = {
                 // types: ['geocode'],
-                componentRestrictions: { country: 'us' }
+                componentRestrictions: { country: 'in' }
             };
 
 
@@ -112,7 +113,7 @@ app
 
 
 
-                var autocomplete = new google.maps.places.Autocomplete(input, $scope.options);
+                var autocomplete = new google.maps.places.Autocomplete(input); //$scope.options
                 autocomplete.bindTo('bounds', map);
 
                 var autocomplete2 = new google.maps.places.Autocomplete(input2);
@@ -352,8 +353,8 @@ app
                 count = 0;
                 locations = [];
                 locationsArr = [];
-                $scope.pickupId = jQuery('#pickup').val();
-                $scope.dropoffId = jQuery('#dropoff').val();
+                $scope.pickupId = jQuery('#pac-input').val();
+                $scope.dropoffId = jQuery('#pac-input2').val();
                 locations[0] = $scope.pickupId;
                 locations[1] = $scope.dropoffId;
                 geocoder = new google.maps.Geocoder();
@@ -409,8 +410,8 @@ app
             function holdTripInfo() {
                 if ($scope.isTripFormValid) {
                     $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
-
+                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)), 'hh:mm a');
+//.toUTCString()
                     $scope.tripInfo = {
                         first_name: $scope.customerInfo.first_name,
                         last_name: $scope.customerInfo.last_name,
@@ -488,10 +489,10 @@ app
             $scope.funcTripDispatch = function() {
                 $scope.pickupId = jQuery('#pac-input').val();
                 $scope.dropoffId = jQuery('#pac-input2').val();
-                //validateAddressGeoCoder();
+                validateAddressGeoCoder();
 
                 $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
+                $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)), 'hh:mm a');
                 $scope.vehicle_Price = parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2);
                 $scope.tripInfo = {
                     first_name: $scope.customerInfo.first_name,
@@ -596,7 +597,7 @@ app
     if ($scope.trip)
     //$scope.trip.pickuptime = new Date();
         var date = new Date();
-    $scope.trip.pickuptime = date.toUTCString();
+    $scope.trip.pickuptime = date;//.toUTCString();
     //console.log("utc Time", $scope.trip.pickuptime);
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
