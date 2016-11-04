@@ -113,7 +113,7 @@ app
 
 
 
-                var autocomplete = new google.maps.places.Autocomplete(input, $scope.options);
+                var autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.bindTo('bounds', map);
 
                 var autocomplete2 = new google.maps.places.Autocomplete(input2);
