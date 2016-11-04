@@ -113,7 +113,7 @@ app
 
 
 
-                var autocomplete = new google.maps.places.Autocomplete(input); //$scope.options
+                var autocomplete = new google.maps.places.Autocomplete(input, $scope.options);
                 autocomplete.bindTo('bounds', map);
 
                 var autocomplete2 = new google.maps.places.Autocomplete(input2);
@@ -410,8 +410,8 @@ app
             function holdTripInfo() {
                 if ($scope.isTripFormValid) {
                     $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)), 'hh:mm a');
-//.toUTCString()
+                    $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
+
                     $scope.tripInfo = {
                         first_name: $scope.customerInfo.first_name,
                         last_name: $scope.customerInfo.last_name,
@@ -492,7 +492,7 @@ app
                 validateAddressGeoCoder();
 
                 $scope.trip.pickup_date = $filter('date')($scope.trip.pickupdate, 'dd/MM/yyyy');
-                $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)), 'hh:mm a');
+                $scope.trip.pickup_time = $filter('date')(new Date(($scope.trip.pickuptime)).toUTCString(), 'hh:mm a');
                 $scope.vehicle_Price = parseFloat($('#price_' + $scope.vehicleId).val()).toFixed(2);
                 $scope.tripInfo = {
                     first_name: $scope.customerInfo.first_name,
@@ -597,7 +597,7 @@ app
     if ($scope.trip)
     //$scope.trip.pickuptime = new Date();
         var date = new Date();
-    $scope.trip.pickuptime = date;//.toUTCString();
+    $scope.trip.pickuptime = date.toUTCString();
     //console.log("utc Time", $scope.trip.pickuptime);
     if ($scope.tripinfo)
         $scope.tripinfo.pickup_time = constants.tripdata.pickup_time; //new Date();
