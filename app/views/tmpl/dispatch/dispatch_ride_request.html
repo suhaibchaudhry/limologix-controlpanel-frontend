@@ -91,8 +91,8 @@
                             <div class="row">
                                 <div class="form-group col-md-4 mb-0">
                                     <div>
-<!--                                         <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name"> -->
-                                <input id="pac-input" class="form-control" type="text" placeholder="Enter a location" style="width:100%" required>
+                                        <!--                                         <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter the address" ng-model="pickup.name"> -->
+                                        <input id="source-input" class="form-control" type="text" placeholder="Enter a location" style="width:100%" required>
                                     </div>
                                 </div>
                             </div>
@@ -105,13 +105,11 @@
                                 </div>
                                 <br/>
                             </div>
-                            
-                             
                             <div class="row">
                                 <div class="form-group col-md-4 mb-0">
                                     <br/>
-<!--                                     <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" required> -->
-<input id="pac-input2" class="form-control" type="text" placeholder="Enter a location" style="width:100%" required>
+                                    <!--                                     <input ng-model="dropoff.name" type="text" name="dropoff" id="dropoff" class="form-control" placeholder="Enter the address" required> -->
+                                    <input id="destination-input" class="form-control" type="text" placeholder="Enter a location" style="width:100%" required>
                                 </div>
                             </div>
                             <br/>
@@ -149,8 +147,10 @@
                                 </ul>
                             </div>
                             <div class="row-md-6 text-center">
-                                <button ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='step2.$invalid && !BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
+                                <button align='center' ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" ng-disabled='step2.$invalid && !BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
                                 <button ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='step2.$invalid && !BookNow' ng-click='funcTripCancel()'>Cancel Trip Request</button>
+                                <!--                                 <button ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='step2.$invalid && !BookNow' ng-click='funcTripDispatch()'>Dispatch Trip Request</button>
+                                <button ng-class="{'btn btn-activeButton mb-10':BookNow,'btn btn-default mb-10': !BookNow}" align='center' ng-disabled='step2.$invalid && !BookNow' ng-click='funcTripCancel()'>Cancel Trip Request</button> -->
                             </div>
                             <!--                     <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default" ng-click="funcMakeTrip(step2.$valid);">Make a Trip</button> -->
                         </div>
