@@ -24,41 +24,12 @@
                 <section class="tile" fullscreen="isFullscreen01">
                     <!-- tile header -->
                     <div class="tile-header dvd dvd-btm">
-                        <h1 class="custom-font"><strong>Completed</strong> Dispatches</h1>
+                        <h1 class="custom-font"><strong>Drivers'</strong> Map</h1>
                     </div>
                     <!-- /tile header -->
                     <!-- tile body -->
-                    <div class="tile-body" ng-controller="CompletedDispatchesCtrl as showCase">
-                        <div class="table-responsive-wide">
-                            <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped table-hover table-custom" style="min-width: 1000px;">
-                                <thead>
-                                    <tr>
-                                        <th style="width:80px;">Dispatch ID</th>
-                                        <th style="width:80px;">Status</th>
-                                        <th style="width:100px;">Passenger count</th>
-                                        <th style="width:150px;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Status</th>
-                                        <th>passenger Count</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr ng-repeat="actives in showCase.completedDispatches">
-                                        <td>{{ actives.id }}</td>
-                                        <td><span class="label" ng-class="{'bg-success' : actives.status == 'closed','bg-warning' : actives.status == 'disapproved','bg-danger' : actives.status == 'inactive','bg-primary' : actives.status == 'pending'}">{{ actives.status }}</span></td>
-                                        <td>{{ actives.passengers_count }}</td>
-                                        <td>
-                                            <a ng-click="showCase.getIndividualDispatchDetails(actives.id)" class="btn btn-xs btn-default"><i class="fa fa-search"></i> View</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="tile-body" ng-controller="DriverMapCtrl as showCase">
+                      
                     </div>
                     <!-- /tile body -->
                 </section>

@@ -10,11 +10,12 @@
 app
    .controller('DriverMapCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
         $scope.page = {
-            title: 'Completed Dispatches',
+            title: 'Drivers\' Map',
             subtitle: '',//'Place subtitle here...'
         };
 
         var vm = this;
+        /*
         vm.completedDispatches = [];
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
@@ -78,6 +79,6 @@ app
         vm.getIndividualDispatchDetails = function(trip_id){
            // console.log('id',trip_id);
             $state.go('app.dispatch.single-completeddispatches', {"trip_id":trip_id});
-        }
+        }*/
 
     })
