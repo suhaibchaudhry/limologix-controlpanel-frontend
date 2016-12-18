@@ -51,9 +51,13 @@
                             <a ui-sref="app.dispatch.completeddispatches">
                                 <fa name="caret-right"></fa> {{ 'Menu.COMPLETED_TRIPS' | translate }}<span class="badge badge-danger">{{completed_dispatch_count}}</span></a>
                         </li>
+                        <li ui-sref-active="active" ng-controller="DriverMapCtrl">
+                            <a ui-sref="app.dispatch.drivermap">
+                                <fa name="caret-right"></fa> Driver Map</span></a>
+                        </li>
                     </ul>
                 </li>
-               
+
                 <li ui-sref-active="active" ng-class="{'open':$state.includes('app.ui')}" ng-show="isAdmin">
                     <a ui-sref="app.custom-groups">
                         <fa name="pencil" class="fa-users"></fa> <span>{{ 'Menu.GROUPS' | translate }}</span></a>
@@ -117,7 +121,7 @@
                         <li ui-sref-active="active">
                             <a ui-sref="app.free_ads.file_upload">
                                 <fa name="caret-right"></fa> {{ 'Menu.FILE_UPLOAD' | translate }}</a>
-                        </li>                       
+                        </li>
                     </ul>
                 </li>
             </ul>

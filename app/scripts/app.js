@@ -125,9 +125,9 @@ var app = angular
 
 .run(['$rootScope', '$state', '$http', '$stateParams', '$window', 'countriesConstant','notify',function($rootScope, $state, $http, $stateParams, $window, constant,notify) {
     //If user logged in  - Admin or Super Admin
-   
+
     notify.config({duration:1000});
-    
+
     var user = $window.sessionStorage['user'] ? JSON.parse($window.sessionStorage['user']) : {};
     var userrole = user['role'];
     if (userrole) {
@@ -245,7 +245,7 @@ var app = angular
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
         // use the HTML5 History API
         //$locationProvider.html5Mode(true);
-     
+
               $urlRouterProvider.otherwise('/core/login');
 
         $stateProvider
@@ -738,6 +738,20 @@ var app = angular
                     }]
                 }
             })
+            .state('app.dispatch.drivermap', {
+                url: '/drivermap',
+                controller: 'DriverMapCtrl',
+                templateUrl: 'views/tmpl/dispatch/drivermap.html',
+                resolve: {
+                    plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                            'scripts/vendor/datatables/Pagination/input.js',
+                            'scripts/vendor/datatables/ColumnFilter/jquery.dataTables.columnFilter.js'
+                        ]);
+                    }]
+                }
+            })
             .state('app.dispatch.single-completeddispatches', {
                 url: '/single-completed-dispatches/:trip_id',
                 controller: 'SingleCompletedDispatchCtrl',
@@ -774,7 +788,7 @@ var app = angular
                 }]
             }
         })
-        
+
          //create groups/custom-group-view
         .state('app.custom-groups.groups-view', {
             url: '/groups_view/:group_id',
@@ -790,7 +804,7 @@ var app = angular
                 }]
             }
         })
-        
+
         //create groups/custom-group-add-drivers
         .state('app.custom-groups.create-groups-drivers', {
             url: '/create_groups_drivers/:group_id',
@@ -827,16 +841,16 @@ var app = angular
                 url: '/notifications',
                 template: '<div ui-view></div>'
             })
-            
+
 
         //notifications/view
         .state('app.notifications.notifications-all', {
             url: '/all_notifications',
             controller: 'AllNotificationsCtrl',
             templateUrl: 'views/tmpl/notifications/all_notifications.html'
-         
+
         })
-       
+
          //create groups/custom-group-info
         // .state('app.custom-groups.groups-info-single-drivers', {
         //     url: '/groups_info_single_drivers/:group_id/:driver_id',
