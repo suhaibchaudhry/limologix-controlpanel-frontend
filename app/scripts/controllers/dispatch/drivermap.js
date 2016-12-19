@@ -1,84 +1,161 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name limoLogixApp.controller:CompletedDispatchesCtrl
- * @description
- * # CompletedDispatchesCtrl
- * Controller of the limoLogixApp
- */
 app
-   .controller('DriverMapCtrl', function($scope, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, $resource, $state, $http, appSettings, notify, $window, services,countriesConstant) {
-        $scope.page = {
-            title: 'Drivers\' Map',
-            subtitle: '',//'Place subtitle here...'
-        };
+  .controller('DriverMapCtrl', function ($scope) {
 
-        var vm = this;
-        /*
-        vm.completedDispatches = [];
+    $scope.page = {
+      title: 'Leaflet Maps',
+      subtitle: 'Place subtitle here...'
+    };
 
-        vm.dtOptions = DTOptionsBuilder.newOptions()
-            .withBootstrap()
-            .withOption('order', [
-                [0, 'asc']
-            ])
-            .withDOM('<"row"<"col-md-8 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"pull-right"f>>>t<"row"<"col-md-4 col-sm-12"<"inline-controls"l>><"col-md-4 col-sm-12"<"inline-controls text-center"i>><"col-md-4 col-sm-12"p>>')
-            .withLanguage({
-                "sLengthMenu": 'View _MENU_ records',
-                "sInfo": 'Found _TOTAL_ records',
-                "oPaginate": {
-                    "sPage": "Page",
-                    "sPageOf": "of"
-                }
-            })
-            .withPaginationType('input')
-            //.withScroller()
-            //.withOption("sScrollY", false)
-            //.withOption("sScrollX")
-            .withColumnFilter();
+  })
 
+  .controller("leafletMap1", [ "$scope", function($scope) {
 
-        vm.dtColumnDefs = [
-            DTColumnDefBuilder.newColumnDef(0).notSortable(),
-            DTColumnDefBuilder.newColumnDef(3).notSortable()
-        ];
+  }])
 
-        vm.selectedAll = false;
+  .controller("leafletMap2", [ "$scope", function($scope) {
+    angular.extend($scope, {
+      autodiscover: {
+        autoDiscover: true
+      }
+    });
+  }])
 
-        vm.selectAll = function() {
+  .controller("leafletMap3", [ "$scope", "leafletData", function($scope, leafletData) {
 
-            if ($scope.selectedAll){
-                $scope.selectedAll = false;
+    L.Icon.Default.imagePath = 'styles/images';
 
-            } else {
-                $scope.selectedAll = true;
+    angular.extend($scope, {
+      london: {
+        lat: 51.505,
+        lng: -0.09,
+        zoom: 4
+      },
+      controls: {
+        draw: {}
+      },
+      layers: {
+        baselayers: {
+          mapbox_light: {
+            name: 'Mapbox Light',
+            url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
+            type: 'xyz',
+            layerOptions: {
+              apikey: 'pk.eyJ1IjoiYnVmYW51dm9scyIsImEiOiJLSURpX0pnIn0.2_9NrLz1U9bpwMQBhVk97Q',
+              mapid: 'bufanuvols.lia22g09'
+            },
+            layerParams: {
+              showOnSelector: false
             }
-
-            angular.forEach(vm.orders, function(order) {
-                order.selected = $scope.selectedAll;
-            });
-        };
-        if (countriesConstant.userRole == 'admin') {
-         getCompletedList();
+          }
+        },
+        overlays: {
+          draw: {
+            name: 'draw',
+            type: 'group',
+            visible: true,
+            layerParams: {
+              showOnSelector: false
+            }
+          }
         }
-            function getCompletedList() {
-                var url = appSettings.serverPath + appSettings.serviceApis.tripPending;
-                services.funcPostRequest(url, { 'trip_status': 'closed' }).then(function(response) {
-                    if(response.data){
-                        $scope.completed_dispatch_count = Object.keys(response.data.trips).length;
-                        $scope.tripList = response.data.trips;
-                        vm.completedDispatches = $scope.tripList;
-                    }
+      }
+    });
 
-                }, function(error) {
-                    notify({ classes: 'alert-danger', message: error });
-                });
+
+    leafletData.getMap("map3").then(function(map) {
+      leafletData.getLayers("map3").then(function(baselayers) {
+        var drawnItems = baselayers.overlays.draw;
+        map.on('draw:created', function (e) {
+          var layer = e.layer;
+          drawnItems.addLayer(layer);
+          console.log(JSON.stringify(layer.toGeoJSON()));
+        });
+      });
+    });
+  }])
+
+  .controller("leafletMap4", [ "$scope", function($scope) {
+
+    angular.extend($scope, {
+      berlin: {
+        lat: 52.52,
+        lng: 13.40,
+        zoom: 14
+      },
+      markers: {
+        m1: {
+          lat: 52.52,
+          lng: 13.40
+        }
+      },
+      layers: {
+        baselayers: {
+          googleTerrain: {
+            name: 'Google Terrain',
+            layerType: 'TERRAIN',
+            type: 'google'
+          },
+          googleHybrid: {
+            name: 'Google Hybrid',
+            layerType: 'HYBRID',
+            type: 'google'
+          },
+          googleRoadmap: {
+            name: 'Google Streets',
+            layerType: 'ROADMAP',
+            type: 'google'
+          }
+        }
+      }
+    });
+
+  }])
+
+  .controller("leafletMap5", ["$scope", "$http", function($scope, $http) {
+
+    var points = [];
+    var heatmap = {
+      name: 'Heat Map',
+      type: 'heat',
+      data: points,
+      visible: true
+    };
+
+    $http.get("scripts/jsons/heat-points.json").success(function(data) {
+      $scope.layers.overlays = {
+        heat: {
+          name: 'Heat Map',
+          type: 'heat',
+          data: data,
+          layerOptions: {
+            radius: 20,
+            blur: 10
+          },
+          visible: true
+        }
+      };
+    });
+
+    angular.extend($scope, {
+      center: {
+        lat: 37.774546,
+        lng: -122.433523,
+        zoom: 12
+      },
+      layers: {
+        baselayers: {
+          mapbox_light: {
+            name: 'Mapbox Light',
+            url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
+            type: 'xyz',
+            layerOptions: {
+              apikey: 'pk.eyJ1IjoiYnVmYW51dm9scyIsImEiOiJLSURpX0pnIn0.2_9NrLz1U9bpwMQBhVk97Q',
+              mapid: 'bufanuvols.lia22g09'
             }
-
-        vm.getIndividualDispatchDetails = function(trip_id){
-           // console.log('id',trip_id);
-            $state.go('app.dispatch.single-completeddispatches', {"trip_id":trip_id});
-        }*/
-
-    })
+          }
+        }
+      }
+    });
+  }]);
