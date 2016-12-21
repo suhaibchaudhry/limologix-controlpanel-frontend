@@ -63,7 +63,7 @@ app
               });
           }
       }
-      xmlHttp.open("GET", 'http://limologix.softwaystaging.com/drivermap', true); // true for asynchronous
+      xmlHttp.open("GET", '/drivermap', true); // true for asynchronous
       xmlHttp.send(null);
     };
 
