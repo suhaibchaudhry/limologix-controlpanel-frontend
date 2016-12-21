@@ -18,7 +18,16 @@ app
         lng: -95.3630556,
         zoom: 10
       },
+      center: {
+        lat: 29.7630556,
+        lng: -95.3630556,
+        zoom: 10
+      },
       markers: {
+        m1: {
+          lat: 29.7630556,
+          lng: -95.3630556
+        }
       },
       layers: {
         baselayers: {
