@@ -13,6 +13,9 @@ app
   .controller("leafletMap4", [ "$scope", "$http", function($scope) {
 
     angular.extend($scope, {
+      autodiscover: {
+        autoDiscover: true
+      },
       houston: {
         lat: 29.7630556,
         lng: -95.3630556,
