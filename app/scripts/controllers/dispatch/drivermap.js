@@ -5,7 +5,7 @@ app
 
     $scope.page = {
       title: 'Drivers\' Map',
-      subtitle: 'This map refreshes preodically as data is recieved from drivers'
+      subtitle: 'This map refreshes periodically as data is recieved from drivers'
     };
 
   })
@@ -24,7 +24,7 @@ app
       center: {
         lat: 29.7630556,
         lng: -95.3630556,
-        zoom: 10
+        zoom: 10,
       },
       markers: {
         m1: {
