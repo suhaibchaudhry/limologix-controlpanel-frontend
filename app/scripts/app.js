@@ -68,10 +68,10 @@ var app = angular
         'angularjs-dropdown-multiselect'
     ])
     .constant('appSettings', {
-        server_address: "http://api.limologix.com/", //'http://172.16.10.212:9000',
-        server_images_path: "http://api.limologix.com/",//'http://172.16.10.212:9000',
+        server_address: "https://api.limologix.com/", //'http://172.16.10.212:9000',
+        server_images_path: "https://api.limologix.com/",//'http://172.16.10.212:9000',
         version: 'v1',
-        serverPath: "http://api.limologix.com/api/v1/", //'http://172.16.10.212:9000/api/v1/',
+        serverPath: "https://api.limologix.com/api/v1/", //'http://172.16.10.212:9000/api/v1/',
         FayeServerUrl:'http://api.limologix.com:9292/faye', //'http://172.16.10.212:9292/faye',
         serviceApis: {
             signin: 'users/sign_in',
